@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack"
+  },
+  "devDependencies": {
+    "electron": "^9.0.0-beta.9",
+    "electron-builder": "^22.4.1",
+    "electron-webpack": "^2.7.4",
+    "webpack": "^4.42.0"
+  },
+  "name": "ozone",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/Schiller40/ozone.git",
+  "author": "Jonas Kruckenberg <jonas@kruckenbg.de>",
+  "license": "MIT"
+}
