@@ -12,6 +12,10 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
+    alias: {
+        '@': 'src/app',
+        '~': 'src/app'
+      },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
   },
 };
