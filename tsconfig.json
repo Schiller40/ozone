@@ -11,6 +11,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
+      "~/*": [
+        "./src/*"
+      ],
+      "@/*": [
+        "./src/app/*"
+      ],
       "*": ["node_modules/*"]
     }
   },
