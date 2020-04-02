@@ -1,10 +1,18 @@
 const rules = require('./webpack.rules');
 const plugins = require('./webpack.plugins');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 rules.push({
   test: /\.css$/,
   use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
 });
+
+rules.push({
+  test: /\.vue$/,
+  loader: 'vue-loader'
+});
+
+plugins.push( new VueLoaderPlugin())
 
 module.exports = {
   module: {
@@ -12,6 +20,6 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.vue']
   },
 };

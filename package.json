@@ -51,8 +51,8 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
+                  "html": "./src/app/index.html",
+                  "js": "./src/app/index.ts",
                   "name": "main_window"
                 }
               ]
@@ -80,10 +80,14 @@
     "node-loader": "^0.6.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.0"
+    "typescript": "^3.7.0",
+    "vue-loader": "^15.9.1",
+    "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "vue": "^2.6.11"
+    "node-schedule": "^1.3.2",
+    "vue": "^2.6.11",
+    "vue-property-decorator": "^8.4.1"
   }
 }
