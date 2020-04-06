@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build library
-        run: yarn build
+        run: yarn make
         env:
           CI: true
       - name: Cleanup artifacts
