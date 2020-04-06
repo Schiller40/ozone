@@ -24,6 +24,9 @@
   ],
   "license": "MIT",
   "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-emoji"
+    },
     "forge": {
       "packagerConfig": {},
       "makers": [
@@ -66,9 +69,6 @@
           }
         ]
       ]
-    },
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "devDependencies": {
@@ -87,6 +87,7 @@
     "chai": "^4.2.0",
     "css-loader": "^3.0.0",
     "cz-conventional-changelog": "3.1.0",
+    "cz-emoji": "^1.2.1",
     "electron": "8.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.0",
