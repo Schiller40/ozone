@@ -1,12 +1,12 @@
 <template lang="html">
   <div class="viewer-container">
-
+    Test
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'Viewer'
 }
 </script>
 
@@ -16,5 +16,6 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  color: white;
 }
 </style>

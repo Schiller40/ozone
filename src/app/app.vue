@@ -1,13 +1,9 @@
 <template lang="html">
-<div class="">
-  <p @click="bla('test')">Test</p>
-</div>
+  <router-view />
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-// import scheduler from 'node-schedule';
-//import viewer from 'viewer.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 // @Component({
 //   components: {
@@ -15,9 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 //   }
 // })
 export default class App extends Vue {
-  bla(text:string) {
-    console.log(bla)
-  }
+
 }
 </script>
 
