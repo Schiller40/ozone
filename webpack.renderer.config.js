@@ -1,11 +1,16 @@
+const { resolve } = require('path');
 const rules = require('./webpack.rules');
 const plugins = require('./webpack.plugins');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 rules.push({
   test: /\.css$/,
-  use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+  use: [{ loader: 'vue-style-loader' }, { loader: 'css-loader' }],
 });
+rules.push({
+  test: /\.scss$/,
+  use: [{ loader: 'vue-style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }]
+})
 
 rules.push({
   test: /\.vue$/,
@@ -21,8 +26,8 @@ module.exports = {
   plugins: plugins,
   resolve: {
     alias: {
-        '@': './src/app',
-        '~': './src/app'
+        '@': resolve('./src/app'),
+        '~': resolve('./src/app')
       },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.vue']
   },
