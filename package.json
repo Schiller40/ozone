@@ -123,8 +123,7 @@
             "out/**"
           ]
         }
-      ],
-      "@semantic-release/git"
+      ]
     ],
     "branches": [
       {
