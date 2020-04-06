@@ -32,7 +32,7 @@ jobs:
         env:
           CI: true
       - name: Cleanup artifacts
-        run: npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
+        run: npx rimraf "out/!(*.exe|*.deb|*.AppImage|*.dmg)"
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
