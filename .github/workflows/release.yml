@@ -1,0 +1,56 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - master
+      - next
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Changes
+        uses: actions/checkout@v2
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13
+      - name: Install dependencies
+        run: yarn
+      - name: Build library
+        run: yarn build
+        env:
+          CI: true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Dist
+          path: out
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Changes
+        uses: actions/checkout@v2
+      - name: Download Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: Dist
+          path: out
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13
+          registry-url: https://registry.npmjs.org/
+      - name: Install dependencies
+        run: yarn
+      - name: Publish Release
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          CI: true
