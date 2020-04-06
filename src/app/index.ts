@@ -26,10 +26,10 @@
  * ```
  */
 
-import './master.css';
+import '@/assets/master.scss';
 import Vue from 'vue';
-import App from './app.vue';
-import router from './router';
+import App from '@/app.vue';
+import router from '@/router';
 
 
 new Vue({
