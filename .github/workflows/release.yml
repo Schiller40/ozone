@@ -31,13 +31,13 @@ jobs:
         run: yarn make
         env:
           CI: true
-      - name: Cleanup artifacts
-        run: npx rimraf "out/!(*.exe|*.deb|*.AppImage|*.dmg)"
+      # - name: Cleanup artifacts
+      #   run: npx rimraf "out/!(*.exe|*.deb|*.AppImage|*.dmg)"
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: ${{ matrix.os }}
-          path: out
+          path: out/make
       - name: Release
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN

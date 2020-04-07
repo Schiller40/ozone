@@ -20,7 +20,7 @@
     "email": "bas.c.spr@gmail.com"
   },
   "files": [
-    "out"
+    "out/make"
   ],
   "license": "MIT",
   "config": {
