@@ -1,0 +1,94 @@
+{
+  "id": "07454d4e3efae6aa54fed4b08c0b316bdb7c4c8270ca56d81a72704807825006",
+  "spec_version": "0.0.2",
+  "name": "Image Test Slideshow",
+  "timing": [
+    {
+      "start": "10,40 * * * *",
+      "duration": "7min"
+    }
+  ],
+  "recipients": ["testDeviceID"],
+  "repeat": true,
+  "slides": [
+    {
+      "name": "test image 1",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "style": "$cover"
+    },
+    {
+      "name": "vertical image 2",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg"
+    },
+    {
+      "name": "fullHD image 3",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "style": "$center"
+    },
+    {
+      "name": "lowres scaling image 4",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+    },
+    {
+      "name": "lowres noscale image 5",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "style": "$center"
+    },
+    {
+      "name": "fullHD image 6",
+      "url": "image.jpg",
+      "duration": "1s",
+      "mime": "image/jpg",
+      "style": "$contain",
+
+    },
+    {
+      "name": "fullHD image 7",
+      "url": "image name with whitespace.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "text": "$The quick brown fox jumps over the lazy dog.",
+      "style": "style.css"
+    },
+    {
+      "name": "letterboxing image 8",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "text": "my awesome text.txt",
+      "style": "$cover|style.css"
+    },
+    {
+      "name": "pillarboxing image 9",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "style": "$cover"
+    },
+    {
+      "name": "hires performance image 10",
+      "url": "image.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "style": "$center"
+    },
+    {
+      "name": "png test 11",
+      "url": "image.png",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "text": "$png test lorem ipsum dolor sit amet",
+      "style": "$contain|other style.css"
+    },
+  ]
+}
