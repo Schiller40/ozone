@@ -1,10 +1,102 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
-const scheduler = require('node-schedule')
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
+import fs from 'fs';
+import scheduler from 'node-schedule';
+import path from 'path';
+
+const SLIDESHOW_DIRECTORY = './src/app/slideshows';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
+}
+
+ipcMain.on('test', (event, arg) => {
+  console.log(`Test message: ${arg}`)
+  event.returnValue = 'Printed message successfully'
+})
+
+ipcMain.handle('getAvailableSlideshows', async () => {
+  const promise = getAvailableSlideshows();
+  return promise
+})
+function getAvailableSlideshows(){
+  return new Promise ((resolve, reject) => {
+    fs.readdir(SLIDESHOW_DIRECTORY, (_err, files) => {
+      var counter = 0
+      for (var i in files) {
+        fs.access(path.join(SLIDESHOW_DIRECTORY, files[i], 'slideshow.json'), (err) => {
+          if (err){
+            reject(err);
+          } else {
+            counter++;
+            if (counter == files.length) {
+              console.log(files)
+              resolve(files)
+            }
+          }
+        })
+      }
+    })
+  })
+}
+
+function checkDir (fullPath:string, root:string=SLIDESHOW_DIRECTORY){
+  const initPath = fullPath
+  fullPath = path.join(fullPath)
+  fullPath = path.resolve(fullPath)
+  console.log(`fullPath is ${fullPath}`)
+  root = path.join(root)
+  root = path.resolve(root)
+  console.log(`root is ${root}`)
+  if (fullPath.startsWith(root)) {
+    fullPath = fullPath.substring(root.length)
+    if (fullPath.includes ('../') || fullPath === '..' || fullPath.includes('//')){
+        return new Error('permission denied or invalid path')
+    } else {
+      return initPath
+    }
+  } else {
+    return new Error('permission denied or invalid path')
+  }
+}
+
+ipcMain.handle('getSlideshow', async(_event, id) => {
+  const promise = getSlideshow(id);
+  return promise
+})
+function getSlideshow(id:string){
+  return new Promise((resolve, reject) => {
+    const JSONPath = path.join(SLIDESHOW_DIRECTORY, id, 'slideshow.json')
+    if (id.length == 64 && checkDir(JSONPath)){
+      fs.readFile(JSONPath, (err, result) => {
+        if (err) reject(err)
+        else resolve(JSON.parse(result.toString()))
+      })
+    } else {
+      reject(new Error('permission denied or invalid path'))
+    }
+  })
+}
+
+ipcMain.handle('getResource', async(_event, id, no, url) => {
+  const promise = getResource(id, no, url);
+  return promise
+})
+function getResource(id:string, no:number, url:string){
+  return new Promise((resolve, reject) => {
+    const slidePath = path.join(SLIDESHOW_DIRECTORY, id, no.toString())
+    const resourcePath = path.join(slidePath, url)
+    if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath){
+      fs.readFile(resourcePath, (err, data) => {
+        if (err) reject(err)
+        else resolve(data)
+      })
+    } else {
+      reject(new Error('permission denied or invalid path'))
+    }
+  })
 }
 
 const createWindow = () => {
@@ -19,6 +111,9 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     height: 720,
     width: 1280,
+    webPreferences: {
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    }
   });
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

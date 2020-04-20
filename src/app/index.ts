@@ -26,7 +26,7 @@
  * ```
  */
 
-import '@/assets/master.scss';
+import '@/assets/master.css';
 import Vue from 'vue';
 import App from '@/app.vue';
 import router from '@/router';

@@ -28,7 +28,7 @@ module.exports = {
     alias: {
         '@': resolve('./src/app'),
         '~': resolve('./src/app')
-      },
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.vue']
+    },
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.scss', '.css', '.vue']
   },
 };
