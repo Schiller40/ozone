@@ -1,0 +1,43 @@
+{
+  "id": "6f950c0e45a0ba9efb3bd2d38c5fad6b0cf98167be80841919e697f783defeda",
+  "spec_version": "0.0.2",
+  "name": "iframe Test Slideshow",
+  "timing": [
+    {
+      "start": "25,55 * * * *",
+      "duration": "8min"
+    }
+  ],
+  "recipients": ["testDeviceID"],
+  "repeat": true,
+  "slides": [
+    {
+      "name": "test iframe 1",
+      "url": "https://team-polaris.de",
+      "duration": "10s",
+      "mime": "text/html",
+      "style": "style.css",
+      "text": "$Wer hätte es gedacht ;)"
+    },
+    {
+      "name": "test iframe 2",
+      "url": "localhtml.html",
+      "duration": "10s",
+      "mime": "text/html"
+    },
+    {
+      "name": "test iframe 3",
+      "url": "https://jonaskruckenbg.de",
+      "duration": "10s",
+      "mime": "text/html"
+    },
+    {
+      "name": "test iframe 4",
+      "url": "https://bahn.de",
+      "duration": "10s",
+      "mime": "text/html",
+      "text": "$Das geht Billiger",
+      "style": "style.css"
+    }
+  ]
+}

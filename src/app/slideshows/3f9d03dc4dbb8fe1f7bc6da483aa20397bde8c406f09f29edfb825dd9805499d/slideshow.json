@@ -1,0 +1,58 @@
+{
+  "id": "3f9d03dc4dbb8fe1f7bc6da483aa20397bde8c406f09f29edfb825dd9805499d",
+  "spec_version": "0.0.2",
+  "name": "Video Test Slideshow",
+  "timing": [
+    {
+      "start": "17,47 * * * *",
+      "duration": "8min"
+    }
+  ],
+  "recipients": ["testDeviceID"],
+  "repeat": true,
+  "slides": [
+    {
+      "name": "test video 1",
+      "url": "Blending.mp4",
+      "duration": "auto",
+      "mime": "video/mp4"
+    },
+    {
+      "name": "test video 2",
+      "url": "Celebrations.mp4",
+      "duration": "auto",
+      "repeat": 1,
+      "mime": "video/mp4",
+      "text": "$Super cool feature",
+      "style": "$cover|style.css"
+    },
+    {
+      "name": "test video 3",
+      "url": "Fred Fingers.mp4",
+      "duration": "20s",
+      "mime": "video/mp4",
+      "style": "$stretch"
+    },
+    {
+      "name": "test video 4",
+      "url": "mov_bbb.mp4",
+      "duration": "2s",
+      "mime": "video/mp4",
+      "style": "$cover"
+    },
+    {
+      "name": "test video 5",
+      "url": "smapp.mp4",
+      "duration": "auto",
+      "mime": "video/mp4",
+      "style": "style.css"
+    },
+    {
+      "name": "test video 6",
+      "url": "small.webm",
+      "duration": "auto",
+      "mime": "video/webm",
+      "style": "$center"
+    }
+  ]
+}
