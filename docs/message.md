@@ -75,9 +75,10 @@ Format of the stylesheet: text/css. The selectors are: `.image`, `.video`, `.ifr
   - border: none
 - text:
   - font-family: Arial
-  - font-size: 10rem
+  - font-size: 8rem
   - margin: 0px
   - color: white
+  - text-align: center
 - container:
   - background-color: black
   - width: 100vw

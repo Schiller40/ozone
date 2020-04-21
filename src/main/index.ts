@@ -85,13 +85,15 @@ ipcMain.handle('getResource', async(_event, id, no, url) => {
   return promise
 })
 function getResource(id:string, no:number, url:string){
+  no++;
   return new Promise((resolve, reject) => {
     const slidePath = path.join(SLIDESHOW_DIRECTORY, id, no.toString())
     const resourcePath = path.join(slidePath, url)
     if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath){
       fs.readFile(resourcePath, (err, data) => {
+        const url = URL.createObjectURL(new Blob([data]))
         if (err) reject(err)
-        else resolve(data)
+        else resolve(url)
       })
     } else {
       reject(new Error('permission denied or invalid path'))

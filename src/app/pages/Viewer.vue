@@ -4,7 +4,7 @@
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
     <img :src="imageSrc" v-if="containsImage">
     <video :src="videoSrc" autoplay v-if="containsVideo"></video>
-    <p v-if="containsText" class="text"></p>
+    <p v-if="containsText" class="text">{{text}}</p>
   </div>
 </template>
 
@@ -65,7 +65,12 @@ export default {
         console.log(type);
         this.setType(type);
         if (this.containsImage){
-
+          const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
+          /*console.log(array);
+          const base64data = btoa(String.fromCharCode.apply(null, array));
+          console.log(base64data);
+          this.imageSrc = 'data:image/png;base64,' + base64data;*/
+          this.imageSrc = array
         }
         if (this.containsVideo){
 
@@ -74,7 +79,11 @@ export default {
 
         }
         if (this.containsText){
+          if (slide.text.startsWith('$')){
+            this.text = slide.text.substring(1)
+          } else {
 
+          }
         }
       } catch (e){
         console.log(e);
@@ -104,5 +113,13 @@ export default {
 .slideshowlink{
   color: white;
   display: block;
+}
+
+.text{
+  font-family: Arial;
+  margin: 0px;
+  color: white;
+  font-size: 8rem;
+  text-align: center;
 }
 </style>
