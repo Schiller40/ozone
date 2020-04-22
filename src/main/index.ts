@@ -91,9 +91,8 @@ function getResource(id:string, no:number, url:string){
     const resourcePath = path.join(slidePath, url)
     if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath){
       fs.readFile(resourcePath, (err, data) => {
-        // const url = URL.createObjectURL(new Blob([data]))
         if (err) reject(err)
-        else resolve(url)
+        else resolve(data)
       })
     } else {
       reject(new Error('permission denied or invalid path'))

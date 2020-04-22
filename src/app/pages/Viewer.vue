@@ -2,8 +2,10 @@
   <div class="viewer-container">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage">
-    <video :src="videoSrc" autoplay v-if="containsVideo"></video>
+    <img :src="imageSrc" :class="{image: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}">
+    <video autoplay :class="{video: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}" v-if="containsVideo">
+      <source :src="videoSrc">
+    </video>
     <p v-if="containsText" class="text">{{text}}</p>
   </div>
 </template>
@@ -20,7 +22,7 @@ export default {
     return{
       valid: false,
       type: '',
-      containsText: true,
+      containsText: false,
       text: '',
       containsImage: false,
       imageSrc: '',
@@ -28,6 +30,13 @@ export default {
       videoSrc: '',
       containsIframe: false,
       iframeSrc: '',
+
+      verMax: false,
+      horMax: false,
+      center: false,
+      stretch: false,
+
+      slide: {},
 
       id: this.$props.slideshowId,
       no: this.$props.slideNo,
@@ -57,23 +66,75 @@ export default {
     async display(){
       try{
         const slideshow = await ipcRenderer.invoke('getSlideshow', this.id)
-        const slide = slideshow.slides[this.no]
+        let slide = slideshow.slides[this.no]
         var type = slide.mime.split('/')[0]
         if (slide.text != undefined){
           type += 'text'
         }
-        console.log(type);
         this.setType(type);
         if (this.containsImage){
-          const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
-          /*console.log(array);
-          const base64data = btoa(String.fromCharCode.apply(null, array));
-          console.log(base64data);
-          this.imageSrc = 'data:image/png;base64,' + base64data;*/
-          this.imageSrc = array
+          const img = document.getElementsByClassName('image')[0]
+          img.onload = () => {
+            if (slide.style == undefined){
+              slide.style = ''
+            }
+            if (slide.style.includes('$center'))
+              this.center = true;
+            else if (slide.style.includes('$stretch'))
+              this.stretch = true;
+            else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
+              if (img.naturalWidth / window.innerWidth > img.naturalHeight / window.innerHeight){
+                this.verMax = true;
+              } else {
+                this.horMax = true;
+              }
+            } else if (slide.style.includes('$cover')){
+              if (img.naturalWidth / window.innerWidth < img.naturalHeight / window.innerHeight){
+                this.verMax = true;
+              } else {
+                this.horMax = true;
+              }
+            }
+          }
+          if (!slide.url.startsWith('http://') && !slide.url.startsWith('https://')){
+            const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
+            this.imageSrc = URL.createObjectURL(new Blob([array]))
+          } else {
+            this.imageSrc = slide.url;
+          }
         }
         if (this.containsVideo){
-
+          const vid = document.getElementsByClassName('video')
+          console.log(vid[0]);
+          console.log(vid);
+          vid[0].onloadstart = () => {
+            if (slide.style == undefined){
+              slide.style = ''
+            }
+            if (slide.style.includes('$center'))
+              this.center = true;
+            else if (slide.style.includes('$stretch'))
+              this.stretch = true;
+            else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
+              if (vid.videoWidth / window.innerWidth > vid.videoHeight / window.innerHeight){
+                this.verMax = true;
+              } else {
+                this.horMax = true;
+              }
+            } else if (slide.style.includes('$cover')){
+              if (vid.videoWidth / window.innerWidth < vid.videoHeight / window.innerHeight){
+                this.verMax = true;
+              } else {
+                this.horMax = true;
+              }
+            }
+          }
+          if (!slide.url.startsWith('http://') && !slide.url.startsWith('https://')){
+            const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
+            this.videoSrc = URL.createObjectURL(new Blob([array]))
+          } else {
+            this.videoSrc = slide.url;
+          }
         }
         if (this.containsIframe){
 
@@ -97,22 +158,31 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-    }
+    },
   }
 }
 </script>
 
 <style lang="css" scoped>
+*{
+  color: white;
+}
+
 .viewer-container{
   background-color: black;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   color: white;
+  position: relative;
 }
 .slideshowlink{
   color: white;
   display: block;
+}
+
+.image{
+  position: absolute;
 }
 
 .text{
@@ -121,5 +191,33 @@ export default {
   color: white;
   font-size: 8rem;
   text-align: center;
+  position: absolute;
+}
+
+.stretch{
+  width: 100%;
+  height: 100%;
+}
+
+.center{
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.verMax{
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.horMax{
+  position: absolute;
+  height: 100%;
+  width: auto;
+  left: 50%;
+  transform: translate(-50%);
 }
 </style>

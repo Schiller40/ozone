@@ -57,7 +57,7 @@
       "url": "image name with whitespace.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "$The quick brown fox jumps over the lazy dog. ZOOOOOM",
+      "text": "$ZOOOOM. The quick brown fox jumps over the lazy dog.",
       "style": "style.css"
     },
     {

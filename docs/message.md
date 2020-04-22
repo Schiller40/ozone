@@ -20,7 +20,7 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 
     $contain shows the whole resource, scaled to the maximum. $cover makes sure there is no letterboxing or pillarboxing by scaling the resource up. $stretch stretches the image to the bounds, not preserving the aspect ratio. $center centers the image horizontally and vertically, not scaling it at all (zoom 1:1).
 
-    To combine one option with css, use this syntax: `[option]$[url]`, e.g. `$cover|style.css`. This is necessary, if $cover or $contain shall be used in conjunction with a custom style. Filenames with "|" or "$" in the filenames are not allowed.
+    To combine one option with css, use this syntax: `[option]$[url]`, e.g. `$cover|style.css`. This is necessary, if $cover or $contain shall be used in conjunction with a custom style. Filenames with "|" or "$" are not allowed.
   - text `String` (optional if mime is not text): URL to a text resource or plain text. If it is plain text, a dollar sign at the start indicates that this is not a URL.
 
 ## example
