@@ -73,7 +73,7 @@
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "style": "$cover"
+      "style": "$stretch"
     },
     {
       "name": "hires performance image 10",

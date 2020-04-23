@@ -2,10 +2,8 @@
   <div class="viewer-container">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" :class="{image: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}">
-    <video autoplay :class="{video: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}" v-if="containsVideo">
-      <source :src="videoSrc">
-    </video>
+    <img :src="imageSrc" ref="image" v-if="containsImage" :class="{image: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}">
+    <video autoplay ref="video" :class="{video: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}" v-if="containsVideo" :src="videoSrc"></video>
     <p v-if="containsText" class="text">{{text}}</p>
   </div>
 </template>
@@ -26,7 +24,7 @@ export default {
       text: '',
       containsImage: false,
       imageSrc: '',
-      containsVideo: false,
+      containsVideo: true,
       videoSrc: '',
       containsIframe: false,
       iframeSrc: '',
@@ -35,6 +33,8 @@ export default {
       horMax: false,
       center: false,
       stretch: false,
+
+      customStyle: false,
 
       slide: {},
 
@@ -63,21 +63,37 @@ export default {
       this.containsIframe = type.includes('iframe') || type.includes('html');
       this.containsVideo = type.includes('video');
     },
-    async display(){
-      try{
-        const slideshow = await ipcRenderer.invoke('getSlideshow', this.id)
+    display(){
+      fetch(`file:///${ipcRenderer.sendSync('getSlideshowDirectory')}/${this.id}/slideshow.json`).then(response => {
+        return response.json()
+      }).then(async data => {
+        const slideshow = data
         let slide = slideshow.slides[this.no]
+
         var type = slide.mime.split('/')[0]
         if (slide.text != undefined){
           type += 'text'
         }
         this.setType(type);
+
+        if (slide.style == undefined){
+          slide.style = ''
+        }
+        const styles = slide.style.split('|')
+
+        let customStyle = undefined;
+        for (let s of styles){
+          if (!s.includes('$') && slide.style != ''){
+            customStyle = s
+            this.customStyle = true
+          }
+        }
+
         if (this.containsImage){
-          const img = document.getElementsByClassName('image')[0]
+          while (document.getElementsByClassName('image')[0] == undefined)
+            await this.$nextTick();
+          let img = document.getElementsByClassName('image')[0]
           img.onload = () => {
-            if (slide.style == undefined){
-              slide.style = ''
-            }
             if (slide.style.includes('$center'))
               this.center = true;
             else if (slide.style.includes('$stretch'))
@@ -96,21 +112,13 @@ export default {
               }
             }
           }
-          if (!slide.url.startsWith('http://') && !slide.url.startsWith('https://')){
-            const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
-            this.imageSrc = URL.createObjectURL(new Blob([array]))
-          } else {
-            this.imageSrc = slide.url;
-          }
+          this.imageSrc = this.resolvePath(slide.url)
         }
         if (this.containsVideo){
-          const vid = document.getElementsByClassName('video')
-          console.log(vid[0]);
-          console.log(vid);
-          vid[0].onloadstart = () => {
-            if (slide.style == undefined){
-              slide.style = ''
-            }
+          while (document.getElementsByClassName('video')[0] == undefined)
+            await this.$nextTick();
+          let vid = document.getElementsByClassName('video')[0]
+          vid.onloadstart = () => {
             if (slide.style.includes('$center'))
               this.center = true;
             else if (slide.style.includes('$stretch'))
@@ -122,19 +130,14 @@ export default {
                 this.horMax = true;
               }
             } else if (slide.style.includes('$cover')){
-              if (vid.videoWidth / window.innerWidth < vid.videoHeight / window.innerHeight){
+              if (vid.videoHeight / window.innerWidth < vid.videoWidth / window.innerHeight){
                 this.verMax = true;
               } else {
                 this.horMax = true;
               }
             }
           }
-          if (!slide.url.startsWith('http://') && !slide.url.startsWith('https://')){
-            const array = await ipcRenderer.invoke('getResource', this.id, this.no, slide.url)
-            this.videoSrc = URL.createObjectURL(new Blob([array]))
-          } else {
-            this.videoSrc = slide.url;
-          }
+          this.videoSrc = this.resolvePath(slide.url, true)
         }
         if (this.containsIframe){
 
@@ -143,11 +146,27 @@ export default {
           if (slide.text.startsWith('$')){
             this.text = slide.text.substring(1)
           } else {
-
+            fetch(this.resolvePath(slide.text)).then(response => {
+              return response.text()
+            }).then(text => {
+              this.text = text
+            })
           }
         }
-      } catch (e){
-        console.log(e);
+        if (customStyle != undefined){
+          let link = document.createElement('link')
+          link.href = ipcRenderer.sendSync('getSafePath', this.id, this.no, customStyle)
+          link.type = 'text/css'
+          link.rel = 'stylesheet'
+          document.getElementsByTagName('head')[0].appendChild(link)
+        }
+      })
+    },
+    resolvePath(url){
+      if (url.startsWith('http://') || url.startsWith('https://')){
+        return url;
+      } else {
+        return ipcRenderer.sendSync('getSafePath', this.id, this.no, url)
       }
     },
     displayLinks(){
@@ -158,66 +177,16 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-    },
+    }
+  },
+  beforeDestroy(){
+    if (this.customStyle){
+      const link = document.getElementsByTagName('link')[0]
+      link.parentNode.removeChild(link)
+    }
   }
 }
 </script>
 
 <style lang="css" scoped>
-*{
-  color: white;
-}
-
-.viewer-container{
-  background-color: black;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  color: white;
-  position: relative;
-}
-.slideshowlink{
-  color: white;
-  display: block;
-}
-
-.image{
-  position: absolute;
-}
-
-.text{
-  font-family: Arial;
-  margin: 0px;
-  color: white;
-  font-size: 8rem;
-  text-align: center;
-  position: absolute;
-}
-
-.stretch{
-  width: 100%;
-  height: 100%;
-}
-
-.center{
-  left: 50%;
-  top: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-}
-
-.verMax{
-  position: absolute;
-  width: 100%;
-  height: auto;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.horMax{
-  position: absolute;
-  height: 100%;
-  width: auto;
-  left: 50%;
-  transform: translate(-50%);
-}
 </style>

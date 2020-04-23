@@ -13,7 +13,7 @@
   "slides": [
     {
       "name": "test video 1",
-      "url": "Blending.mp4",
+      "url": "blending.mp4",
       "duration": "auto",
       "mime": "video/mp4"
     },
@@ -42,7 +42,7 @@
     },
     {
       "name": "test video 5",
-      "url": "smapp.mp4",
+      "url": "small.mp4",
       "duration": "auto",
       "mime": "video/mp4",
       "style": "style.css"

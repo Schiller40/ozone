@@ -17,6 +17,23 @@ ipcMain.on('test', (event, arg) => {
   event.returnValue = 'Printed message successfully'
 })
 
+ipcMain.on('getSafePath', (event, id, no, url) => {
+  event.returnValue = getSafePath(id, no, url)
+})
+
+ipcMain.on('getSlideshowDirectory', (event) => {
+  event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
+})
+
+function getSafePath(id:string, no:number, url:string){
+  const slidePath = path.join (SLIDESHOW_DIRECTORY, id, (no - 1 + 2).toString())
+  const resourcePath = path.join (slidePath, url)
+  if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath)
+    return 'file:///' + path.resolve(resourcePath)
+  else
+    return new Error('permission denied or invalid path')
+}
+
 ipcMain.handle('getAvailableSlideshows', async () => {
   const promise = getAvailableSlideshows();
   return promise
@@ -46,10 +63,8 @@ function checkDir (fullPath:string, root:string=SLIDESHOW_DIRECTORY){
   const initPath = fullPath
   fullPath = path.join(fullPath)
   fullPath = path.resolve(fullPath)
-  console.log(`fullPath is ${fullPath}`)
   root = path.join(root)
   root = path.resolve(root)
-  console.log(`root is ${root}`)
   if (fullPath.startsWith(root)) {
     fullPath = fullPath.substring(root.length)
     if (fullPath.includes ('../') || fullPath === '..' || fullPath.includes('//')){
@@ -60,44 +75,6 @@ function checkDir (fullPath:string, root:string=SLIDESHOW_DIRECTORY){
   } else {
     return new Error('permission denied or invalid path')
   }
-}
-
-ipcMain.handle('getSlideshow', async(_event, id) => {
-  const promise = getSlideshow(id);
-  return promise
-})
-function getSlideshow(id:string){
-  return new Promise((resolve, reject) => {
-    const JSONPath = path.join(SLIDESHOW_DIRECTORY, id, 'slideshow.json')
-    if (id.length == 64 && checkDir(JSONPath)){
-      fs.readFile(JSONPath, (err, result) => {
-        if (err) reject(err)
-        else resolve(JSON.parse(result.toString()))
-      })
-    } else {
-      reject(new Error('permission denied or invalid path'))
-    }
-  })
-}
-
-ipcMain.handle('getResource', async(_event, id, no, url) => {
-  const promise = getResource(id, no, url);
-  return promise
-})
-function getResource(id:string, no:number, url:string){
-  no++;
-  return new Promise((resolve, reject) => {
-    const slidePath = path.join(SLIDESHOW_DIRECTORY, id, no.toString())
-    const resourcePath = path.join(slidePath, url)
-    if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath){
-      fs.readFile(resourcePath, (err, data) => {
-        if (err) reject(err)
-        else resolve(data)
-      })
-    } else {
-      reject(new Error('permission denied or invalid path'))
-    }
-  })
 }
 
 const createWindow = () => {
@@ -114,6 +91,7 @@ const createWindow = () => {
     width: 1280,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      webSecurity: false
     }
   });
   // and load the index.html of the app.
