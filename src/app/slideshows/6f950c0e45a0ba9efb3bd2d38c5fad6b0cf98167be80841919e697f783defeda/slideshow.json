@@ -29,14 +29,16 @@
       "name": "test iframe 3",
       "url": "https://jonaskruckenbg.de",
       "duration": "10s",
-      "mime": "text/html"
+      "mime": "text/html",
+      "text": "$Jonas' Seite. Soll gar nicht klappen :D",
+      "style": "$cover|style.css"
     },
     {
       "name": "test iframe 4",
       "url": "https://bahn.de",
       "duration": "10s",
       "mime": "text/html",
-      "text": "$Das geht Billiger",
+      "text": "$Das geht Billiger. Die Bahn erlaubt keinen iframe.",
       "style": "style.css"
     }
   ]

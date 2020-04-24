@@ -4,6 +4,7 @@
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
     <img :src="imageSrc" ref="image" v-if="containsImage" :class="{image: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}">
     <video autoplay ref="video" :class="{video: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}" v-if="containsVideo" :src="videoSrc"></video>
+    <iframe :src="iframeSrc" ref="iframe" :class="{iframe: true, stretch: stretch}" v-if="containsIframe"></iframe>
     <p v-if="containsText" class="text">{{text}}</p>
   </div>
 </template>
@@ -36,8 +37,6 @@ export default {
 
       customStyle: false,
 
-      slide: {},
-
       id: this.$props.slideshowId,
       no: this.$props.slideNo,
 
@@ -56,11 +55,11 @@ export default {
     }
   },
   methods: {
-    setType(type){
+    setType(type, type1){
       this.type = type;
       this.containsImage = type.includes('img') || type.includes('image');
-      this.containsText = type.includes('text');
-      this.containsIframe = type.includes('iframe') || type.includes('html');
+      this.containsText = (type.includes('text') && !type1.includes('html') && !type.includes('iframe')) || type.includes('texttext');
+      this.containsIframe = type.includes('iframe') || type1.includes('html');
       this.containsVideo = type.includes('video');
     },
     display(){
@@ -74,7 +73,7 @@ export default {
         if (slide.text != undefined){
           type += 'text'
         }
-        this.setType(type);
+        this.setType(type, slide.mime.split('/')[1]);
 
         if (slide.style == undefined){
           slide.style = ''
@@ -137,10 +136,18 @@ export default {
               }
             }
           }
-          this.videoSrc = this.resolvePath(slide.url, true)
+          this.videoSrc = this.resolvePath(slide.url)
         }
         if (this.containsIframe){
-
+          while (document.getElementsByClassName('iframe')[0] == undefined)
+            await this.$nextTick();
+          let vid = document.getElementsByClassName('iframe')[0]
+          if (slide.style.includes('$center'))
+            this.center = true;
+          else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == '' || slide.style.includes('$cover') || slide.style.includes('$stretch')){
+            this.stretch = true
+          }
+          this.iframeSrc = this.resolvePath(slide.url)
         }
         if (this.containsText){
           if (slide.text.startsWith('$')){

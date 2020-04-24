@@ -2,8 +2,6 @@ body {
   margin: 0;
 }
 
-
-
 *{
   color: white;
 }
@@ -21,8 +19,16 @@ body {
   display: block;
 }
 
-.image{
+.image, .video{
   position: absolute;
+}
+
+.iframe{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  background-color: white;
 }
 
 .text{
