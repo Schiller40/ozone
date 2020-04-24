@@ -4,6 +4,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
 import fs from 'fs';
 import scheduler from 'node-schedule';
 import path from 'path';
+import parse from 'parse-duration'
 
 const SLIDESHOW_DIRECTORY = './src/app/slideshows';
 
@@ -41,17 +42,30 @@ ipcMain.handle('getAvailableSlideshows', async () => {
 function getAvailableSlideshows(){
   return new Promise ((resolve, reject) => {
     fs.readdir(SLIDESHOW_DIRECTORY, (_err, files) => {
-      var counter = 0
-      for (var i in files) {
-        fs.access(path.join(SLIDESHOW_DIRECTORY, files[i], 'slideshow.json'), (err) => {
-          if (err){
-            reject(err);
-          } else {
-            counter++;
-            if (counter == files.length) {
-              console.log(files)
-              resolve(files)
+      let paths:any[] = []
+      for (let i in files) {
+        const p = files[i]
+        fs.access(path.join(SLIDESHOW_DIRECTORY, p, 'slideshow.json'), (err) => {
+          paths[i] = err ? err : p
+          let complete = true;
+          for (let i2 = 0; i2 < files.length; i2++){
+            if (paths[i2] == undefined){
+              complete = false
             }
+          }
+          if (complete){
+            let out = {
+              success: [] as string[],
+              err: [] as Error[]
+            }
+            for (let p of paths){
+              if (typeof p == 'string'){
+                out.success.push(p)
+              } else {
+                out.err.push(p)
+              }
+            }
+            resolve(out)
           }
         })
       }

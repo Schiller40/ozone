@@ -57,6 +57,7 @@ export default {
   methods: {
     setType(type, type1){
       this.type = type;
+      type1 = type1==undefined ? '' : type1
       this.containsImage = type.includes('img') || type.includes('image');
       this.containsText = (type.includes('text') && !type1.includes('html') && !type.includes('iframe')) || type.includes('texttext');
       this.containsIframe = type.includes('iframe') || type1.includes('html');
@@ -178,7 +179,13 @@ export default {
     },
     displayLinks(){
       ipcRenderer.invoke('getAvailableSlideshows').then(result => {
-        this.slideshows = result
+        this.slideshows = result.success
+        if (result.err != []){
+          result.err.forEach((item, i) => {
+            console.log(item);
+          });
+          ;
+        }
         this.valid = true
         this.valid = false
       }).catch(err => {
