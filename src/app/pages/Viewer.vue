@@ -40,6 +40,8 @@ export default {
       id: this.$props.slideshowId,
       no: this.$props.slideNo,
 
+      to: -1,
+
       slideshows: []
     }
   },
@@ -70,11 +72,31 @@ export default {
         const slideshow = data
         let slide = slideshow.slides[this.no]
 
+        if (slide == undefined){
+          this.newSlide(0)
+        }
+
         var type = slide.mime.split('/')[0]
         if (slide.text != undefined){
           type += 'text'
         }
         this.setType(type, slide.mime.split('/')[1]);
+
+        const lastSlide = this.no == slideshow.slides.length - 1
+        const nextSlide = lastSlide ? (slideshow.repeat ? 0 : -1) : this.no - 0 + 1
+        console.log(`momentan: ${this.no}, nächste: ${nextSlide}`);
+        let videoDurationControl = false
+        if (slide.duration != 'auto'){
+          this.to = setTimeout(() => {
+            this.newSlide(nextSlide)
+          }, ipcRenderer.sendSync('parse', slide.duration))
+        } else {
+          if (this.containsVideo){
+            videoDurationControl = true
+          } else {
+            this.newSlide(nextSlide)
+          }
+        }
 
         if (slide.style == undefined){
           slide.style = ''
@@ -118,7 +140,7 @@ export default {
           while (document.getElementsByClassName('video')[0] == undefined)
             await this.$nextTick();
           let vid = document.getElementsByClassName('video')[0]
-          vid.onloadstart = () => {
+          vid.onloadedmetadata = () => {
             if (slide.style.includes('$center'))
               this.center = true;
             else if (slide.style.includes('$stretch'))
@@ -130,12 +152,27 @@ export default {
                 this.horMax = true;
               }
             } else if (slide.style.includes('$cover')){
-              if (vid.videoHeight / window.innerWidth < vid.videoWidth / window.innerHeight){
+              if (vid.videoWidth / window.innerWidth < vid.videoHeight / window.innerHeight){
                 this.verMax = true;
               } else {
                 this.horMax = true;
               }
             }
+          }
+          let iterations = 0
+          if (slide.repeat == undefined)
+            slide.repeat = 0
+          vid.onended = () => {
+            let stop = false
+            if (videoDurationControl){
+              if (iterations == slide.repeat){
+                stop = true
+                this.newSlide(nextSlide)
+              }
+            }
+            iterations++;
+            if (!stop)
+              vid.play()
           }
           this.videoSrc = this.resolvePath(slide.url)
         }
@@ -191,6 +228,10 @@ export default {
       }).catch(err => {
         console.log(err);
       })
+    },
+    newSlide(slide){
+      if (slide != -1)
+        this.$router.push(`/viewer/${this.id}/${slide}`)
     }
   },
   beforeDestroy(){
@@ -198,6 +239,7 @@ export default {
       const link = document.getElementsByTagName('link')[0]
       link.parentNode.removeChild(link)
     }
+    clearTimeout(this.to)
   }
 }
 </script>

@@ -12,40 +12,40 @@
   "repeat": true,
   "slides": [
     {
-      "name": "test image 1",
+      "name": "test image 1 Computer",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
       "style": "$cover"
     },
     {
-      "name": "vertical image 2",
+      "name": "vertical image 2 Skyline",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg"
     },
     {
-      "name": "fullHD image 3",
+      "name": "fullHD image 3 Kamera",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
       "style": "$center"
     },
     {
-      "name": "lowres scaling image 4",
+      "name": "lowres scaling image 4 Feld",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg"
     },
     {
-      "name": "lowres noscale image 5",
+      "name": "lowres noscale image 5 Förderturm",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
       "style": "$center"
     },
     {
-      "name": "fullHD image 6",
+      "name": "fullHD image 6 Person von hinten",
       "url": "image.jpg",
       "duration": "1s",
       "mime": "image/jpg",
@@ -53,7 +53,7 @@
 
     },
     {
-      "name": "fullHD image 7",
+      "name": "fullHD image 7 Rügen? ZOOOOM",
       "url": "image name with whitespace.jpg",
       "duration": "10s",
       "mime": "image/jpg",
@@ -61,7 +61,7 @@
       "style": "style.css"
     },
     {
-      "name": "letterboxing image 8",
+      "name": "letterboxing image 8 turm + mädchen",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
@@ -69,26 +69,34 @@
       "style": "$cover|style.css"
     },
     {
-      "name": "pillarboxing image 9",
+      "name": "pillarboxing image 9 Schienen",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
       "style": "$stretch"
     },
     {
-      "name": "hires performance image 10",
+      "name": "hires performance image 10 Berge Zoom",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
       "style": "$center"
     },
     {
-      "name": "png test 11",
+      "name": "png test 11 ticktackbumm",
       "url": "image.png",
       "duration": "10s",
       "mime": "image/jpg",
       "text": "$png test lorem ipsum dolor sit amet",
       "style": "$contain|other style.css"
+    },
+    {
+      "name": "performance test 12 Panorama",
+      "url": "Wolfsburg Panorama.jpg",
+      "duration": "10s",
+      "mime": "image/jpg",
+      "text": "$Performance testing. 67MB, 56MP Panorama Wolfsburg (nur Ausschnitt)",
+      "style": "$cover|style.css"
     }
   ]
 }

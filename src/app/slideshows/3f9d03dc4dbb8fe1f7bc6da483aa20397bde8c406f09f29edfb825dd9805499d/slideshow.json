@@ -36,7 +36,8 @@
     {
       "name": "test video 4",
       "url": "mov_bbb.mp4",
-      "duration": "2s",
+      "duration": "25s",
+      "repeat": -1,
       "mime": "video/mp4",
       "style": "$cover"
     },
@@ -53,6 +54,15 @@
       "duration": "auto",
       "mime": "video/webm",
       "style": "$center"
+    },
+    {
+      "name": "test video 7",
+      "url": "DJI_0646_Trim.mp4",
+      "duration": "auto",
+      "repeat": 1,
+      "mime": "video/mp4",
+      "style": "$cover",
+      "text": "$A little bit higher res test video"
     }
   ]
 }

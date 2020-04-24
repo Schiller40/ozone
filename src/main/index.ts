@@ -4,7 +4,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
 import fs from 'fs';
 import scheduler from 'node-schedule';
 import path from 'path';
-import parse from 'parse-duration'
+import parse from 'parse-duration';
 
 const SLIDESHOW_DIRECTORY = './src/app/slideshows';
 
@@ -15,18 +15,18 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
-ipcMain.on('test', (event, arg) => {
-  console.log(`Test message: ${arg}`)
-  event.returnValue = 'Printed message successfully'
-})
+// ipcMain.on('test', (event, arg) => {
+//   console.log(`Test message: ${arg}`)
+//   event.returnValue = 'Printed message successfully'
+// })
 
 ipcMain.on('getSafePath', (event, id, no, url) => {
   event.returnValue = getSafePath(id, no, url)
 })
 
-ipcMain.on('getSlideshowDirectory', (event) => {
-  event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
-})
+// ipcMain.on('getSlideshowDirectory', (event) => {
+//   event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
+// })
 
 function getSafePath(id:string, no:number, url:string){
   const slidePath = path.join (SLIDESHOW_DIRECTORY, id, (no - 1 + 2).toString())
@@ -38,8 +38,7 @@ function getSafePath(id:string, no:number, url:string){
 }
 
 ipcMain.handle('getAvailableSlideshows', async () => {
-  const promise = getAvailableSlideshows();
-  return promise
+  return getAvailableSlideshows();
 })
 function getAvailableSlideshows(){
   return new Promise ((resolve, reject) => {
@@ -74,6 +73,10 @@ function getAvailableSlideshows(){
     })
   })
 }
+
+ipcMain.on('parse', (event, str) => {
+  event.returnValue = parse(str)
+})
 
 ipcMain.on('openSlide', (_event, id, no) => {
   openSlide(id, no)
