@@ -8,6 +8,8 @@ import parse from 'parse-duration'
 
 const SLIDESHOW_DIRECTORY = './src/app/slideshows';
 
+let win:BrowserWindow;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -73,6 +75,14 @@ function getAvailableSlideshows(){
   })
 }
 
+ipcMain.on('openSlide', (_event, id, no) => {
+  openSlide(id, no)
+})
+
+function openSlide(id:string, no:number = 0):void{
+  win.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/viewer/${id}/${no}`)
+}
+
 function checkDir (fullPath:string, root:string=SLIDESHOW_DIRECTORY){
   const initPath = fullPath
   fullPath = path.join(fullPath)
@@ -113,6 +123,8 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  win = mainWindow
 };
 
 // This method will be called when Electron has finished
