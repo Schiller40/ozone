@@ -24,9 +24,9 @@ ipcMain.on('getSafePath', (event, id, no, url) => {
   event.returnValue = getSafePath(id, no, url)
 })
 
-// ipcMain.on('getSlideshowDirectory', (event) => {
-//   event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
-// })
+ipcMain.on('getSlideshowDirectory', (event) => {
+  event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
+})
 
 function getSafePath(id:string, no:number, url:string){
   const slidePath = path.join (SLIDESHOW_DIRECTORY, id, (no - 1 + 2).toString())
