@@ -13,16 +13,16 @@
   "slides": [
     {
       "name": "test video 1",
-      "url": "Blending.mp4",
+      "url": "blending.mp4",
       "duration": "auto",
-      "mime": "image/jpg"
+      "mime": "video/mp4"
     },
     {
       "name": "test video 2",
       "url": "Celebrations.mp4",
       "duration": "auto",
       "repeat": 1,
-      "mime": "image/jpg",
+      "mime": "video/mp4",
       "text": "$Super cool feature",
       "style": "$cover|style.css"
     },
@@ -30,29 +30,39 @@
       "name": "test video 3",
       "url": "Fred Fingers.mp4",
       "duration": "20s",
-      "mime": "image/jpg",
+      "mime": "video/mp4",
       "style": "$stretch"
     },
     {
       "name": "test video 4",
       "url": "mov_bbb.mp4",
-      "duration": "2s",
-      "mime": "image/jpg",
+      "duration": "25s",
+      "repeat": -1,
+      "mime": "video/mp4",
       "style": "$cover"
     },
     {
       "name": "test video 5",
-      "url": "smapp.mp4",
+      "url": "small.mp4",
       "duration": "auto",
-      "mime": "image/jpg",
+      "mime": "video/mp4",
       "style": "style.css"
     },
     {
       "name": "test video 6",
       "url": "small.webm",
       "duration": "auto",
-      "mime": "image/jpg",
+      "mime": "video/webm",
       "style": "$center"
+    },
+    {
+      "name": "test video 7",
+      "url": "DJI_0646_Trim.mp4",
+      "duration": "auto",
+      "repeat": 1,
+      "mime": "video/mp4",
+      "style": "$cover",
+      "text": "$A little bit higher res test video"
     }
   ]
 }

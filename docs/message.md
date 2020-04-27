@@ -1,4 +1,5 @@
 # Changelog
+- 0.0.3: Unified styles and other resources. They can either be http(s), data or a path relative to the slide directory. Also, special styles have been removed ($contain, $cover etc.)
 - 0.0.2: start and duration is now an object within an array. Otherwise multiple slideshows would've been necessary to show the slideshow for different durations at different times/dates. Also added support for additional styling information (for images and videos)
 - 0.0.1: first version
 
@@ -10,18 +11,14 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 - repeat: `Boolean`: wether the slideshow should repeat after the last slide if duration is not yet over
 - slides `Array`: the slides in the slideshow. Type is `object`
   - name `String`: name of the slide
-  - url `String`: url of the resource to display. Can be http://, https://, or a path relative to `[slideshow]/[slide number]/` to ensure proper containerisation. The mime type of the given resource HAS to match the provided `mime` key.
+  - url `String`: url of the resource to display. Can be http://, https://, a path relative to `[slideshow]/[slide number]/` or `data:`. The mime type of the given resource HAS to match the provided `mime` key.
   - mime `String`: mimetype of the resource
   - duration `String`: duration of the slide. see `duration.md`
-  - repeat `Integer` (optional, only used when `duration` is set to `auto`): the number of times to repeat the slide. `Default: 0`
-  - style `String` (optional): ["$contain" | "$cover" | "$strech" | "$center" | [url]].
+  - repeat `Integer` (optional, only used for video): the number of times to repeat the video. `Default: 0`
+  - style `String` (optional): url.
 
-    url of additional styling information, see below for details. Path is relative to `[slideshow]/[slide number]/` directory or has to be an external resource (http(s)://). Only applicable to mime type text, video and image, whereas text cannot have a special option.
-
-    $contain shows the whole resource, scaled to the maximum. $cover makes sure there is no letterboxing or pillarboxing by scaling the resource up. $stretch stretches the image to the bounds, not preserving the aspect ratio. $center centers the image horizontally and vertically, not scaling it at all (zoom 1:1).
-
-    To combine one option with css, use this syntax: `[option]$[url]`, e.g. `$cover|style.css`. This is necessary, if $cover or $contain shall be used in conjunction with a custom style. Filenames with "|" or "$" are not allowed.
-  - text `String` (optional if mime is not text): URL to a text resource or plain text. If it is plain text, a dollar sign at the start indicates that this is not a URL.
+    url of additional styling information. Path is relative to `[slideshow]/[slide number]/` directory or has to be an external resource (http(s)://). It can also be a `data:text/css...` url.
+  - text `String` (optional if mime is not text/plain): URL to a text resource (relative to `[slideshow]/[slide number]/`) or a data URL
 
 ## example
 ```json
@@ -43,7 +40,7 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
       "url": "https://example.com/image.png",
       "duration": "20min",
       "mime": "image/png",
-      "text": "$super cool text (text resource url would work as well). The dollar-sign at the beginning is not visible and indicates that this is not a resource locator.",
+      "text": "data:text/plain;charset=utf-8,super%20cool%20text%20%28text%20resource%20url%20would%20work%20as%20well%29.",
       "style": "style.css"
     },
     {
@@ -66,24 +63,41 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 
 # Styling of resources (images, videos, iframe, plain text)
 
-Format of the stylesheet: text/css. The selectors are: `.image`, `.video`, `.iframe` and `.text` for their respective types. `.container` is the wrapper `div`. It is possible to place a text element over any of the other three using the `text` key in the `slideshow.json` file. This is not possible any other way. Elements are placed using `img`, `video`, `iframe` and `p` tags. If not set, the following defaults will be applied:
-- image: `"$contain"`
-- video: `"$contain"`
-- iframe:
-  - width: 100vw
-  - height: 100vh
-  - border: none
-- text:
-  - font-family: Arial
-  - font-size: 8rem
-  - margin: 0px
-  - color: white
-  - text-align: center
-- container:
-  - background-color: black
-  - width: 100vw
-  - height: 100vh
-  - overflow: hidden
-  - display: flex
-  - justify-content: center
-  - align-items: center
+Format of the stylesheet: text/css. The selectors are: `.image`, `.video`, `.iframe` and `.text` for their respective types. `.container` is the wrapper `div`. It is possible to place a text element over any of the other three using the `text` key in the `slideshow.json` file. This is not possible any other way. Elements are placed using `img`, `video`, `iframe` and `p` tags.
+The default style (if none or an empty style tag is transmitted) is
+
+`data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Acontain%3Bwidth%3A100%25%3Bheight%3A100%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D` or human-readable:
+```css
+.container{
+  background-color: black;
+}
+
+.image, .video{
+  position: absolute;
+  object-fit: contain;
+  width: 100%;
+  height: 100%
+}
+
+.iframe{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: white;
+}
+
+.text{
+  font-family: Arial, sans-serif;
+  margin: 0px;
+  color: white;
+  font-size: 6rem;
+  text-align: center;
+  position: absolute;
+}
+```
+
+
+# TODO
+## 0.0.3
+- stylesheets and text with data urls instead of $ signs

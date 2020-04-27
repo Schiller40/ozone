@@ -1,9 +1,9 @@
 <template lang="html">
-  <div class="viewer-container">
+  <div class="container">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" ref="image" v-if="containsImage" :class="{image: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}">
-    <video autoplay ref="video" :class="{video: true, verMax: verMax, horMax: horMax, center: center, stretch: stretch}" v-if="containsVideo" :src="videoSrc"></video>
+    <img :src="imageSrc" ref="image" v-if="containsImage" :class="{image: true, contain: contain, cover: cover, center: center, stretch: stretch}">
+    <video autoplay ref="video" :class="{video: true, contain: contain, cover: cover, center: center, stretch: stretch}" v-if="containsVideo" :src="videoSrc"></video>
     <iframe :src="iframeSrc" ref="iframe" :class="{iframe: true, stretch: stretch}" v-if="containsIframe"></iframe>
     <p v-if="containsText" class="text">{{text}}</p>
   </div>
@@ -30,8 +30,8 @@ export default {
       containsIframe: false,
       iframeSrc: '',
 
-      verMax: false,
-      horMax: false,
+      contain: false,
+      cover: false,
       center: false,
       stretch: false,
 
@@ -54,6 +54,8 @@ export default {
       this.display();
     } else if (this.id == 'nA' || this.id == undefined){
       this.displayLinks();
+      this.customStyle = true
+      this.applyStyle('$default')
     }
   },
   methods: {
@@ -121,17 +123,9 @@ export default {
             else if (slide.style.includes('$stretch'))
               this.stretch = true;
             else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
-              if (img.naturalWidth / window.innerWidth > img.naturalHeight / window.innerHeight){
-                this.verMax = true;
-              } else {
-                this.horMax = true;
-              }
+              this.contain = true
             } else if (slide.style.includes('$cover')){
-              if (img.naturalWidth / window.innerWidth < img.naturalHeight / window.innerHeight){
-                this.verMax = true;
-              } else {
-                this.horMax = true;
-              }
+              this.cover = true
             }
           }
           this.imageSrc = this.resolvePath(slide.url)
@@ -146,17 +140,9 @@ export default {
             else if (slide.style.includes('$stretch'))
               this.stretch = true;
             else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
-              if (vid.videoWidth / window.innerWidth > vid.videoHeight / window.innerHeight){
-                this.verMax = true;
-              } else {
-                this.horMax = true;
-              }
+              this.contain = true
             } else if (slide.style.includes('$cover')){
-              if (vid.videoWidth / window.innerWidth < vid.videoHeight / window.innerHeight){
-                this.verMax = true;
-              } else {
-                this.horMax = true;
-              }
+              this.cover = true
             }
           }
           let iterations = 0
@@ -199,16 +185,12 @@ export default {
           }
         }
         if (customStyle != undefined){
-          let link = document.createElement('link')
-          link.href = ipcRenderer.sendSync('getSafePath', this.id, this.no, customStyle)
-          link.type = 'text/css'
-          link.rel = 'stylesheet'
-          document.getElementsByTagName('head')[0].appendChild(link)
+          this.applyStyle(customStyle)
         }
       })
     },
     resolvePath(url){
-      if (url.startsWith('http://') || url.startsWith('https://')){
+      if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')){
         return url;
       } else {
         return ipcRenderer.sendSync('getSafePath', this.id, this.no, url)
@@ -232,6 +214,15 @@ export default {
     newSlide(slide){
       if (slide != -1)
         this.$router.push(`/viewer/${this.id}/${slide}`)
+    },
+    applyStyle(url){
+      let link = document.createElement('link')
+      link.href = ipcRenderer.sendSync('getSafePath', this.id, this.no, url)
+      if (url === '$default')
+        link.href='C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
+      link.type = 'text/css'
+      link.rel = 'stylesheet'
+      document.getElementsByTagName('head')[0].appendChild(link)
     }
   },
   beforeDestroy(){

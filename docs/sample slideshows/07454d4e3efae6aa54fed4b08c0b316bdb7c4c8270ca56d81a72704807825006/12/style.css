@@ -1,0 +1,8 @@
+.text{
+  font-size: 2rem;
+  color: black
+}
+
+.image{
+  transform: scale(2.0) translate(-25%, 10%);
+}
