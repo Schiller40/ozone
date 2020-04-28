@@ -2,9 +2,9 @@
   <div class="container">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" ref="image" v-if="containsImage" :class="{image: true, contain: contain, cover: cover, center: center, stretch: stretch}">
-    <video autoplay ref="video" :class="{video: true, contain: contain, cover: cover, center: center, stretch: stretch}" v-if="containsVideo" :src="videoSrc"></video>
-    <iframe :src="iframeSrc" ref="iframe" :class="{iframe: true, stretch: stretch}" v-if="containsIframe"></iframe>
+    <img :src="imageSrc" v-if="containsImage" :class="{image: true, loading: loading}">
+    <video autoplay class="video" v-if="containsVideo" :src="videoSrc"></video>
+    <iframe :src="iframeSrc" ref="iframe" class="iframe" v-if="containsIframe"></iframe>
     <p v-if="containsText" class="text">{{text}}</p>
   </div>
 </template>
@@ -30,12 +30,7 @@ export default {
       containsIframe: false,
       iframeSrc: '',
 
-      contain: false,
-      cover: false,
-      center: false,
-      stretch: false,
-
-      customStyle: false,
+      loading: true,
 
       id: this.$props.slideshowId,
       no: this.$props.slideNo,
@@ -74,16 +69,19 @@ export default {
         const slideshow = data
         let slide = slideshow.slides[this.no]
 
+        // reset(should not happen unless improper use)
         if (slide == undefined){
           this.newSlide(0)
         }
 
+        // mimetype settings
         var type = slide.mime.split('/')[0]
         if (slide.text != undefined){
           type += 'text'
         }
         this.setType(type, slide.mime.split('/')[1]);
 
+        // next slide invokation
         const lastSlide = this.no == slideshow.slides.length - 1
         const nextSlide = lastSlide ? (slideshow.repeat ? 0 : -1) : this.no - 0 + 1
         console.log(`momentan: ${this.no}, nächste: ${nextSlide}`);
@@ -100,33 +98,14 @@ export default {
           }
         }
 
-        if (slide.style == undefined){
-          slide.style = ''
-        }
-        const styles = slide.style.split('|')
-
-        let customStyle = undefined;
-        for (let s of styles){
-          if (!s.includes('$') && slide.style != ''){
-            customStyle = s
-            this.customStyle = true
-          }
-        }
+        this.applyStyle(slide.style)
 
         if (this.containsImage){
           while (document.getElementsByClassName('image')[0] == undefined)
             await this.$nextTick();
           let img = document.getElementsByClassName('image')[0]
           img.onload = () => {
-            if (slide.style.includes('$center'))
-              this.center = true;
-            else if (slide.style.includes('$stretch'))
-              this.stretch = true;
-            else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
-              this.contain = true
-            } else if (slide.style.includes('$cover')){
-              this.cover = true
-            }
+            this.loading = false
           }
           this.imageSrc = this.resolvePath(slide.url)
         }
@@ -134,25 +113,14 @@ export default {
           while (document.getElementsByClassName('video')[0] == undefined)
             await this.$nextTick();
           let vid = document.getElementsByClassName('video')[0]
-          vid.onloadedmetadata = () => {
-            if (slide.style.includes('$center'))
-              this.center = true;
-            else if (slide.style.includes('$stretch'))
-              this.stretch = true;
-            else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == ''){
-              this.contain = true
-            } else if (slide.style.includes('$cover')){
-              this.cover = true
-            }
-          }
           let iterations = 0
           if (slide.repeat == undefined)
             slide.repeat = 0
           vid.onended = () => {
             let stop = false
-            if (videoDurationControl){
-              if (iterations == slide.repeat){
-                stop = true
+            if (iterations == slide.repeat){
+              stop = true
+              if (videoDurationControl){
                 this.newSlide(nextSlide)
               }
             }
@@ -166,30 +134,26 @@ export default {
           while (document.getElementsByClassName('iframe')[0] == undefined)
             await this.$nextTick();
           let vid = document.getElementsByClassName('iframe')[0]
-          if (slide.style.includes('$center'))
-            this.center = true;
-          else if (slide.style.includes('$contain') || slide.style == undefined || slide.style == '' || slide.style.includes('$cover') || slide.style.includes('$stretch')){
-            this.stretch = true
-          }
           this.iframeSrc = this.resolvePath(slide.url)
         }
         if (this.containsText){
-          if (slide.text.startsWith('$')){
-            this.text = slide.text.substring(1)
+          const txt = this.resolvePath(slide.text)
+          if (slide.text.startsWith('data:')){
+            this.text = ipcRenderer.sendSync('getDataBody', slide.text)
           } else {
             fetch(this.resolvePath(slide.text)).then(response => {
               return response.text()
             }).then(text => {
               this.text = text
+            }).catch(e => {
+              console.log(e);
             })
           }
-        }
-        if (customStyle != undefined){
-          this.applyStyle(customStyle)
         }
       })
     },
     resolvePath(url){
+      url = url == undefined ? '' : url
       if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')){
         return url;
       } else {
@@ -207,6 +171,7 @@ export default {
         }
         this.valid = true
         this.valid = false
+        this.applyStyle('$empty')
       }).catch(err => {
         console.log(err);
       })
@@ -216,20 +181,18 @@ export default {
         this.$router.push(`/viewer/${this.id}/${slide}`)
     },
     applyStyle(url){
-      let link = document.createElement('link')
-      link.href = ipcRenderer.sendSync('getSafePath', this.id, this.no, url)
-      if (url === '$default')
+      let link = document.getElementById('customStyle')
+      if (url === '$default' || url === '' || url === undefined){
+        link.href='C://users/coworking/documents/github/ozone/src/app/assets/default.css'
+        return
+      } else if (url === '$empty'){
         link.href='C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
-      link.type = 'text/css'
-      link.rel = 'stylesheet'
-      document.getElementsByTagName('head')[0].appendChild(link)
+        return
+      }
+      link.href = this.resolvePath(url)
     }
   },
   beforeDestroy(){
-    if (this.customStyle){
-      const link = document.getElementsByTagName('link')[0]
-      link.parentNode.removeChild(link)
-    }
     clearTimeout(this.to)
   }
 }

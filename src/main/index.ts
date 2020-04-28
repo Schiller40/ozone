@@ -5,20 +5,17 @@ import fs from 'fs';
 import scheduler from 'node-schedule';
 import path from 'path';
 import parse from 'parse-duration';
+// @ts-ignore
+import parseDataURL from 'data-urls';
 
 const SLIDESHOW_DIRECTORY = './src/app/slideshows';
 
-let win:BrowserWindow;
+// let win:BrowserWindow;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
-
-// ipcMain.on('test', (event, arg) => {
-//   console.log(`Test message: ${arg}`)
-//   event.returnValue = 'Printed message successfully'
-// })
 
 ipcMain.on('getSafePath', (event, id, no, url) => {
   event.returnValue = getSafePath(id, no, url)
@@ -41,7 +38,7 @@ ipcMain.handle('getAvailableSlideshows', async () => {
   return getAvailableSlideshows();
 })
 function getAvailableSlideshows(){
-  return new Promise ((resolve, reject) => {
+  return new Promise ((resolve) => {
     fs.readdir(SLIDESHOW_DIRECTORY, (_err, files) => {
       let paths:any[] = []
       for (let i in files) {
@@ -78,13 +75,18 @@ ipcMain.on('parse', (event, str) => {
   event.returnValue = parse(str)
 })
 
-ipcMain.on('openSlide', (_event, id, no) => {
-  openSlide(id, no)
-})
+// ipcMain.on('openSlide', (_event, id, no) => {
+//   openSlide(id, no)
+// })
+//
+// function openSlide(id:string, no:number = 0):void{
+//   win.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/viewer/${id}/${no}`)
+// }
 
-function openSlide(id:string, no:number = 0):void{
-  win.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/viewer/${id}/${no}`)
-}
+ipcMain.on('getDataBody', (event, str) => {
+  console.log(str)
+  event.returnValue = parseDataURL(str).body.toString()
+})
 
 function checkDir (fullPath:string, root:string=SLIDESHOW_DIRECTORY){
   const initPath = fullPath
@@ -127,7 +129,7 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  win = mainWindow
+  // win = mainWindow
 };
 
 // This method will be called when Electron has finished

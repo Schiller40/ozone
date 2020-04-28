@@ -2,12 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Ozone - The one and only slideshow viewer</title>
     <script type="text/javascript">
-      function u() {
+      function u(u = undefined) {
+        if (u != undefined){
+          location.href=u
+        }
         return location.href
       }
     </script>
+    <link rel="stylesheet" id="customStyle" href="">
   </head>
   <body>
     <div id="app">
