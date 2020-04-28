@@ -84,7 +84,6 @@ ipcMain.on('parse', (event, str) => {
 // }
 
 ipcMain.on('getDataBody', (event, str) => {
-  console.log(str)
   event.returnValue = parseDataURL(str).body.toString()
 })
 
