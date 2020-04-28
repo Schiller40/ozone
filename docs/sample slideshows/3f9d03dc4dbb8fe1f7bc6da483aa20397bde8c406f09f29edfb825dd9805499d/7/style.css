@@ -1,7 +1,4 @@
-.text{
-  font-size: 2rem;
-  color: black
-}
+
 .container{
   background-color: black;
 }
@@ -11,7 +8,6 @@
   object-fit: cover;
   width: 100%;
   height: 100%;
-  transform: scale(2.0) translate(-25%, 10%);
 }
 
 .iframe{
@@ -25,6 +21,8 @@
 .text{
   font-family: Arial, sans-serif;
   margin: 0px;
+  color: white;
+  font-size: 6rem;
   text-align: center;
   position: absolute;
 }

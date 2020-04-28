@@ -23,15 +23,15 @@
       "duration": "auto",
       "repeat": 1,
       "mime": "video/mp4",
-      "text": "$Super cool feature",
-      "style": "$cover|style.css"
+      "text": "data:text/plain;charset=utf-8,Super%20cool%20feature",
+      "style": "style.css"
     },
     {
       "name": "test video 3",
       "url": "Fred Fingers.mp4",
       "duration": "20s",
       "mime": "video/mp4",
-      "style": "$stretch"
+      "style": "style.css"
     },
     {
       "name": "test video 4",
@@ -39,7 +39,7 @@
       "duration": "25s",
       "repeat": -1,
       "mime": "video/mp4",
-      "style": "$cover"
+      "style": "style.css"
     },
     {
       "name": "test video 5",
@@ -53,7 +53,7 @@
       "url": "small.webm",
       "duration": "auto",
       "mime": "video/webm",
-      "style": "$center"
+      "style": "style.css"
     },
     {
       "name": "test video 7",
@@ -61,8 +61,8 @@
       "duration": "auto",
       "repeat": 1,
       "mime": "video/mp4",
-      "style": "$cover",
-      "text": "$A little bit higher res test video"
+      "style": "style.css",
+      "text": "data:text/plain;charset=utf-8,A%20little%20bit%20higher%20res%20test%20video"
     }
   ]
 }
