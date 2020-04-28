@@ -13,7 +13,7 @@
   "slides": [
     {
       "name": "test text 1",
-      "text": "$Smartphoneschule fällt heute aus!",
+      "text": "data:text/plain;charset=utf-8,Smartphoneschule%20f%C3%A4llt%20heute%20aus%21",
       "duration": "10s",
       "mime": "text/plain"
     },

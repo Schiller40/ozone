@@ -76,7 +76,7 @@ The default style (if none or an empty style tag is transmitted) is
   position: absolute;
   object-fit: contain;
   width: 100%;
-  height: 100%
+  height: 100%;
 }
 
 .iframe{
