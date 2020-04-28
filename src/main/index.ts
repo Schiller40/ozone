@@ -25,8 +25,8 @@ ipcMain.on('getSlideshowDirectory', (event) => {
   event.returnValue = path.resolve(SLIDESHOW_DIRECTORY)
 })
 
-function getSafePath(id:string, no:number, url:string){
-  const slidePath = path.join (SLIDESHOW_DIRECTORY, id, (no - 1 + 2).toString())
+function getSafePath(id:string, no:string, url:string){
+  const slidePath = path.join (SLIDESHOW_DIRECTORY, id, no)
   const resourcePath = path.join (slidePath, url)
   if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath)
     return 'file:///' + path.resolve(resourcePath)
