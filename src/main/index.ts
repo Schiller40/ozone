@@ -26,7 +26,7 @@ ipcMain.on('getSlideshowDirectory', (event) => {
 })
 
 function getSafePath(id:string, no:string, url:string){
-  const slidePath = path.join (SLIDESHOW_DIRECTORY, id, no)
+  const slidePath = path.join (SLIDESHOW_DIRECTORY, id, no.toString())
   const resourcePath = path.join (slidePath, url)
   if (checkDir(slidePath, SLIDESHOW_DIRECTORY) === slidePath && checkDir(resourcePath, slidePath) === resourcePath)
     return 'file:///' + path.resolve(resourcePath)
@@ -74,14 +74,6 @@ function getAvailableSlideshows(){
 ipcMain.on('parse', (event, str) => {
   event.returnValue = parse(str)
 })
-
-// ipcMain.on('openSlide', (_event, id, no) => {
-//   openSlide(id, no)
-// })
-//
-// function openSlide(id:string, no:number = 0):void{
-//   win.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/viewer/${id}/${no}`)
-// }
 
 ipcMain.on('getDataBody', (event, str) => {
   event.returnValue = parseDataURL(str).body.toString()

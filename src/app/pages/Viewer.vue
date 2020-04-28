@@ -2,7 +2,7 @@
   <div class="container">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage" :class="{image: true, loading: loading}">
+    <img :src="imageSrc" v-if="containsImage" :class="{image: true, loading: loading}" :onload="loading = false">
     <video autoplay class="video" v-if="containsVideo" :src="videoSrc"></video>
     <iframe :src="iframeSrc" ref="iframe" class="iframe" v-if="containsIframe"></iframe>
     <p v-if="containsText" class="text">{{text}}</p>
@@ -104,9 +104,6 @@ export default {
           while (document.getElementsByClassName('image')[0] == undefined)
             await this.$nextTick();
           let img = document.getElementsByClassName('image')[0]
-          img.onload = () => {
-            this.loading = false
-          }
           this.imageSrc = this.resolvePath(slide.url)
         }
         if (this.containsVideo){
