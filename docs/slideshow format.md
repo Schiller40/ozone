@@ -16,10 +16,8 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
   - mime `String`: mimetype of the resource
   - duration `String`: duration of the slide. see `duration.md`
   - repeat `Integer` (optional, only used for video): the number of times to repeat the video. `Default: 0`
-  - style `String` (optional): url.
-
-    url of additional styling information. Path is relative to `[slideshow]/[slide number]/` (starting from 0) directory or has to be an external resource (http(s)://). It can also be a `data:text/css...` url.
   - text `String` (optional if mime is not text/plain): URL to a text resource (relative to `[slideshow]/[slide number]/`) or a data URL
+  - transition `String` (optional): name of the transition to this slide. the applied classes are `[name]`
 
 ## example
 ```json
@@ -42,7 +40,7 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
       "duration": "20min",
       "mime": "image/png",
       "text": "data:text/plain;charset=utf-8,super%20cool%20text%20%28text%20resource%20url%20would%20work%20as%20well%29.",
-      "style": "style.css"
+      "transition": ""
     },
     {
       "name": "my awesome video",
@@ -67,7 +65,6 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 Format of the stylesheet: text/css. The selectors are: `.image`, `.video`, `.iframe` and `.text` for their respective types. `.container` is the wrapper `div`. It is possible to place a text element over any of the other three using the `text` key in the `slideshow.json` file. This is not possible any other way. Elements are placed using `img`, `video`, `iframe` and `p` tags.
 The default style (if none or an empty style tag is transmitted) is
 
-`data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Acontain%3Bwidth%3A100%25%3Bheight%3A100%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D` or human-readable:
 ```css
 .container{
   background-color: black;
@@ -97,8 +94,3 @@ The default style (if none or an empty style tag is transmitted) is
   position: absolute;
 }
 ```
-
-
-# TODO
-## 0.0.3
-- stylesheets and text with data urls instead of $ signs
