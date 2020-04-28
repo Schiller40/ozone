@@ -1,4 +1,5 @@
 # Changelog
+- 0.0.4: slide number in the folders starts at 0 instead of 1
 - 0.0.3: Unified styles and other resources. They can either be http(s), data or a path relative to the slide directory. Also, special styles have been removed ($contain, $cover etc.)
 - 0.0.2: start and duration is now an object within an array. Otherwise multiple slideshows would've been necessary to show the slideshow for different durations at different times/dates. Also added support for additional styling information (for images and videos)
 - 0.0.1: first version
@@ -11,13 +12,13 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 - repeat: `Boolean`: wether the slideshow should repeat after the last slide if duration is not yet over
 - slides `Array`: the slides in the slideshow. Type is `object`
   - name `String`: name of the slide
-  - url `String`: url of the resource to display. Can be http://, https://, a path relative to `[slideshow]/[slide number]/` or `data:`. The mime type of the given resource HAS to match the provided `mime` key.
+  - url `String`: url of the resource to display. Can be http://, https://, a path relative to `[slideshow]/[slide number]/` (starting from 0) or `data:`. The mime type of the given resource HAS to match the provided `mime` key.
   - mime `String`: mimetype of the resource
   - duration `String`: duration of the slide. see `duration.md`
   - repeat `Integer` (optional, only used for video): the number of times to repeat the video. `Default: 0`
   - style `String` (optional): url.
 
-    url of additional styling information. Path is relative to `[slideshow]/[slide number]/` directory or has to be an external resource (http(s)://). It can also be a `data:text/css...` url.
+    url of additional styling information. Path is relative to `[slideshow]/[slide number]/` (starting from 0) directory or has to be an external resource (http(s)://). It can also be a `data:text/css...` url.
   - text `String` (optional if mime is not text/plain): URL to a text resource (relative to `[slideshow]/[slide number]/`) or a data URL
 
 ## example

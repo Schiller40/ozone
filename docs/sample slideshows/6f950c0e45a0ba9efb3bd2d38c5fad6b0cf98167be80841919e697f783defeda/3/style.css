@@ -1,31 +1,3 @@
 .text{
-  color:black
-}
-
-.container{
-  background-color: black;
-}
-
-.image, .video{
-  position: absolute;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-.iframe{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: white;
-}
-
-.text{
-  font-family: Arial, sans-serif;
-  margin: 0px;
-  color: white;
-  font-size: 6rem;
-  text-align: center;
-  position: absolute;
+  color:red;
 }

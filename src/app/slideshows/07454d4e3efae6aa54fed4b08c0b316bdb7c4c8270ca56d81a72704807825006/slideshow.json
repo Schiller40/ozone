@@ -29,7 +29,7 @@
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
     },
     {
       "name": "lowres scaling image 4 Feld",
@@ -42,7 +42,7 @@
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
     },
     {
       "name": "fullHD image 6 Person von hinten",
@@ -79,7 +79,7 @@
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
     },
     {
       "name": "png test 11 ticktackbumm",
