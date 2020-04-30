@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container" :id="`slide-${no}`">
+  <div class="slide" :id="`slide-${no-0+1}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
     <img :src="imageSrc" v-if="containsImage" v-show="loaded" class="image" @load="loaded = true" draggable="false">
@@ -51,6 +51,9 @@ export default {
       this.customStyle = true
       this.applyStyle('$default')
     }
+    setTimeout(function(){
+      console.log('test');
+    }, -1000)
   },
   methods: {
     setType(type, type1){
