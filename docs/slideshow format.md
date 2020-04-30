@@ -1,4 +1,5 @@
 # Changelog
+- 0.0.5: One stylesheet to rule them all, transitions
 - 0.0.4: slide number in the folders starts at 0 instead of 1
 - 0.0.3: Unified styles and other resources. They can either be http(s), data or a path relative to the slide directory. Also, special styles have been removed ($contain, $cover etc.)
 - 0.0.2: start and duration is now an object within an array. Otherwise multiple slideshows would've been necessary to show the slideshow for different durations at different times/dates. Also added support for additional styling information (for images and videos)
@@ -40,7 +41,7 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
       "duration": "20min",
       "mime": "image/png",
       "text": "data:text/plain;charset=utf-8,super%20cool%20text%20%28text%20resource%20url%20would%20work%20as%20well%29.",
-      "transition": ""
+      "transition": "fade"
     },
     {
       "name": "my awesome video",
@@ -62,35 +63,16 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
 
 # Styling of resources (images, videos, iframe, plain text)
 
-Format of the stylesheet: text/css. The selectors are: `.image`, `.video`, `.iframe` and `.text` for their respective types. `.container` is the wrapper `div`. It is possible to place a text element over any of the other three using the `text` key in the `slideshow.json` file. This is not possible any other way. Elements are placed using `img`, `video`, `iframe` and `p` tags.
-The default style (if none or an empty style tag is transmitted) is
+Format of the stylesheet: text/css. One stylesheet called `style.css` has to be located in the slideshow root-directory. The structure is like this:
+- `div.wrapper#wrapper-[no]`
+  - `div.slide#slide-[no]` (This element is removed and added with each slide change to make the transition possible. Other classes will be added to this element during the transition phases)
+    - `img.image#image-[no]`
+    - `video.video#video-[no]`
+    - `iframe.iframe#iframe-[no]`
+    - `p.text#text-[no]`
 
-```css
-.container{
-  background-color: black;
-}
+Replace `[no]` with the human-readable (counting from 1) slide number. It is possible to place a text element over any of the other three using the `text` key in the `slideshow.json` file.
 
-.image, .video{
-  position: absolute;
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-}
+## Transitions
 
-.iframe{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: white;
-}
-
-.text{
-  font-family: Arial, sans-serif;
-  margin: 0px;
-  color: white;
-  font-size: 6rem;
-  text-align: center;
-  position: absolute;
-}
-```
+Transitions can be self-made or a premade one can be used. Even premade ones have to be included in the stylesheet (so the length can be altered). The classes are applied to the container element according to the vue docs.
