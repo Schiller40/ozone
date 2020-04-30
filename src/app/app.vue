@@ -1,14 +1,8 @@
 <template lang="html">
-  <transition>
-    <router-view :key="$route.fullPath"/>
-  </transition>
+  <router-view :key="$route.fullPath"/>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-export default class App extends Vue {
-
-}
+<script>
 </script>
 
 <style lang="css" scoped>

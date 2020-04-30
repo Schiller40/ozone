@@ -1,11 +1,11 @@
 <template lang="html">
-  <div class="container">
+  <div class="container" :id="`slide-${no}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage" :class="{image: true, loading: loading}" :onload="loading = false">
+    <img :src="imageSrc" v-if="containsImage" v-show="loaded" class="image" @load="loaded = true" draggable="false">
     <video autoplay class="video" v-if="containsVideo" :src="videoSrc"></video>
     <iframe :src="iframeSrc" ref="iframe" class="iframe" v-if="containsIframe"></iframe>
-    <p v-if="containsText" class="text">{{text}}</p>
+    <p v-if="containsText" draggable="false" class="text">{{text}}</p>
   </div>
 </template>
 
@@ -30,12 +30,11 @@ export default {
       containsIframe: false,
       iframeSrc: '',
 
-      loading: true,
-
       id: this.$props.slideshowId,
       no: this.$props.slideNo,
 
       to: -1,
+      loaded: false,
 
       slideshows: []
     }
