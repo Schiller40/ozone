@@ -2,10 +2,10 @@
   <div class="slide" :id="`slide-${no-0+1}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage" v-show="loaded" class="image" @load="loaded = true" draggable="false">
-    <video autoplay class="video" v-if="containsVideo" :src="videoSrc"></video>
-    <iframe :src="iframeSrc" ref="iframe" class="iframe" v-if="containsIframe"></iframe>
-    <p v-if="containsText" draggable="false" class="text">{{text}}</p>
+    <img :src="imageSrc" v-if="containsImage" :id="`image-${no}`" v-show="loaded" class="image" @load="loaded = true" draggable="false">
+    <video autoplay class="video" :id="`video-${no}`" v-if="containsVideo" :src="videoSrc"></video>
+    <iframe :src="iframeSrc" ref="iframe" class="iframe" :id="`iframe-${no}`" v-if="containsIframe"></iframe>
+    <p v-if="containsText" draggable="false" class="text" :id="`text-${no}`">{{text}}</p>
   </div>
 </template>
 
@@ -67,17 +67,16 @@ export default {
     display(){
       fetch(`file:///${ipcRenderer.sendSync('getSlideshowDirectory')}/${this.id}/slideshow.json`).then(response => {
         return response.json()
-      }).then(async data => {
-        const slideshow = data
+      }).then(async slideshow => {
         let slide = slideshow.slides[this.no]
 
         // reset(should not happen unless improper use)
-        if (slide == undefined){
+        if (slide == undefined || slide == {}){
           this.newSlide(0)
         }
 
         // mimetype settings
-        var type = slide.mime.split('/')[0]
+        let type = slide.mime.split('/')[0]
         if (slide.text != undefined){
           type += 'text'
         }
@@ -100,18 +99,17 @@ export default {
           }
         }
 
-        this.applyStyle(slide.style)
+        this.applyStyle()
 
         if (this.containsImage){
-          while (document.getElementsByClassName('image')[0] == undefined)
+          while (document.getElementById(`image-${this.no}`) == undefined)
             await this.$nextTick();
-          let img = document.getElementsByClassName('image')[0]
           this.imageSrc = this.resolvePath(slide.url)
         }
         if (this.containsVideo){
-          while (document.getElementsByClassName('video')[0] == undefined)
+          while (document.getElementById(`video-${this.no}`) == undefined)
             await this.$nextTick();
-          let vid = document.getElementsByClassName('video')[0]
+          let vid = document.getElementById(`video-${this.no}`)
           let iterations = 0
           if (slide.repeat == undefined)
             slide.repeat = 0
@@ -130,13 +128,11 @@ export default {
           this.videoSrc = this.resolvePath(slide.url)
         }
         if (this.containsIframe){
-          while (document.getElementsByClassName('iframe')[0] == undefined)
+          while (document.getElementById(`iframe-${this.no}`) == undefined)
             await this.$nextTick();
-          let vid = document.getElementsByClassName('iframe')[0]
           this.iframeSrc = this.resolvePath(slide.url)
         }
         if (this.containsText){
-          const txt = this.resolvePath(slide.text)
           if (slide.text.startsWith('data:')){
             this.text = ipcRenderer.sendSync('getDataBody', slide.text)
           } else {
@@ -181,13 +177,7 @@ export default {
     },
     applyStyle(url){
       let link = document.getElementById('customStyle')
-      if (url === '$default' || url === '' || url === undefined){
-        link.href='C://users/coworking/documents/github/ozone/src/app/assets/default.css'
-        return
-      } else if (url === '$empty'){
-        link.href='C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
-        return
-      }
+      let nextLink = this.valid ?  : 'C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
       link.href = this.resolvePath(url)
     }
   },
