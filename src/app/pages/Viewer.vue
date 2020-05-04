@@ -1,11 +1,16 @@
 <template lang="html">
-  <div class="slide" :id="`slide-${no-0+1}`">
+   <!-- <div class="slide" :id="`slide-${parseInt(no) + 1}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage" :id="`image-${no}`" v-show="loaded" class="image" @load="loaded = true" draggable="false">
-    <video autoplay class="video" :id="`video-${no}`" v-if="containsVideo" :src="videoSrc"></video>
-    <iframe :src="iframeSrc" ref="iframe" class="iframe" :id="`iframe-${no}`" v-if="containsIframe"></iframe>
-    <p v-if="containsText" draggable="false" class="text" :id="`text-${no}`">{{text}}</p>
+    <img :src="imageSrc" v-if="containsImage" :id="`image-${parseInt(no) + 1}`" v-show="loaded" class="image" @load="loaded = true" draggable="false">
+    <video autoplay class="video" :id="`video-${parseInt(no) + 1}`" v-if="containsVideo" :src="videoSrc"></video>
+    <iframe :src="iframeSrc" ref="iframe" class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe"></iframe>
+    <p v-if="containsText" draggable="false" class="text" :id="`text-${parseInt(no) + 1}`">{{text}}</p>
+  </div> -->
+  <div :id="`slide-${parseInt(slideNo) + 1}`">
+    <!-- <span :id="`test-${parseInt(slideNo) + 1}`">
+      {{slideNo}}
+    </span> -->
   </div>
 </template>
 
@@ -13,10 +18,10 @@
 
 export default {
   name: 'Viewer',
-  props: [
-    'slideshowId',
-    'slideNo'
-  ],
+  props: {
+    slideshowId: { type: String },
+    slideNo: { type: String }
+  },
   data(){
     return{
       valid: false,
@@ -30,8 +35,8 @@ export default {
       containsIframe: false,
       iframeSrc: '',
 
-      id: this.$props.slideshowId,
-      no: this.$props.slideNo,
+      id: this.slideshowId,
+      no: this.slideNo,
 
       to: -1,
       loaded: false,
@@ -48,12 +53,8 @@ export default {
       this.display();
     } else if (this.id == 'nA' || this.id == undefined){
       this.displayLinks();
-      this.customStyle = true
-      this.applyStyle('$default')
+      this.applyStyle()
     }
-    setTimeout(function(){
-      console.log('test');
-    }, -1000)
   },
   methods: {
     setType(type, type1){
@@ -166,7 +167,6 @@ export default {
         }
         this.valid = true
         this.valid = false
-        this.applyStyle('$empty')
       }).catch(err => {
         console.log(err);
       })
@@ -175,10 +175,11 @@ export default {
       if (slide != -1)
         this.$router.push(`/viewer/${this.id}/${slide}`)
     },
-    applyStyle(url){
+    applyStyle(){
       let link = document.getElementById('customStyle')
-      let nextLink = this.valid ?  : 'C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
-      link.href = this.resolvePath(url)
+      let newLink = this.valid ? `${ipcRenderer.sendSync('getSlideshowDirectory')}/${this.id}/style.css` : 'C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
+      if (link.href != newLink && link.href != 'file:///' + newLink)
+      link.href = newLink
     }
   },
   beforeDestroy(){

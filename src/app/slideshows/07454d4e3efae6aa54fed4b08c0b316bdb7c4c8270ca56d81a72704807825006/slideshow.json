@@ -15,8 +15,7 @@
       "name": "test image 1 Computer",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Acover%3Bwidth%3A100%25%3Bheight%3A100%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "mime": "image/jpg"
     },
     {
       "name": "vertical image 2 Skyline",
@@ -28,8 +27,7 @@
       "name": "fullHD image 3 Kamera",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "mime": "image/jpg"
     },
     {
       "name": "lowres scaling image 4 Feld",
@@ -41,8 +39,7 @@
       "name": "lowres noscale image 5 Förderturm",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "mime": "image/jpg"
     },
     {
       "name": "fullHD image 6 Person von hinten",
@@ -56,46 +53,40 @@
       "url": "image name with whitespace.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "data:text/plain;charset=utf-8,ZOOOOM.%20The%20quick%20brown%20fox%20jumps%20over%20the%20lazy%20dog.",
-      "style": "style.css"
+      "text": "data:text/plain;charset=utf-8,ZOOOOM.%20The%20quick%20brown%20fox%20jumps%20over%20the%20lazy%20dog."
     },
     {
       "name": "letterboxing image 8 turm + mädchen",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "my awesome text.txt",
-      "style": "style.css"
+      "text": "my awesome text.txt"
     },
     {
       "name": "pillarboxing image 9 Schienen",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Afill%3Bwidth%3A100%25%3Bheight%3A100%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "mime": "image/jpg"
     },
     {
       "name": "hires performance image 10 Berge Zoom",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg",
-      "style": "data:text/css;charset=utf-8,.container%7Bbackground-color%3A%23000%7D.image%2C.video%7Bposition%3Aabsolute%3Bobject-fit%3Anone%3Bheight%3A100%25%3Bwidth%3A100%25%3Bobject-position%3A50%25%2050%25%7D.iframe%7Bposition%3Aabsolute%3Bwidth%3A100%25%3Bheight%3A100%25%3Bborder%3Anone%3Bbackground-color%3A%23fff%7D.text%7Bfont-family%3AArial%2Csans-serif%3Bmargin%3A0%3Bcolor%3A%23fff%3Bfont-size%3A6rem%3Btext-align%3Acenter%3Bposition%3Aabsolute%7D"
+      "mime": "image/jpg"
     },
     {
       "name": "png test 11 ticktackbumm",
       "url": "image.png",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "data:text/plain;charset=utf-8,png%20test%20lorem%20ipsum%20dolor%20sit%20amet",
-      "style": "other style.css"
+      "text": "data:text/plain;charset=utf-8,png%20test%20lorem%20ipsum%20dolor%20sit%20amet"
     },
     {
       "name": "performance test 12 Panorama",
       "url": "Wolfsburg Panorama.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "data:text/plain;charset=utf-8,Performance%20testing.%2067MB%2C%2056MP%20Panorama%20Wolfsburg%20%28nur%20Ausschnitt%29",
-      "style": "style.css"
+      "text": "data:text/plain;charset=utf-8,Performance%20testing.%2067MB%2C%2056MP%20Panorama%20Wolfsburg%20%28nur%20Ausschnitt%29"
     }
   ]
 }
