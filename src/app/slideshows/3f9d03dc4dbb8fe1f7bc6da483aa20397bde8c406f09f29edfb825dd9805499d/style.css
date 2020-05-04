@@ -1,0 +1,53 @@
+.slide{
+  background-color: black
+}
+
+.text{
+  font-family: Arial, sans-serif;
+  margin: 0px;
+  color: white;
+  font-size: 6rem;
+  text-align: center;
+  position: absolute;
+}
+
+#video-1{
+  position: absolute;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+#video-2, #video-4, #video-6{
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+#text-2{
+  margin: 0px;
+  color: white;
+  font-size: 6rem;
+  text-align: center;
+  position: absolute;
+  font-family: "Comic Sans MS"
+}
+
+#video-3{
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+#video-5{
+  transform: scaleX(2);
+  opacity: .3;
+}
+
+#video-6{
+  position: absolute;
+  object-position: 50% 50%;
+  width: 100%;
+  height: 100%;
+}

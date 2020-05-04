@@ -15,8 +15,7 @@
       "name": "test iframe 1",
       "url": "https://team-polaris.de",
       "duration": "10s",
-      "mime": "text/html",
-      "style": "style.css",
+      "mime": "text/html"
       "text": "data:text/plain;charset=utf-8,Wer%20h%C3%A4tte%20es%20gedacht%20%3B%29"
     },
     {
@@ -30,16 +29,14 @@
       "url": "https://jonaskruckenbg.de",
       "duration": "10s",
       "mime": "text/html",
-      "text": "data:text/plain;charset=utf-8,Jonas%27%20Seite.%20Soll%20gar%20nicht%20klappen%20%3AD",
-      "style": "style.css"
+      "text": "data:text/plain;charset=utf-8,Jonas%27%20Seite.%20Soll%20gar%20nicht%20klappen%20%3AD"
     },
     {
       "name": "test iframe 4",
       "url": "https://bahn.de",
       "duration": "10s",
       "mime": "text/html",
-      "text": "data:text/plain;charset=utf-8,Das%20geht%20Billiger.%20Die%20Bahn%20erlaubt%20keinen%20iframe.",
-      "style": "style.css"
+      "text": "data:text/plain;charset=utf-8,Das%20geht%20Billiger.%20Die%20Bahn%20erlaubt%20keinen%20iframe."
     }
   ]
 }
