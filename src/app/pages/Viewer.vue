@@ -25,7 +25,7 @@ export default {
       text: '',
       containsImage: false,
       imageSrc: '',
-      containsVideo: true,
+      containsVideo: false,
       videoSrc: '',
       containsIframe: false,
       iframeSrc: '',

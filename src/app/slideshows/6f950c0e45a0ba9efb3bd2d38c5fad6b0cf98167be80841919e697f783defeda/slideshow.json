@@ -14,8 +14,8 @@
     {
       "name": "test iframe 1",
       "url": "https://team-polaris.de",
-      "duration": "10s",
-      "mime": "text/html"
+      "duration": "20s",
+      "mime": "text/html",
       "text": "data:text/plain;charset=utf-8,Wer%20h%C3%A4tte%20es%20gedacht%20%3B%29"
     },
     {
