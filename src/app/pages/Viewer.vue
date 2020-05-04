@@ -1,16 +1,11 @@
 <template lang="html">
-   <!-- <div class="slide" :id="`slide-${parseInt(no) + 1}`">
+   <div class="slide" :id="`slide-${parseInt(no) + 1}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
     <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
     <img :src="imageSrc" v-if="containsImage" :id="`image-${parseInt(no) + 1}`" v-show="loaded" class="image" @load="loaded = true" draggable="false">
     <video autoplay class="video" :id="`video-${parseInt(no) + 1}`" v-if="containsVideo" :src="videoSrc"></video>
     <iframe :src="iframeSrc" ref="iframe" class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe"></iframe>
     <p v-if="containsText" draggable="false" class="text" :id="`text-${parseInt(no) + 1}`">{{text}}</p>
-  </div> -->
-  <div :id="`slide-${parseInt(slideNo) + 1}`">
-    <!-- <span :id="`test-${parseInt(slideNo) + 1}`">
-      {{slideNo}}
-    </span> -->
   </div>
 </template>
 
@@ -103,14 +98,10 @@ export default {
         this.applyStyle()
 
         if (this.containsImage){
-          while (document.getElementById(`image-${this.no}`) == undefined)
-            await this.$nextTick();
           this.imageSrc = this.resolvePath(slide.url)
         }
         if (this.containsVideo){
-          while (document.getElementById(`video-${this.no}`) == undefined)
-            await this.$nextTick();
-          let vid = document.getElementById(`video-${this.no}`)
+          let vid = document.getElementById(`video-${this.no - 0 + 1}`)
           let iterations = 0
           if (slide.repeat == undefined)
             slide.repeat = 0
@@ -129,8 +120,6 @@ export default {
           this.videoSrc = this.resolvePath(slide.url)
         }
         if (this.containsIframe){
-          while (document.getElementById(`iframe-${this.no}`) == undefined)
-            await this.$nextTick();
           this.iframeSrc = this.resolvePath(slide.url)
         }
         if (this.containsText){
@@ -178,9 +167,14 @@ export default {
     applyStyle(){
       let link = document.getElementById('customStyle')
       let newLink = this.valid ? `${ipcRenderer.sendSync('getSlideshowDirectory')}/${this.id}/style.css` : 'C://users/coworking/documents/github/ozone/src/app/assets/empty.css'
-      if (link.href != newLink && link.href != 'file:///' + newLink)
-      link.href = newLink
-    }
+      newLink = 'file:///' + newLink.replace(/\\/g, '/')
+      const l = link.href.replace(/\\/g, '/')
+      if (l != newLink) {
+        console.log(newLink, l);
+        console.log('new');
+        link.href = newLink
+      }
+    },
   },
   beforeDestroy(){
     clearTimeout(this.to)
