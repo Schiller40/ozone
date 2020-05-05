@@ -15,13 +15,20 @@
       "name": "test image 1 Computer",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg"
+      "mime": "image/jpg",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "vertical image 2 Skyline",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg"
+      "mime": "image/jpg",
+      "transition": {
+        "name": "fade1",
+        "mode": "out-in"
+      }
     },
     {
       "name": "fullHD image 3 Kamera",
@@ -33,13 +40,19 @@
       "name": "lowres scaling image 4 Feld",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg"
+      "mime": "image/jpg",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "lowres noscale image 5 Förderturm",
       "url": "image.jpg",
       "duration": "10s",
-      "mime": "image/jpg"
+      "mime": "image/jpg",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "fullHD image 6 Person von hinten",
@@ -53,14 +66,20 @@
       "url": "image name with whitespace.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "data:text/plain;charset=utf-8,ZOOOOM.%20The%20quick%20brown%20fox%20jumps%20over%20the%20lazy%20dog."
+      "text": "data:text/plain;charset=utf-8,ZOOOOM.%20The%20quick%20brown%20fox%20jumps%20over%20the%20lazy%20dog.",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "letterboxing image 8 turm + mädchen",
       "url": "image.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "my awesome text.txt"
+      "text": "my awesome text.txt",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "pillarboxing image 9 Schienen",
@@ -86,7 +105,10 @@
       "url": "Wolfsburg Panorama.jpg",
       "duration": "10s",
       "mime": "image/jpg",
-      "text": "data:text/plain;charset=utf-8,Performance%20testing.%2067MB%2C%2056MP%20Panorama%20Wolfsburg%20%28nur%20Ausschnitt%29"
+      "text": "data:text/plain;charset=utf-8,Performance%20testing.%2067MB%2C%2056MP%20Panorama%20Wolfsburg%20%28nur%20Ausschnitt%29",
+      "transition": {
+        "name": "fade5"
+      }
     }
   ]
 }

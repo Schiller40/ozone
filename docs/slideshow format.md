@@ -41,7 +41,10 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
       "duration": "20min",
       "mime": "image/png",
       "text": "data:text/plain;charset=utf-8,super%20cool%20text%20%28text%20resource%20url%20would%20work%20as%20well%29.",
-      "transition": "fade"
+      "transition": {
+        "name": "fade",
+        "mode": "simultaneous"
+      }
     },
     {
       "name": "my awesome video",
@@ -54,7 +57,7 @@ Format of the file `slideshow.json` in the `[slideshow]` directory. `slideshow.j
       "name": "my awesome text",
       "text": "text.txt",
       "duration": "auto",
-      "mime": "text/plain",
+      "mime": "text/plain"
 
     }
   ]
@@ -75,4 +78,4 @@ Replace `[no]` with the human-readable (counting from 1) slide number. It is pos
 
 ## Transitions
 
-Transitions can be self-made or a premade one can be used. Even premade ones have to be included in the stylesheet (so the length can be altered). The classes are applied to the container element according to the vue docs.
+Transitions can be self-made or a premade one can be used. Even premade ones have to be included in the stylesheet (so the length can be altered). The classes are applied to the container (`div.slide`) element according to the vue docs. `name` can be self-defined, `mode` can be `out-in`, `in-out`, or `simultaneous`. `simultaneous` is the default

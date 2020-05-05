@@ -15,7 +15,10 @@
       "name": "test video 1",
       "url": "blending.mp4",
       "duration": "auto",
-      "mime": "video/mp4"
+      "mime": "video/mp4",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "test video 2",
@@ -23,32 +26,48 @@
       "duration": "auto",
       "repeat": 1,
       "mime": "video/mp4",
-      "text": "data:text/plain;charset=utf-8,Super%20cool%20feature"
+      "text": "data:text/plain;charset=utf-8,Super%20cool%20feature",
+      "transition": {
+        "name": "fade1",
+        "mode": "out-in"
+      }
     },
     {
       "name": "test video 3",
       "url": "Fred Fingers.mp4",
       "duration": "20s",
-      "mime": "video/mp4"
+      "mime": "video/mp4",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "test video 4",
       "url": "mov_bbb.mp4",
       "duration": "25s",
       "repeat": -1,
-      "mime": "video/mp4"
+      "mime": "video/mp4",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "test video 5",
       "url": "small.mp4",
       "duration": "auto",
-      "mime": "video/mp4"
+      "mime": "video/mp4",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "test video 6",
       "url": "small.webm",
       "duration": "auto",
-      "mime": "video/webm"
+      "mime": "video/webm",
+      "transition": {
+        "name": "fade1"
+      }
     },
     {
       "name": "test video 7",
@@ -56,7 +75,10 @@
       "duration": "auto",
       "repeat": 1,
       "mime": "video/mp4",
-      "text": "data:text/plain;charset=utf-8,A%20little%20bit%20higher%20res%20test%20video"
+      "text": "data:text/plain;charset=utf-8,A%20little%20bit%20higher%20res%20test%20video",
+      "transition": {
+        "name": "fade1"
+      }
     }
   ]
 }

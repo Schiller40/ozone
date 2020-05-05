@@ -36,7 +36,12 @@ export default {
       to: -1,
       loaded: false,
 
-      slideshows: []
+      slideshows: [],
+
+      transition: {
+        name: '',
+        mode: ''
+      }
     }
   },
   mounted(){
@@ -45,6 +50,7 @@ export default {
       this.no = 0
     }
     if (this.valid){
+      this.$emit('input', `wrapper-${this.no-0+1}`)
       this.display();
     } else if (this.id == 'nA' || this.id == undefined){
       this.displayLinks();
@@ -94,6 +100,14 @@ export default {
             this.newSlide(nextSlide)
           }
         }
+        let trans = slideshow.slides[nextSlide].transition
+        if (trans == undefined){
+          trans = {name: '', mode: ''}
+        }
+        if (trans.mode != 'out-in' && trans.mode != 'in-out'){
+          trans.mode = ''
+        }
+        this.transition = trans
 
         this.applyStyle()
 
@@ -101,6 +115,7 @@ export default {
           this.imageSrc = this.resolvePath(slide.url)
         }
         if (this.containsVideo){
+          await Promise.resolve()
           let vid = document.getElementById(`video-${this.no - 0 + 1}`)
           let iterations = 0
           if (slide.repeat == undefined)
@@ -161,8 +176,10 @@ export default {
       })
     },
     newSlide(slide){
-      if (slide != -1)
+      if (slide != -1){
+        this.$emit('setTransition', this.transition)
         this.$router.push(`/viewer/${this.id}/${slide}`)
+      }
     },
     applyStyle(){
       let link = document.getElementById('customStyle')
@@ -170,8 +187,6 @@ export default {
       newLink = 'file:///' + newLink.replace(/\\/g, '/')
       const l = link.href.replace(/\\/g, '/')
       if (l != newLink) {
-        console.log(newLink, l);
-        console.log('new');
         link.href = newLink
       }
     },

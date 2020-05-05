@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="wrapper" :id="wrapperId">
-    <router-view v-model="wrapperId" :key="$route.fullPath"/>
+    <transition :name="transition.name" :mode="transition.mode">
+      <router-view v-model="wrapperId" @setTransition="transition = $event" :key="$route.fullPath"/>
+    </transition>
   </div>
 </template>
 
@@ -9,7 +11,11 @@ export default{
   name: 'app',
   data(){
     return{
-      wrapperId: 'wrapper'
+      wrapperId: 'wrapper',
+      transition: {
+        name: '',
+        mode: ''
+      }
     }
   }
 }
