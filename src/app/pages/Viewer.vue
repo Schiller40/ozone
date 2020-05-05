@@ -86,23 +86,49 @@ export default {
 
         // next slide invokation
         const lastSlide = this.no == slideshow.slides.length - 1
-        const nextSlide = lastSlide ? (slideshow.repeat ? 0 : -1) : this.no - 0 + 1
-        console.log(`momentan: ${this.no}, nächste: ${nextSlide}`);
+        const nextSlideNo = lastSlide ? (slideshow.repeat ? 0 : -1) : this.no - 0 + 1
+        const nextSlide = slideshow.slides[nextSlideNo]
+        console.log(`momentan: ${this.no}, nächste: ${nextSlideNo}`);
         let videoDurationControl = false
         if (slide.duration != 'auto'){
           this.to = setTimeout(() => {
-            this.newSlide(nextSlide)
+            this.newSlide(nextSlideNo)
           }, ipcRenderer.sendSync('parse', slide.duration))
         } else {
           if (this.containsVideo){
             videoDurationControl = true
           } else {
-            this.newSlide(nextSlide)
+            this.newSlide(nextSlideNo)
           }
         }
 
+        // preload/prefetch
+        try{
+          await Promise.resolve()
+          if (nextSlide.mime != 'text/plain'){
+            let l = document.createElement('link')
+            l.rel = 'prefetch'
+            l.href = this.resolvePath(nextSlide.url, nextSlideNo)
+            document.getElementById(`slide-${this.no - 0 + 1}`).appendChild(l)
+            if (nextSlide.text != undefined){
+              let l2 = document.createElement('link')
+              l2.rel = 'prefetch'
+              l2.href = this.resolvePath(nextSlide.text, nextSlideNo)
+              document.getElementById(`slide-${this.no - 0 + 1}`).appendChild(l2)
+            }
+          } else if (nextSlide.text != undefined){
+            let l2 = document.createElement('link')
+            l2.rel = 'prefetch'
+            l2.href = this.resolvePath(nextSlide.text, nextSlideNo)
+            document.getElementById(`slide-${this.no - 0 + 1}`).appendChild(l2)
+          }
+        } catch (e){
+          console.log(e);
+        }
+
+
         // next slide transition
-        let trans = slideshow.slides[nextSlide].transition
+        let trans = slideshow.slides[nextSlideNo].transition
         if (trans == undefined){
           trans = {name: '', mode: ''}
         }
@@ -127,7 +153,7 @@ export default {
             if (iterations == slide.repeat){
               stop = true
               if (videoDurationControl){
-                this.newSlide(nextSlide)
+                this.newSlide(nextSlideNo)
               }
             }
             iterations++;
@@ -154,12 +180,12 @@ export default {
         }
       })
     },
-    resolvePath(url){
+    resolvePath(url, slide = this.no){
       url = url == undefined ? '' : url
       if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')){
         return url;
       } else {
-        return ipcRenderer.sendSync('getSafePath', this.id, this.no, url)
+        return ipcRenderer.sendSync('getSafePath', this.id, slide, url)
       }
     },
     displayLinks(){

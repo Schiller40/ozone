@@ -33,7 +33,7 @@
     },
     {
       "name": "test iframe 3",
-      "url": "https://jonaskruckenbg.de",
+      "url": "https://jonaskruckenberg.de",
       "duration": "10s",
       "mime": "text/html",
       "text": "data:text/plain;charset=utf-8,Jonas%27%20Seite.%20Soll%20gar%20nicht%20klappen%20%3AD",
