@@ -1,11 +1,11 @@
 <template lang="html">
-   <div class="slide" :id="`slide-${parseInt(no) + 1}`">
+  <div class="slide" :id="`slide-${parseInt(no) + 1}`">
     <p v-if="!valid">Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
-    <router-link :key="s" v-if="!valid" v-for="s in slideshows" :to="'/viewer/' + s" :s="s" class="slideshowlink">{{s}}</router-link>
-    <img :src="imageSrc" v-if="containsImage" :id="`image-${parseInt(no) + 1}`" v-show="loaded" class="image" @load="loaded = true" draggable="false">
-    <video autoplay class="video" :id="`video-${parseInt(no) + 1}`" v-if="containsVideo" :src="videoSrc"></video>
-    <iframe :src="iframeSrc" ref="iframe" class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe"></iframe>
-    <p v-if="containsText" draggable="false" class="text" :id="`text-${parseInt(no) + 1}`">{{text}}</p>
+    <router-link class="slideshowlink" v-if="!valid" :key="s" v-for="s in slideshows" :to="'/viewer/' + s" :s="s">{{s}}</router-link>
+    <img class="image" :id="`image-${parseInt(no) + 1}`" v-if="containsImage" :src="imageSrc" v-show="loaded" @load="loaded = true" draggable="false">
+    <video class="video" :id="`video-${parseInt(no) + 1}`" v-if="containsVideo" :src="videoSrc" autoplay></video>
+    <iframe class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe" :src="iframeSrc"></iframe>
+    <p class="text" :id="`text-${parseInt(no) + 1}`" v-if="containsText">{{text}}</p>
   </div>
 </template>
 
@@ -100,6 +100,8 @@ export default {
             this.newSlide(nextSlide)
           }
         }
+
+        // next slide transition
         let trans = slideshow.slides[nextSlide].transition
         if (trans == undefined){
           trans = {name: '', mode: ''}
