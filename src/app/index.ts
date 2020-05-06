@@ -1,4 +1,5 @@
 import '@/assets/master.css';
+import '../../docs/animations.css';
 import Vue from 'vue';
 import App from '@/app.vue';
 import router from '@/router';
