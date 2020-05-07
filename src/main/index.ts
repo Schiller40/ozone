@@ -8,7 +8,7 @@ import parse from 'parse-duration';
 // @ts-ignore
 import parseDataURL from 'data-urls';
 
-const SLIDESHOW_DIRECTORY = './src/app/slideshows';
+const SLIDESHOW_DIRECTORY = 'C://users/coworking/documents/github/ozone/src/app/slideshows';
 
 // let win:BrowserWindow;
 

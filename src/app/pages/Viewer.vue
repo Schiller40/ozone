@@ -108,6 +108,7 @@ export default {
           if (nextSlide.mime != 'text/plain'){
             let l = document.createElement('link')
             l.rel = 'prefetch'
+            l.as = 'image'
             l.href = this.resolvePath(nextSlide.url, nextSlideNo)
             document.getElementById(`slide-${this.no - 0 + 1}`).appendChild(l)
             if (nextSlide.text != undefined){

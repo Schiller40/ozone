@@ -1,5 +1,6 @@
-/*example duration of 2s or §duration has to be replaced!*/
+/*example duration of $duration has to be replaced!*/
 
+$duration: 2s;
 
 
 /*=====simultaneous transitions=====*/
@@ -19,7 +20,7 @@
   transform: translateY(-100vh);
 }
 .slide-up-enter-active, .slide-up-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-down-enter{
@@ -35,7 +36,7 @@
   transform: translateY(100vh);
 }
 .slide-down-enter-active, .slide-down-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-right-enter{
@@ -51,7 +52,7 @@
   transform: translateX(100vw);
 }
 .slide-right-enter-active, .slide-right-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-left-enter{
@@ -67,7 +68,7 @@
   transform: translateX(-100vw);
 }
 .slide-left-enter-active, .slide-left-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -85,10 +86,10 @@
   opacity: .5; /*please don't modify the default wrapper color (black) or else this animation doesn't make the "shadow" sense*/
 }
 .slide-over-up-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .slide-over-up-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-over-down-enter{
@@ -104,10 +105,10 @@
   opacity: .5; /*please don't modify the default wrapper color (black) or else this animation doesn't make the "shadow" sense*/
 }
 .slide-over-down-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .slide-over-down-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-over-right-enter{
@@ -123,10 +124,10 @@
   opacity: .5; /*please don't modify the default wrapper color (black) or else this animation doesn't make the "shadow" sense*/
 }
 .slide-over-right-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .slide-over-right-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-over-left-enter{
@@ -142,10 +143,10 @@
   opacity: .5; /*please don't modify the default wrapper color (black) or else this animation doesn't make the "shadow" sense*/
 }
 .slide-over-left-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .slide-over-left-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -173,10 +174,10 @@
   background-color: black
 }
 .alt-slide-over-up-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .alt-slide-over-up-leave-active::after, .alt-slide-over-up-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .alt-slide-over-down-enter{
@@ -202,10 +203,10 @@
   background-color: black
 }
 .alt-slide-over-down-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .alt-slide-over-down-leave-active::after, .alt-slide-over-down-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .alt-slide-over-right-enter{
@@ -231,10 +232,10 @@
   background-color: black
 }
 .alt-slide-over-right-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .alt-slide-over-right-leave-active::after, .alt-slide-over-right-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 .alt-slide-over-left-enter{
@@ -260,10 +261,10 @@
   background-color: black
 }
 .alt-slide-over-left-enter-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 .alt-slide-over-left-leave-active::after, .alt-slide-over-left-leave-active{
-  transition: opacity 2s cubic-bezier(.4,0,.39,1);
+  transition: opacity $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -277,7 +278,7 @@
   z-index: 1;
 }
 .slide-away-up-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-away-down-leave{
@@ -289,7 +290,7 @@
   z-index: 1;
 }
 .slide-away-down-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-away-right-leave{
@@ -301,7 +302,7 @@
   z-index: 1;
 }
 .slide-away-right-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 .slide-away-left-leave{
@@ -313,7 +314,7 @@
   z-index: 1;
 }
 .slide-away-left-leave-active{
-  transition: transform 2s cubic-bezier(.4,0,.39,1);
+  transition: transform $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -327,13 +328,13 @@
   z-index: 1;
 }
 .zoom-leave-active{
-  transition: transform 2s ease-in-out, opacity 1.4s ease-in;
+  transition: transform $duration ease-in-out, opacity calc(#{$duration} * .7) ease-in;
 }
 .zoom-enter{
   transform: scale(.4);
 }
 .zoom-enter-active{
-  transition: transform 2s ease-in-out;
+  transition: transform $duration ease-in-out;
 }
 
 
@@ -355,7 +356,7 @@
   z-index: 0;
 }
 .mirror-3d-ccw-enter-active, .mirror-3d-ccw-leave-active{
-  transition: transform 2s ease-in-out, z-index 2s linear
+  transition: transform $duration ease-in-out, z-index $duration linear
 }
 
 .mirror-3d-cw-leave{
@@ -375,7 +376,7 @@
   z-index: 0;
 }
 .mirror-3d-cw-enter-active, .mirror-3d-cw-leave-active{
-  transition: transform 2s ease-in-out, z-index 2s linear
+  transition: transform $duration ease-in-out, z-index $duration linear
 }
 
 
@@ -391,7 +392,7 @@
   transform: scale(.6);
 }
 .card-stack-up-leave-active, .card-stack-up-enter-active{
-  transition: transform 1s cubic-bezier(0,.68,.57,.89);
+  transition: transform calc(#{$duration} * .5) ease-out;
 }
 
 .card-stack-down-leave{
@@ -405,7 +406,7 @@
   transform: scale(.6);
 }
 .card-stack-down-leave-active, .card-stack-down-enter-active{
-  transition: transform 1s cubic-bezier(0,.68,.57,.89);
+  transition: transform calc(#{$duration} * .5) ease-out;
 }
 
 .card-stack-left-leave{
@@ -413,13 +414,13 @@
 }
 .card-stack-left-leave-to{
   z-index: 1;
-  transform: translateX(-100vh);
+  transform: translateX(-100vw);
 }
 .card-stack-left-enter{
   transform: scale(.6);
 }
 .card-stack-left-leave-active, .card-stack-left-enter-active{
-  transition: transform 1s cubic-bezier(0,.68,.57,.89);
+  transition: transform calc(#{$duration} * .5) ease-out;
 }
 
 .card-stack-right-leave{
@@ -427,13 +428,13 @@
 }
 .card-stack-right-leave-to{
   z-index: 1;
-  transform: translateX(100vh);
+  transform: translateX(100vw);
 }
 .card-stack-right-enter{
   transform: scale(.6);
 }
 .card-stack-right-leave-active, .card-stack-right-enter-active{
-  transition: transform 1s cubic-bezier(0,.68,.57,.89);
+  transition: transform calc(#{$duration} * .5) ease-out;
 }
 
 
@@ -451,7 +452,7 @@
   transform: scaleY(0);
 }
 .accordeon-up-enter-active, .accordeon-up-leave-active{
-  transition: all 2s ease-out;
+  transition: all $duration ease-out;
 }
 
 .accordeon-down-leave-to{
@@ -467,7 +468,7 @@
   transform: scaleY(0);
 }
 .accordeon-down-enter-active, .accordeon-down-leave-active{
-  transition: all 2s ease-out;
+  transition: all $duration ease-out;
 }
 
 .accordeon-left-leave-to{
@@ -483,7 +484,7 @@
   transform: scaleX(0);
 }
 .accordeon-left-enter-active, .accordeon-left-leave-active{
-  transition: all 2s ease-out;
+  transition: all $duration ease-out;
 }
 
 .accordeon-right-leave-to{
@@ -499,7 +500,7 @@
   transform: scaleX(0);
 }
 .accordeon-right-enter-active, .accordeon-right-leave-active{
-  transition: all 2s ease-out;
+  transition: all $duration ease-out;
 }
 
 
@@ -508,7 +509,7 @@
   filter: blur(6vw);
 }
 .blur-fade-leave-active{
-  transition: filter .8s ease-in, opacity 1.2s linear;
+  transition: filter calc(#{$duration} * .5) ease-in, opacity calc(#{$duration} * .6) linear;
 }
 .blur-fade-enter{
   filter: blur(6vw);
@@ -519,7 +520,7 @@
   opacity: 1;
 }
 .blur-fade-enter-active{
-  transition: filter .8s ease-out 1.2s, opacity .4s linear .8s;
+  transition: filter calc(#{$duration} * .5) ease-out calc(#{$duration} * .5), opacity calc(#{$duration} * .2) ease-in-out calc(#{$duration} * .4);
 }
 
 
@@ -532,7 +533,7 @@
   opacity: 0;
 }
 .fade-enter-active{
-  transition: opacity 2s linear;
+  transition: opacity $duration linear;
 }
 
 
@@ -544,7 +545,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-split-horizontal-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 .sharp-split-vertical-enter{
@@ -554,7 +555,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-split-vertical-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -566,7 +567,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-line-up-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 .sharp-line-down-enter{
@@ -576,7 +577,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-line-down-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 .sharp-line-left-enter{
@@ -586,7 +587,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-line-left-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 .sharp-line-right-enter{
@@ -596,7 +597,7 @@
   clip-path: inset(0% 0% 0% 0%);
 }
 .sharp-line-right-enter-active{
-  transition: clip-path 2s cubic-bezier(.4,0,.39,1);
+  transition: clip-path $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -614,7 +615,7 @@
   -webkit-mask-position: bottom;
 }
 .soft-line-up-enter-active{
-  transition: -webkit-mask-position 2s cubic-bezier(.4,0,.39,1);
+  transition: -webkit-mask-position $duration cubic-bezier(.4,0,.39,1);
 }
 
 .soft-line-down-enter{
@@ -630,7 +631,7 @@
   -webkit-mask-position: top;
 }
 .soft-line-down-enter-active{
-  transition: -webkit-mask-position 2s cubic-bezier(.4,0,.39,1);
+  transition: -webkit-mask-position $duration cubic-bezier(.4,0,.39,1);
 }
 
 .soft-line-left-enter{
@@ -646,7 +647,7 @@
   -webkit-mask-position: right;
 }
 .soft-line-left-enter-active{
-  transition: -webkit-mask-position 2s cubic-bezier(.4,0,.39,1);
+  transition: -webkit-mask-position $duration cubic-bezier(.4,0,.39,1);
 }
 
 .soft-line-right-enter{
@@ -662,7 +663,7 @@
   -webkit-mask-position: left;
 }
 .soft-line-right-enter-active{
-  transition: -webkit-mask-position 2s cubic-bezier(.4,0,.39,1);
+  transition: -webkit-mask-position $duration cubic-bezier(.4,0,.39,1);
 }
 
 
@@ -676,7 +677,135 @@
   clip-path: inset(0%);
 }
 .zoom-out-clip-enter-active{
-  transition: transform 2s ease-in-out, clip-path 2s ease-out;
+  transition: transform $duration ease-in-out, clip-path $duration ease-out;
+}
+
+
+/*ios-notifications-down*/
+.ios-notifications-up-enter-to{
+  filter: blur(0vmax);
+  transform: scale(1);
+  clip-path: inset(0% 0% 0% 0%);
+}
+.ios-notifications-up-enter{
+  filter: blur(3vmax);
+  transform: scale(1.1);
+  clip-path: inset(0% 0% 100% 0%);
+}
+.ios-notifications-up-enter-active{
+  transition: all $duration ease-out;
+}
+
+.ios-notifications-down-enter-to{
+  filter: blur(0vmax);
+  transform: scale(1);
+  clip-path: inset(0% 0% 0% 0%);
+}
+.ios-notifications-down-enter{
+  filter: blur(3vmax);
+  transform: scale(1.1);
+  clip-path: inset(100% 0% 0% 0%);
+}
+.ios-notifications-down-enter-active{
+  transition: all $duration ease-out;
+}
+
+.ios-notifications-left-enter-to{
+  filter: blur(0vmax);
+  transform: scale(1);
+  clip-path: inset(0% 0% 0% 0%);
+}
+.ios-notifications-left-enter{
+  filter: blur(3vmax);
+  transform: scale(1.1);
+  clip-path: inset(0% 0% 0% 100%);
+}
+.ios-notifications-left-enter-active{
+  transition: all $duration ease-out;
+}
+
+.ios-notifications-right-enter-to{
+  filter: blur(0vmax);
+  transform: scale(1);
+  clip-path: inset(0% 0% 0% 0%);
+}
+.ios-notifications-right-enter{
+  filter: blur(3vmax);
+  transform: scale(1.1);
+  clip-path: inset(0% 100% 0% 0%);
+}
+.ios-notifications-right-enter-active{
+  transition: all $duration ease-out;
+}
+
+
+/*pop-in*/
+.pop-in-up-enter-active{
+	animation: pop-in-up $duration forwards ease-in-out;
+}
+@keyframes pop-in-up{
+  0%{
+    transform: scale(.3);
+    top: 70vh;
+  }
+  50%{
+    top: -10vh;
+  }
+  100%{
+    transform: scale(1);
+    top: 0vh;
+  }
+}
+
+.pop-in-down-enter-active{
+	animation: pop-in-down $duration forwards ease-in-out;
+}
+@keyframes pop-in-down{
+  0%{
+    transform: scale(.3);
+    bottom: 70vh;
+  }
+  50%{
+    bottom: -10vh;
+  }
+  100%{
+    transform: scale(1);
+    bottom: 0vh;
+  }
+}
+
+.pop-in-left-enter-active{
+	animation: pop-in-left $duration forwards ease-in-out;
+}
+@keyframes pop-in-left{
+  0%{
+    transform: scale(.3);
+    left: 70vw;
+  }
+  50%{
+    left: -10vw;
+  }
+  100%{
+    transform: scale(1);
+    left: 0vw;
+  }
+}
+
+.pop-in-right-enter-active{
+	animation: pop-in-right $duration forwards ease-in-out;
+}
+@keyframes pop-in-right{
+  0%{
+    transform: scale(.3);
+    right: 70vw;
+  }
+  50%{
+    right: -10vw;
+  }
+  100%{
+    transform: scale(1);
+    right: 0vw;
+  }
 }
 
 
