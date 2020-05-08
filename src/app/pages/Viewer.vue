@@ -88,6 +88,7 @@ export default {
         const lastSlide = this.no == slideshow.slides.length - 1
         const nextSlideNo = lastSlide ? (slideshow.repeat ? 0 : -1) : this.no - 0 + 1
         const nextSlide = slideshow.slides[nextSlideNo]
+        const previousSlideNo = this.no == 0 ? slideshow.slides.length - 1 : this.no - 1
         console.log(`momentan: ${this.no}, nächste: ${nextSlideNo}`);
         let videoDurationControl = false
         if (slide.duration != 'auto'){
@@ -179,6 +180,19 @@ export default {
             })
           }
         }
+        document.onkeydown = e => {
+          if (e.key == 'ArrowRight'){
+            this.newSlide(nextSlideNo)
+          } else if (e.key == 'ArrowLeft'){
+            this.newSlide(previousSlideNo)
+          } else if (e.key == 'h'){
+            this.$router.push('/viewer/')
+          } else if (e.key == 'a'){
+            this.newSlide(previousSlideNo, false)
+          } else if (e.key == 'd'){
+            this.newSlide(nextSlideNo, false)
+          }
+        }
       })
     },
     resolvePath(url, slide = this.no){
@@ -204,9 +218,9 @@ export default {
         console.log(err);
       })
     },
-    newSlide(slide){
+    newSlide(slide, transition = true){
       if (slide != -1){
-        this.$emit('setTransition', this.transition)
+        this.$emit('setTransition', transition ? this.transition : {})
         this.$router.push(`/viewer/${this.id}/${slide}`)
       }
     },
