@@ -1,35 +1,35 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Viewer from '@/pages/Viewer.vue'
+import ShowSlide from '@/subpages/ShowSlide.vue'
 import Setup from '@/pages/Setup.vue'
 import DevEntry from '@/pages/DevEntry.vue'
-import WiFiSettings from '@/components/WiFiSettings.vue'
-import DeviceSettings from '@/components/DeviceSettings.vue'
-import OzoneNetworkSettings from '@/components/OzoneNetworkSettings.vue'
+import WiFiSettings from '@/subpages/WiFiSettings.vue'
+import DeviceSettings from '@/subpages/DeviceSettings.vue'
+import OzoneNetworkSettings from '@/subpages/OzoneNetworkSettings.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/viewer/:slideshowId/:slideNo',
+      path: '/viewer',
       name: 'Viewer',
       component: Viewer,
-      props: true
-    },
-    {
-      path: '/viewer/:slideshowId',
-      name: 'ViewerEmptyNoSlideNo',
-      component: Viewer,
-      props: true
-    },
-    {
-      path: '/viewer',
-      name: 'ViewerEmptyNoSlideshow',
-      component: Viewer,
-      props: {
-        slideshowId: 'nA'
-      }
+      children: [
+        {
+          path: ':slideshowId/:slideNo',
+          name: 'ShowSlide',
+          component: ShowSlide,
+          props: true
+        },
+        {
+          path: ':slideshowId',
+          name: 'ShowSlideEmptyNoSlideNo',
+          component: ShowSlide,
+          props: true
+        }
+      ]
     },
     {
       path: '/setup',

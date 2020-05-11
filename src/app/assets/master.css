@@ -7,6 +7,7 @@
 body {
   margin: 0;
   overflow: hidden;
+  background-color: black;
 }
 
 .slide{
@@ -36,6 +37,6 @@ body {
 .ozone-setup-screen-leave-to{
   transform: translateX(-100vw);
 }
-.ozone-setup-screen-enter-active, .setup-screen-leave-active{
+.ozone-setup-screen-enter-active, .ozone-setup-screen-leave-active{
   transition: transform 2s cubic-bezier(.4,0,.39,1);
 }

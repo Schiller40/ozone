@@ -12,6 +12,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.devEntry{
+  position: absolute;
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+}
 a{
   color: white;
   margin: 0rem 1rem;

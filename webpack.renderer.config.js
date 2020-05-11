@@ -11,6 +11,10 @@ rules.push({
   test: /\.scss$/,
   use: [{ loader: 'vue-style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }]
 })
+rules.push({
+  test: /\.(jpg|svg|png)$/,
+  use: [{loader: 'file-loader'}]
+})
 
 rules.push({
   test: /\.vue$/,
@@ -29,6 +33,6 @@ module.exports = {
         '@': resolve('./src/app'),
         '~': resolve('./src/app')
     },
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.scss', '.css', '.vue']
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.scss', '.css', '.vue', '.jpg', '.png', '.svg']
   },
 };

@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="setup">
-
+    <transition name='ozone-setup-screen'>
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -13,9 +15,21 @@ export default {
   },
   mounted(){
     this.$emit('setTransition', 'ozone-setup-screen')
+    if (this.$route.path == '/setup')
+      this.$router.push('/setup/wifisettings')
   }
 }
 </script>
 
 <style lang="css" scoped>
+.setup{
+  background-image: url('../assets/Setup_Background.jpg');
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Rubik;
+}
 </style>

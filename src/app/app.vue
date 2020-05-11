@@ -1,9 +1,7 @@
 <template lang="html">
-  <div class="wrapper" :id="wrapperId">
-    <transition :name="transition.name" :mode="transition.mode">
-      <router-view v-model="wrapperId" @setTransition="transition = $event" :key="$route.fullPath"/>
-    </transition>
-  </div>
+  <transition :name="transition.name" :mode="transition.mode">
+    <router-view v-model="wrapperId" @setTransition="transition = $event"/>
+  </transition>
 </template>
 
 <script>
@@ -13,7 +11,7 @@ export default{
     return{
       wrapperId: 'wrapper',
       transition: {
-        name: '',
+        name: 'ozone-setup-screen',
         mode: ''
       }
     }

@@ -1,12 +1,17 @@
 <template lang="html">
+  <div class="wifi-network">
 
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'wifiSettings'
+  name: 'wifiNetwork'
 }
 </script>
 
 <style lang="css" scoped>
+.wifi-network{
+
+}
 </style>

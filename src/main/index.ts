@@ -7,6 +7,9 @@ import path from 'path';
 import parse from 'parse-duration';
 // @ts-ignore
 import parseDataURL from 'data-urls';
+// @ts-ignore
+import wifi from 'node-wifi'
+import si from 'systeminformation'
 
 const SLIDESHOW_DIRECTORY = 'C://users/coworking/documents/github/ozone/src/app/slideshows';
 
@@ -71,6 +74,18 @@ function getAvailableSlideshows(){
   })
 }
 
+ipcMain.handle('getWiFiNetworks', async () => {
+  return wifi.scan()
+})
+
+ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
+  return wifi.connect({ssid: ssid, password: password})
+})
+
+ipcMain.handle('getCurrentWiFiConnections', async() => {
+  return wifi.getCurrentConnections()
+})
+
 ipcMain.on('parse', (event, str) => {
   event.returnValue = parse(str)
 })
@@ -122,6 +137,9 @@ const createWindow = () => {
 
   // win = mainWindow
 };
+wifi.init({
+  iface: null
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
