@@ -107,6 +107,7 @@
     "systeminformation": "^4.25.1",
     "vue": "^2.6.11",
     "vue-property-decorator": "^8.4.1",
-    "vue-router": "^3.1.6"
+    "vue-router": "^3.1.6",
+    "vue-svg-inline-loader": "^1.5.0"
   }
 }

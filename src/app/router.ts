@@ -4,7 +4,7 @@ import Viewer from '@/pages/Viewer.vue'
 import ShowSlide from '@/subpages/ShowSlide.vue'
 import Setup from '@/pages/Setup.vue'
 import DevEntry from '@/pages/DevEntry.vue'
-import WiFiSettings from '@/subpages/WiFiSettings.vue'
+import LANSettings from '@/subpages/LANSettings.vue'
 import DeviceSettings from '@/subpages/DeviceSettings.vue'
 import OzoneNetworkSettings from '@/subpages/OzoneNetworkSettings.vue'
 
@@ -37,9 +37,9 @@ export default new Router({
       component: Setup,
       children: [
         {
-          path: 'wifisettings',
-          name: 'WiFiSettings',
-          component: WiFiSettings
+          path: 'lansettings',
+          name: 'LANSettings',
+          component: LANSettings
         },
         {
           path: 'devicesettings',

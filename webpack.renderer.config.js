@@ -18,7 +18,7 @@ rules.push({
 
 rules.push({
   test: /\.vue$/,
-  loader: 'vue-loader'
+  use: [{loader: 'vue-loader'}, {loader: 'vue-svg-inline-loader'}]
 });
 
 plugins.push( new VueLoaderPlugin())

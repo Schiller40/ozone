@@ -86,6 +86,10 @@ ipcMain.handle('getCurrentWiFiConnections', async() => {
   return wifi.getCurrentConnections()
 })
 
+ipcMain.handle('getNetworkInterfaceDefault', async() => {
+  return si.networkInterfaceDefault();
+})
+
 ipcMain.on('parse', (event, str) => {
   event.returnValue = parse(str)
 })

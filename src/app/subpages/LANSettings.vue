@@ -1,8 +1,7 @@
 <template lang="html">
-  <div class="wifi-settings">
-    <h1>WLAN</h1>
-    <p>Bitte richten Sie ein WLAN-Netzwerk ein, um Ozone nutzen zu können.</p><br>
-    <p style="margin-bottom: 0px">Verfügbare Netzwerke</p>
+  <div class="lan-settings">
+    <h1>Netzwerk</h1>
+    <p>Bitte richten Sie eine Netzwerkverbindung ein, um Ozone nutzen zu können.</p><br>
     <WiFiNetworks />
   </div>
 </template>
@@ -18,7 +17,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.wifi-settings{
+.lan-settings{
   position: absolute;
   width: 60rem;
   max-width: 80%;

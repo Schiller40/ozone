@@ -1,7 +1,3 @@
-const wifi = require('node-wifi')
-async function getWiFiNetworks(){
-  await wifi.init({iface: null})
-  const c = await wifi.getCurrentConnections()
-  console.log(c)
-}
-getWiFiNetworks();
+const si = require('systeminformation')
+console.log(1);
+si.networkInterfaceDefault(result => {console.log(result); console.log(2);})

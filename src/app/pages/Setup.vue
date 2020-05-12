@@ -16,7 +16,7 @@ export default {
   mounted(){
     this.$emit('setTransition', 'ozone-setup-screen')
     if (this.$route.path == '/setup')
-      this.$router.push('/setup/wifisettings')
+      this.$router.push('/setup/lansettings')
   }
 }
 </script>
