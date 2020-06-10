@@ -2,7 +2,7 @@
   <div class="slide" :id="`slide-${parseInt(no) + 1}`">
     <img class="image" :id="`image-${parseInt(no) + 1}`" v-if="containsImage" :src="imageSrc" v-show="loaded" @load="loaded = true" draggable="false">
     <video class="video" :id="`video-${parseInt(no) + 1}`" v-if="containsVideo" :src="videoSrc" autoplay></video>
-    <iframe class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe" :src="iframeSrc"></iframe>
+    <iframe class="iframe" :id="`iframe-${parseInt(no) + 1}`" v-if="containsIframe" :src="iframeSrc" :onerror="console.log('unable to show iframe')"></iframe>
     <p class="text" :id="`text-${parseInt(no) + 1}`" v-if="containsText">{{text}}</p>
   </div>
 </template>
@@ -32,6 +32,8 @@ export default {
       to: -1,
       loaded: false,
 
+      console,
+
       transition: {
         name: '',
         mode: ''
@@ -39,7 +41,6 @@ export default {
     }
   },
   mounted(){
-    this.$emit('setValid')
     if(this.no == undefined){
       this.no = 0
     }

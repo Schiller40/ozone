@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import RouterPrefetch from 'vue-router-prefetch'
 import Viewer from '@/pages/Viewer.vue'
 import ShowSlide from '@/subpages/ShowSlide.vue'
 import Setup from '@/pages/Setup.vue'
@@ -7,8 +8,10 @@ import DevEntry from '@/pages/DevEntry.vue'
 import LANSettings from '@/subpages/LANSettings.vue'
 import DeviceSettings from '@/subpages/DeviceSettings.vue'
 import OzoneNetworkSettings from '@/subpages/OzoneNetworkSettings.vue'
+import SetupComplete from '@/subpages/SetupComplete.vue'
 
 Vue.use(Router)
+Vue.use(RouterPrefetch)
 
 export default new Router({
   routes: [
@@ -21,13 +24,23 @@ export default new Router({
           path: ':slideshowId/:slideNo',
           name: 'ShowSlide',
           component: ShowSlide,
-          props: true
+          props: true,
+          beforeEnter: (_to, from, next) => {
+            console.log("test");
+            
+            if(from.fullPath.startsWith('/setup')) return
+            next()
+          }
         },
         {
           path: ':slideshowId',
           name: 'ShowSlideEmptyNoSlideNo',
           component: ShowSlide,
-          props: true
+          props: true,
+          beforeEnter: (_to, from, next) => {
+            if(from.fullPath.startsWith('/setup')) return
+            next()
+          }
         }
       ]
     },
@@ -38,6 +51,7 @@ export default new Router({
       children: [
         {
           path: 'lansettings',
+          alias: '',
           name: 'LANSettings',
           component: LANSettings
         },
@@ -50,6 +64,11 @@ export default new Router({
           path: 'ozonenetworksettings',
           name: 'OzoneNetworkSettings',
           component: OzoneNetworkSettings
+        },
+        {
+          path: 'setupcomplete',
+          name: 'SetupComplete',
+          component: SetupComplete
         }
       ]
     },

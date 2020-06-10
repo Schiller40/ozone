@@ -3,6 +3,7 @@
 
 *{
   user-select: none;
+  font-family: Rubik, sans-serif;
 }
 *:focus{
   outline: none;
@@ -27,6 +28,20 @@ body {
   background-color: black;
 }
 
+.ozoneTextInput{
+  padding: .5rem;
+  border-radius: .25rem;
+  border: none;
+  background-color: #fffcf9cc;
+  box-shadow: 1px 1px 5px #0002;
+  transition: box-shadow .3s;
+  display: block;
+  font-size: 1rem;
+  &:focus{
+    box-shadow: 1px 1px 3px #0005;
+  }
+}
+
 
 
 .ozone-setup-screen-enter{
@@ -42,5 +57,21 @@ body {
   transform: translateX(-100vw);
 }
 .ozone-setup-screen-enter-active, .ozone-setup-screen-leave-active{
+  transition: transform 2s cubic-bezier(.4,0,.39,1);
+}
+
+.ozone-setup-screen-back-enter{
+  transform: translateX(-100vw);
+}
+.ozone-setup-screen-back-enter-to{
+  transform: translateX(0vh);
+}
+.ozone-setup-screen-back-leave{
+  transform: translateX(0vh);
+}
+.ozone-setup-screen-back-leave-to{
+  transform: translateX(100vw);
+}
+.ozone-setup-screen-back-enter-active, .ozone-setup-screen-back-leave-active{
   transition: transform 2s cubic-bezier(.4,0,.39,1);
 }

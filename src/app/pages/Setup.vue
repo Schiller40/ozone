@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="setup">
-    <transition name='ozone-setup-screen'>
-      <router-view/>
+    <transition :name='transitionName'>
+      <router-view @ok="ok()" @cancel="cancel()" confirmButtonText="Weiter" cancelButtonText="Zurück" />
     </transition>
   </div>
 </template>
@@ -11,12 +11,41 @@ export default {
   name: 'setup',
   data(){
     return {
+      transitionName: 'ozone-setup-screen'
     }
   },
   mounted(){
-    this.$emit('setTransition', 'ozone-setup-screen')
     if (this.$route.path == '/setup')
       this.$router.push('/setup/lansettings')
+  },
+  methods: {
+    ok(){
+      this.transitionName = 'ozone-setup-screen'
+      console.log('ok');
+      switch(this.$route.path){
+        case '/setup/lansettings':
+          this.$router.push('/setup/devicesettings')
+          break;
+        case '/setup/devicesettings':
+          this.$router.push('/setup/ozonenetworksettings')
+          break;
+        case '/setup/ozonenetworksettings':
+          this.$router.push('/setup/setupcomplete')
+          break;
+      }
+    },
+    cancel(){
+      this.transitionName = 'ozone-setup-screen-back'
+      console.log('cancel')
+      this.$router.go(-1)
+    },
+    // newData(key, data){
+    //   switch(key){
+    //     case 'deviceSettings':
+    //       window.localStorage.setItem('', '')
+    //       break;
+    //   }
+    // }
   }
 }
 </script>

@@ -1,11 +1,12 @@
 {
   "id": "07454d4e3efae6aa54fed4b08c0b316bdb7c4c8270ca56d81a72704807825006",
   "spec_version": "0.0.4",
+  "lastModified": 4,
   "name": "Image Test Slideshow",
   "timing": [
     {
-      "start": "10,40 * * * *",
-      "duration": "7min"
+      "start": "36 * * * * *",
+      "duration": "12s"
     }
   ],
   "recipients": ["testDeviceID"],

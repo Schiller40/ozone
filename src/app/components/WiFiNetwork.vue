@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="wifi-network">
-    <input type="radio" :id="network.ssid" name="wifinetwork" v-model="checked" :value="network.ssid">
+    <input type="radio" :id="network.ssid" name="wifinetwork" v-model="checked" :value="network.ssid ? network.ssid : 'd'">
     <label :for="network.ssid">{{network.ssid ? network.ssid : '(Ausgeblendetes Netzwerk)'}}</label>
     <p v-if="checked">Test</p>
   </div>
@@ -10,11 +10,11 @@
 export default {
   name: 'wifiNetwork',
   props: [
-    'network'
+    'network',
+    'checked'
   ],
   data(){
     return{
-      checked: false
     }
   }
 }

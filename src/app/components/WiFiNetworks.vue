@@ -4,7 +4,7 @@
     <p class="noNetworksAvailable" v-if="networks && networks.length === 0">Keine WLAN-Netzwerke gefunden</p>
     <p class="errorMessage" v-if="error">{{error}}</p>
     <form class="networks" v-if="!error">
-      <WiFiNetwork v-for="(network, index) of networks" :network="network" :key="`network-${index}`"/>
+      <WiFiNetwork v-for="(network, index) of networks" :network="network" :key="`network-${network.ssid}`"/>
     </form>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
     return{
       networks: null,
       searching: false,
-      connected: null,
+      connected: true,
       connectedNetworks: null,
       error: null,
 

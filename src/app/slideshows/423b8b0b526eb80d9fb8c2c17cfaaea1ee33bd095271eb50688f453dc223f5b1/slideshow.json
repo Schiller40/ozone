@@ -1,11 +1,12 @@
 {
   "id": "423b8b0b526eb80d9fb8c2c17cfaaea1ee33bd095271eb50688f453dc223f5b1",
   "spec_version": "0.0.4",
+  "lastModified": 3,
   "name": "Text Test Slideshow",
   "timing": [
     {
-      "start": "33,3 * * * *",
-      "duration": "8min"
+      "start": "24 * * * * *",
+      "duration": "12s"
     }
   ],
   "recipients": ["testDeviceID"],

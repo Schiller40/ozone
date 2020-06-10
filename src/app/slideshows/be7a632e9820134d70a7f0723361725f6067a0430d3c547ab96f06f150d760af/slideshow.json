@@ -1,11 +1,12 @@
 {
   "id": "be7a632e9820134d70a7f0723361725f6067a0430d3c547ab96f06f150d760af",
   "spec_version": "0.0.5",
+  "lastModified": 5,
   "name": "Transition test slideshow",
   "timing": [
     {
-      "start": "10,40 * * * *",
-      "duration": "7min"
+      "start": "48 * * * * *",
+      "duration": "12s"
     }
   ],
   "recipients": ["testDeviceID"],

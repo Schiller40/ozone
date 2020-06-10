@@ -26,6 +26,9 @@ export default{
     }
   },
   mounted(){
+    if (!this.id){
+      this.$emit('showCurrentSlideshow')
+    }
   }
 }
 </script>
