@@ -1,8 +1,8 @@
 <template>
   <img
-    :src="``"
+    :src="src"
     :alt="src"
-    :id="`image-${no - 0 + 1}`"
+    :id="`image-${no + 1}`"
     class="image"
     v-show="loaded"
     @load="loaded = true"
@@ -11,23 +11,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  name: "ShowImage",
 })
-@Component
 export default class ShowImage extends Vue {
+  @Prop({ default: "error" })
+  url: string;
   @Prop()
-  id: string
-  @Prop()
-  no: number
-  @Prop()
-  path: string
+  no: number;
 
-  loaded: boolean = false
+  loaded: boolean = false;
 
-  mounted() {}
+  get src(): string {
+    return this.url.startsWith("http://") ||
+      this.url.startsWith("https://") ||
+      this.url.startsWith("data:text/plain")
+      ? this.src
+      : `http://127.0.0.1:5230/transfer/${this.$route.params.slideshowid}/${this.no}/${this.url}`;
+  }
 }
 </script>
 

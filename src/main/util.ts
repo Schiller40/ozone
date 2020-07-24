@@ -3,6 +3,8 @@ import { Service, Inject } from 'typedi'
 import dotProp from 'dot-prop'
 import { debuglog } from 'util'
 const debug = debuglog('util')
+import fs from 'fs'
+const fsP = fs.promises
 
 @Service('store')
 export class Store {
@@ -81,4 +83,17 @@ function parseDotPath(path: string) {
     group: parts.shift(),
     restPath: parts.join('.')
   }
+}
+
+export function getJSON(path: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    fsP
+      .readFile(path)
+      .then(data => {
+        resolve(JSON.parse(data.toString()))
+      })
+      .catch(e => {
+        reject(e)
+      })
+  })
 }

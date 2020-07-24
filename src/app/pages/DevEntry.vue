@@ -5,20 +5,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'devEntry'
-}
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+@Component({
+  name: "devEntry"
+})
+export default class DevEntry extends Vue {}
 </script>
 
 <style lang="css" scoped>
-.devEntry{
+.devEntry {
   position: absolute;
   background-color: black;
   width: 100vw;
   height: 100vh;
 }
-a{
+a {
   color: white;
   margin: 0rem 1rem;
   padding: 1rem 0rem 0rem 0rem;

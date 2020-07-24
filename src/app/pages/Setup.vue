@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="setup">
-    <transition :name='transitionName'>
+    <transition :name="transitionName">
       <router-view @ok="ok()" @cancel="cancel()" confirmButtonText="Weiter" cancelButtonText="Zurück" />
     </transition>
   </div>
@@ -9,36 +9,35 @@
 <script>
 export default {
   name: 'setup',
-  data(){
+  data() {
     return {
       transitionName: 'ozone-setup-screen'
     }
   },
-  mounted(){
-    if (this.$route.path == '/setup')
-      this.$router.push('/setup/lansettings')
+  mounted() {
+    if (this.$route.path == '/setup') this.$router.push('/setup/lansettings')
   },
   methods: {
-    ok(){
+    ok() {
       this.transitionName = 'ozone-setup-screen'
-      console.log('ok');
-      switch(this.$route.path){
+      console.log('ok')
+      switch (this.$route.path) {
         case '/setup/lansettings':
           this.$router.push('/setup/devicesettings')
-          break;
+          break
         case '/setup/devicesettings':
           this.$router.push('/setup/ozonenetworksettings')
-          break;
+          break
         case '/setup/ozonenetworksettings':
           this.$router.push('/setup/setupcomplete')
-          break;
+          break
       }
     },
-    cancel(){
+    cancel() {
       this.transitionName = 'ozone-setup-screen-back'
       console.log('cancel')
       this.$router.go(-1)
-    },
+    }
     // newData(key, data){
     //   switch(key){
     //     case 'deviceSettings':
@@ -51,8 +50,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.setup{
+.setup {
   background-image: url('../assets/Setup_Background.jpg');
+  background-position: center;
   width: 100vw;
   height: 100vh;
   background-size: cover;

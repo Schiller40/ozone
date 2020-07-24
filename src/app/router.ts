@@ -2,13 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import RouterPrefetch from 'vue-router-prefetch'
 import Viewer from '@/pages/Viewer.vue'
-import ShowSlide from '@/subpages/ShowSlide.vue'
+import Slideshow from '@/pages/Slideshow.vue'
+import Slide from '@/pages/Slide.vue'
 import Setup from '@/pages/Setup.vue'
 import DevEntry from '@/pages/DevEntry.vue'
 import LANSettings from '@/subpages/LANSettings.vue'
 import DeviceSettings from '@/subpages/DeviceSettings.vue'
 import OzoneNetworkSettings from '@/subpages/OzoneNetworkSettings.vue'
 import SetupComplete from '@/subpages/SetupComplete.vue'
+import InvalidSlideshow from '@/pages/InvalidSlideshow.vue'
+import EmptySlideshow from '@/pages/EmptySlideshow.vue'
 
 Vue.use(Router)
 Vue.use(RouterPrefetch)
@@ -21,26 +24,38 @@ export default new Router({
       component: Viewer,
       children: [
         {
-          path: ':slideshowId/:slideNo',
-          name: 'ShowSlide',
-          component: ShowSlide,
-          props: true,
-          beforeEnter: (_to, from, next) => {
-            console.log("test");
-            
-            if(from.fullPath.startsWith('/setup')) return
-            next()
-          }
+          path: 'invalidslideshow',
+          name: 'InvalidSlideshow',
+          component: InvalidSlideshow
         },
         {
-          path: ':slideshowId',
-          name: 'ShowSlideEmptyNoSlideNo',
-          component: ShowSlide,
+          path: 'emptyslideshow',
+          component: EmptySlideshow,
+          name: 'emptyslideshow'
+        },
+        {
+          path: ':slideshowid',
+          name: 'Slideshow',
+          component: Slideshow,
           props: true,
-          beforeEnter: (_to, from, next) => {
-            if(from.fullPath.startsWith('/setup')) return
+          beforeEnter: (to, _from, next) => {
+            if (to.params.slideshowid.length !== 21) {
+              next('/viewer/invalidslideshow')
+              return
+            }
+            if (!to.params.slideno) {
+              next(`/viewer/${to.params.slideshowid}/0`)
+            }
             next()
-          }
+          },
+          children: [
+            {
+              path: ':slideno',
+              name: 'Slide',
+              component: Slide,
+              props: true
+            }
+          ]
         }
       ]
     },
@@ -73,8 +88,8 @@ export default new Router({
       ]
     },
     {
-      path: '/',
-      alias: '/deventry',
+      path: '/deventry',
+      alias: '/',
       component: DevEntry
     }
   ]
