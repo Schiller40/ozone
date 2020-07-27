@@ -115,10 +115,10 @@ debug('wifi initialized')
 // ipcMain.handle('getSlideshowDirectory', async () => {
 //   return path.resolve(await store.get('root'))
 // })
-ipcMain.on('getLocalIP', event => {
+ipcMain.on('getLocalIP', (event) => {
   event.returnValue = getLocalIP()
 })
-ipcMain.on('isNetworkConnected', event => {
+ipcMain.on('isNetworkConnected', (event) => {
   event.returnValue = getLocalIP() ? true : false
 })
 ipcMain.handle('getAvailableSlideshows', async () => {
@@ -173,13 +173,13 @@ function getLocalIP() {
 }
 
 function getAvailableSlideshows(): Promise<{ success: string[]; err: Error[] }> {
-  return new Promise(async resolve => {
+  return new Promise(async (resolve) => {
     const root = await store.get('root')
     fs.readdir(root, (_err, files) => {
       let paths: (string | Error)[] = []
       for (let i in files) {
         const p = files[i]
-        fs.access(path.join(root, p, 'slideshow.json'), err => {
+        fs.access(path.join(root, p, 'slideshow.json'), (err) => {
           paths[i] = err ? err : p
           let complete = true
           for (let i2 = 0; i2 < files.length; i2++) {
