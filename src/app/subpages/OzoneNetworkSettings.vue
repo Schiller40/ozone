@@ -57,9 +57,11 @@ export default {
         };
         fetch("http://127.0.0.1:5230/token", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify(credentials)
         });
         this.$emit("ok");
       } else {
