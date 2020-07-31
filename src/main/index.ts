@@ -9,12 +9,18 @@ import si from 'systeminformation'
 import os from 'os'
 import { Container } from 'typedi'
 import { debuglog } from 'util'
+import Redis from 'ioredis'
+import parse from 'parse-duration'
+
+const redis = new Redis()
+redis.subscribe('slideshows', (err, res) => {
+  if (err) console.log(err)
+  else console.log(res)
+})
 
 app.allowRendererProcessReuse = false
 
 const debug = debuglog('ozoneIndex')
-
-import(/* webpackChunkName: 'Anything' */ '../index2.js')
 
 debug('starting index')
 
@@ -51,6 +57,21 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
+
+  redis.on('message', (channel, message) => {
+    console.log(`received ${message} on ${channel}`)
+    const data: {
+      id: string
+      duration: string
+      lastModified: string
+    } = JSON.parse(message)
+    addSlideshowToVisualStack(data.id, Date.parse(data.lastModified))
+    console.log(data)
+    console.log(Date.parse(data.lastModified))
+    setTimeout(() => {
+      removeSlideshowFromVisualStack(data.id)
+    }, parse(data.duration))
+  })
 
   function addSlideshowToVisualStack(id: string, lastModified: number, play?: boolean) {
     mainWindow.webContents.send('addToVisualStack', id, lastModified, play)
