@@ -8,14 +8,22 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator'
+import { Vue, Prop, Component } from "vue-property-decorator";
 
 @Component({
-  name: 'invalidSlideshow'
+  name: "invalidSlideshow",
 })
 export default class InvalidSlideshow extends Vue {
   mounted() {
-    this.$emit('showCurrentSlideshow')
+    document.onkeydown = (e) => {
+      switch (e.key) {
+        case "h":
+          this.$router.push("/");
+      }
+    };
+  }
+  beforeDestroy() {
+    document.onkeydown = () => {};
   }
 }
 </script>

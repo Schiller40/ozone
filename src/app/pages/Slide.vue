@@ -1,15 +1,31 @@
 <template>
   <div class="slide" :id="`slide-${slideno + 1}`">
-    <ShowImage v-if="containsImage" :url="slide.url" :no="slideno" />
-    <ShowIframe v-else-if="containsIframe" :url="slide.url" :no="slideno" />
+    <ShowImage
+      v-if="containsImage"
+      :url="slide.url"
+      :no="slideno"
+      :id="slideshowid"
+    />
+    <ShowIframe
+      v-else-if="containsIframe"
+      :url="slide.url"
+      :no="slideno"
+      :id="slideshowid"
+    />
     <ShowVideo
       v-else-if="containsVideo"
       :url="slide.url"
       :no="slideno"
       :repeat="slide.repeat || 0"
       @playedAllIterations="playedAllIterations()"
+      :id="slideshowid"
     />
-    <ShowText v-if="containsText" :url="slide.text" :no="slideno" />
+    <ShowText
+      v-if="containsText"
+      :url="slide.text"
+      :no="slideno"
+      :id="slideshowid"
+    />
   </div>
 </template>
 
@@ -27,15 +43,20 @@ import { SlideObject } from "../pages/Slideshow.vue";
     ShowImage,
     ShowIframe,
     ShowText,
-    ShowVideo
-  }
+    ShowVideo,
+  },
 })
 export default class Slide extends Vue {
   @Prop()
   slide: SlideObject;
 
-  slideno: number = parseInt(this.$route.params.slideno);
-  slideshowid: string = this.$route.params.slideshowid;
+  @Prop()
+  slideno: number;
+  @Prop()
+  slideshowid: string;
+
+  // slideno: number = parseInt(this.$route.params.slideno);
+  // slideshowid: string = this.$route.params.slideshowid;
 
   containsImage = false;
   containsVideo = false;

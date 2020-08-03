@@ -2,7 +2,26 @@
   <div></div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+
+@Component({
+  name: "emptySlideshow",
+})
+export default class EmptySlideshow extends Vue {
+  mounted() {
+    document.onkeydown = (e) => {
+      switch (e.key) {
+        case "h":
+          this.$router.push("/");
+      }
+    };
+  }
+  beforeDestroy() {
+    document.onkeydown = () => {};
+  }
+}
+</script>
 
 <style scoped>
 div {

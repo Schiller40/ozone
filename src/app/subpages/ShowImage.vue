@@ -21,6 +21,8 @@ export default class ShowImage extends Vue {
   url: string;
   @Prop()
   no: number;
+  @Prop()
+  id: string;
 
   loaded: boolean = false;
 
@@ -29,7 +31,7 @@ export default class ShowImage extends Vue {
       this.url.startsWith("https://") ||
       this.url.startsWith("data:text/plain")
       ? this.src
-      : `http://127.0.0.1:5230/transfer/${this.$route.params.slideshowid}/${this.no}/${this.url}`;
+      : `http://127.0.0.1:5230/transfer/${this.id}/${this.no}/${this.url}`;
   }
 }
 </script>

@@ -15,6 +15,8 @@ export default class ShowText extends Vue {
   no: number;
   @Prop()
   text: string;
+  @Prop()
+  id: string;
 
   parsedText: string = "";
 
@@ -24,7 +26,7 @@ export default class ShowText extends Vue {
       this.text.startsWith("https://") ||
       this.text.startsWith("data:text/plain")
         ? ""
-        : `http://127.0.0.1:5230/transfer/${this.$route.params.slideshowid}/${this.no}/`;
+        : `http://127.0.0.1:5230/transfer/${this.id}/${this.no}/`;
     address += this.text;
     fetch(address).then(async (response) => {
       this.parsedText = await response.text();

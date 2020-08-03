@@ -13,13 +13,15 @@ export default class ShowIframe extends Vue {
   no: number;
   @Prop({ default: "" })
   url: string;
+  @Prop()
+  id: string;
 
   get src(): string {
     return this.url.startsWith("http://") ||
       this.url.startsWith("https://") ||
       this.url.startsWith("data:text/plain")
       ? this.url
-      : `http://127.0.0.1:5230/transfer/${this.$route.params.slideshowid}/${this.no}/${this.url}`;
+      : `http://127.0.0.1:5230/transfer/${this.id}/${this.no}/${this.url}`;
   }
 }
 </script>

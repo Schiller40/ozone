@@ -1,11 +1,19 @@
 <template>
   <div class="wrapper" :id="`wrapper-${slideno}`">
     <transition :name="transition.name" :mode="transition.mode">
-      <router-view
+      <!-- <router-view
         :slide="slideshow.slides[slideno]"
         @finished="nextSlide()"
         v-if="slideshow"
         :key="$route.params.slideno"
+      /> -->
+      <Slide
+        :slide="slideshow.slides[slideno]"
+        @finished="nextSlide()"
+        v-if="slideshow"
+        :slideno="slideno"
+        :slideshowid="id"
+        :key="slideno"
       />
     </transition>
   </div>
@@ -16,6 +24,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { request } from "graphql-request";
 import { Transition } from "../app.vue";
 import parse from "parse-duration";
+import Slide from "@/pages/Slide.vue";
 
 export interface SlideshowObject {
   slides: SlideObject[];
@@ -33,15 +42,22 @@ export interface SlideObject {
 
 @Component({
   name: "Slideshow",
+  components: {
+    Slide,
+  },
 })
 export default class Slideshow extends Vue {
-  slideshowid: string = this.$route.params.slideshowid;
+  // slideshowid: string = this.$route.params.slideshowid;
   slideshow: SlideshowObject = null;
 
-  get slideno() {
-    return parseInt(this.$route.params.slideno);
-  }
+  // get slideno() {
+  //   return parseInt(this.$route.params.slideno);
+  // }
   timeout: number = null;
+  slideno: number = 0;
+
+  @Prop()
+  id: string;
 
   transition: Transition = {
     name: "",
@@ -49,10 +65,11 @@ export default class Slideshow extends Vue {
   };
 
   async mounted() {
+    console.log("timeout mounted");
     const query =
       "query getSlideshow ($id:String!){slideshow(id:$id) {slides {url, mime, repeat, text, duration, transition {name, mode}}, repeat}}";
     const variables = {
-      id: this.slideshowid,
+      id: this.id,
     };
 
     request("http://127.0.0.1:5230/graphql", query, variables)
@@ -61,7 +78,7 @@ export default class Slideshow extends Vue {
         console.log(this.slideshow);
         this.timeout = window.setTimeout(
           this.nextSlide,
-          parse("" + this.slideshow.slides[this.slideno].duration)
+          parse("" + this.slideshow.slides[this.slideno || 0].duration)
         );
       })
       .catch((e) => {
@@ -83,6 +100,9 @@ export default class Slideshow extends Vue {
           break;
         case "d":
           this.nextSlide(true, true);
+          break;
+        case "h":
+          this.$router.push("/");
       }
     };
   }
@@ -101,8 +121,9 @@ export default class Slideshow extends Vue {
         this.transition.mode =
           this.slideshow.slides[nextSlideNo].transition?.mode || "";
       }
-      this.$router.push(`/viewer/${this.slideshowid}/${nextSlideNo}`);
-      clearTimeout(this.timeout);
+      // this.$router.push(`/viewer/${this.slideshowid}/${nextSlideNo}`);
+      this.slideno = nextSlideNo;
+      window.clearTimeout(this.timeout);
       this.timeout = window.setTimeout(
         this.nextSlide,
         parse("" + this.slideshow.slides[nextSlideNo].duration)
@@ -120,8 +141,9 @@ export default class Slideshow extends Vue {
       this.transition.mode =
         this.slideshow.slides[lastSlideNo].transition?.mode || "";
     }
-    this.$router.push(`/viewer/${this.slideshowid}/${lastSlideNo}`);
-    clearTimeout(this.timeout);
+    // this.$router.push(`/viewer/${this.slideshowid}/${lastSlideNo}`);
+    this.slideno = lastSlideNo;
+    window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(
       this.nextSlide,
       parse("" + this.slideshow.slides[lastSlideNo].duration)
@@ -130,11 +152,13 @@ export default class Slideshow extends Vue {
 
   applyStyle() {
     let link = document.getElementById("customStyle") as HTMLLinkElement;
-    link.href = `http://127.0.0.1:5230/transfer/${this.slideshowid}/style.css`;
+    link.href = `http://127.0.0.1:5230/transfer/${this.id}/style.css`;
   }
 
   beforeDestroy() {
-    clearTimeout(this.timeout);
+    console.log("timeout destroyed");
+    window.clearTimeout(this.timeout);
+    document.onkeydown = () => {};
   }
 }
 </script>

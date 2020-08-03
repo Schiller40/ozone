@@ -22,6 +22,8 @@ export default class ShowVideo extends Vue {
   no: number;
   @Prop()
   repeat: number;
+  @Prop()
+  id: string;
 
   iterations: number = 0;
 
@@ -38,7 +40,7 @@ export default class ShowVideo extends Vue {
       this.url.startsWith("https://") ||
       this.url.startsWith("data:text/plain")
       ? this.url
-      : `http://127.0.0.1:5230/transfer/${this.$route.params.slideshowid}/${this.no}/${this.url}`;
+      : `http://127.0.0.1:5230/transfer/${this.id}/${this.no}/${this.url}`;
   }
 }
 </script>

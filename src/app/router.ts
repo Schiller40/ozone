@@ -20,44 +20,45 @@ export default new Router({
   routes: [
     {
       path: '/viewer',
+      // alias: ['/viewer/:slideshowid', '/viewer/*', '/viewer*', '/viewer'],
       name: 'Viewer',
-      component: Viewer,
-      children: [
-        {
-          path: 'invalidslideshow',
-          name: 'InvalidSlideshow',
-          component: InvalidSlideshow
-        },
-        {
-          path: 'emptyslideshow',
-          component: EmptySlideshow,
-          name: 'emptyslideshow'
-        },
-        {
-          path: ':slideshowid',
-          name: 'Slideshow',
-          component: Slideshow,
-          props: true,
-          beforeEnter: (to, _from, next) => {
-            if (to.params.slideshowid.length !== 21) {
-              next('/viewer/invalidslideshow')
-              return
-            }
-            if (!to.params.slideno) {
-              next(`/viewer/${to.params.slideshowid}/0`)
-            }
-            next()
-          },
-          children: [
-            {
-              path: ':slideno',
-              name: 'Slide',
-              component: Slide,
-              props: true
-            }
-          ]
-        }
-      ]
+      component: Viewer
+      // children: [
+      //   {
+      //     path: 'invalidslideshow',
+      //     name: 'InvalidSlideshow',
+      //     component: InvalidSlideshow
+      //   },
+      //   {
+      //     path: 'emptyslideshow',
+      //     component: EmptySlideshow,
+      //     name: 'emptyslideshow'
+      //   },
+      //   {
+      //     path: ':slideshowid',
+      //     name: 'Slideshow',
+      //     component: Slideshow,
+      //     props: true,
+      //     beforeEnter: (to, _from, next) => {
+      //       if (to.params.slideshowid.length !== 21) {
+      //         next('/viewer/invalidslideshow')
+      //         return
+      //       }
+      //       if (!to.params.slideno) {
+      //         next(`/viewer/${to.params.slideshowid}/0`)
+      //       }
+      //       next()
+      //     },
+      // children: [
+      //   {
+      //     path: ':slideno',
+      //     name: 'Slide',
+      //     component: Slide,
+      //     props: true
+      //   }
+      // ]
+      //   }
+      // ]
     },
     {
       path: '/setup',
