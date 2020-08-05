@@ -7,7 +7,6 @@ const fsP = fs.promises
 import wifi from 'node-wifi'
 import si from 'systeminformation'
 import os from 'os'
-import { Container } from 'typedi'
 import { debuglog } from 'util'
 import Redis from 'ioredis'
 import parse from 'parse-duration'
@@ -33,12 +32,12 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   const path = require('path')
   if (os.platform() == 'win32')
-  BrowserWindow.addDevToolsExtension(
-    path.join(
-      os.homedir(),
-      'AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\5.3.3_0'
+    BrowserWindow.addDevToolsExtension(
+      path.join(
+        os.homedir(),
+        'AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\5.3.3_0'
+      )
     )
-  )
 
   const screens = screen.getAllDisplays()
 
@@ -93,20 +92,36 @@ ipcMain.on('getLocalIP', (event) => {
 ipcMain.on('isNetworkConnected', (event) => {
   event.returnValue = getLocalIP() ? true : false
 })
-ipcMain.handle('getWiFiNetworks', async () => {
-  return wifi.scan()
-})
-ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
-  return wifi.connect({ ssid: ssid, password: password })
-})
-ipcMain.handle('getCurrentWiFiConnections', async () => {
-  return wifi.getCurrentConnections()
-})
-ipcMain.handle('getNetworkInterfaceDefault', async () => {
-  return si.networkInterfaceDefault()
-})
-ipcMain.handle('getNetworkInterfaces', async () => {
-  return si.networkInterfaces()
+// ipcMain.handle('getWiFiNetworks', async () => {
+//   return wifi.scan()
+// })
+// ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
+//   return wifi.connect({ ssid: ssid, password: password })
+// })
+// ipcMain.handle('getCurrentWiFiConnections', async () => {
+//   return wifi.getCurrentConnections()
+// })
+// ipcMain.handle('getNetworkInterfaceDefault', async () => {
+//   return si.networkInterfaceDefault()
+// })
+// ipcMain.handle('getNetworkInterfaces', async () => {
+//   return si.networkInterfaces()
+// })
+ipcMain.handle('setOzoneNetwork', async (_event, newNetwork) => {
+  if (!newNetwork || !newNetwork.name || !newNetwork.password)
+    throw new Error('empty network, name or password')
+  redis
+    .set('network', JSON.stringify(newNetwork))
+    .then((res) => {
+      if (res === 'OK') {
+        return
+      } else {
+        throw new Error('error while setting network in redis')
+      }
+    })
+    .catch((err) => {
+      throw err
+    })
 })
 debug('ipc handlers initialized')
 

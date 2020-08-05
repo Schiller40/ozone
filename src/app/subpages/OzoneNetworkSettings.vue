@@ -2,7 +2,8 @@
   <div class="network-settings">
     <h1>Ozone-Netzwerkeinstellungen</h1>
     <p>
-      Bitte geben Sie hier die Anmeldedaten für das Ozone-Netzwerk ein, um sich mit dem Ozone-Netzwerk zu verbinden.
+      Bitte geben Sie hier die Anmeldedaten für das Ozone-Netzwerk ein, um sich mit dem
+      Ozone-Netzwerk zu verbinden.
     </p>
     <div class="gridTwo">
       <input
@@ -23,60 +24,81 @@
       />
     </div>
     <br /><br />
-    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">{{ cancelButtonText }}</button>
-    <button type="button" name="button" ref="confirmButton" class="confirmButton" @click="confirmPressed">
+    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+      {{ cancelButtonText }}
+    </button>
+    <button
+      type="button"
+      name="button"
+      ref="confirmButton"
+      class="confirmButton"
+      @click="confirmPressed"
+    >
       {{ confirmButtonText }}
     </button>
   </div>
 </template>
 
-<script>
-export default {
-  name: "OzoneNetworkSettings",
-  props: {
-    cancelButtonText: { type: String, default: "Abbrechen" },
-    confirmButtonText: { type: String, default: "Anwenden" },
-  },
-  mounted() {
-    this.$refs.passwordInput.value = window.localStorage.getItem("password");
-    this.$refs.networkNameInput.value = window.localStorage.getItem(
-      "networkName"
-    );
-  },
-  methods: {
-    confirmPressed() {
-      if (this.$refs.networkNameInput.value && this.$refs.passwordInput.value) {
-        window.localStorage.setItem(
-          "networkName",
-          this.$refs.networkNameInput.value
-        );
-        window.localStorage.setItem("password", this.$refs.passwordInput.value);
-        const credentials = {
-          name: this.$refs.networkNameInput.value,
-          password: this.$refs.passwordInput.value,
-        };
-        fetch("http://127.0.0.1:5230/token", {
-          method: "POST",
+<script lang="ts">
+import { Vue, Prop, Component } from 'vue-property-decorator'
+import { ipcRenderer } from 'electron'
+
+@Component({
+  name: 'OzoneNetworkSettings'
+})
+export default class OzoneNetworkSettings extends Vue {
+  @Prop({ default: 'Abbrechen' })
+  cancelButtonText: string
+
+  @Prop({ default: 'Anwenden' })
+  confirmButtonText: string
+
+  async confirmPressed() {
+    if (this.checkToken()) {
+      this.$emit('ok')
+    } else {
+      ;(this.$refs.confirmButton as HTMLButtonElement).classList.add('animate__shakeX')
+
+      setTimeout(() => {
+        ;(this.$refs.confirmButton as HTMLButtonElement).classList.remove('animate__shakeX')
+      }, 1000)
+    }
+  }
+
+  async checkToken() {
+    const network = {
+      name: (this.$refs.networkNameInput as HTMLInputElement).value,
+      password: (this.$refs.passwordInput as HTMLInputElement).value
+    }
+    ipcRenderer
+      .invoke('setOzoneNetwork', network)
+      .then(() => {
+        return fetch('http://127.0.0.1:5230/token', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
           },
-          credentials: "include",
-          body: JSON.stringify(credentials)
-        });
-        this.$emit("ok");
-      } else {
-        this.$refs.confirmButton.classList.add("animate__shakeX");
+          credentials: 'include',
+          body: JSON.stringify(network)
+        })
+      })
+      .then((response) => {
+        if (response.status === 200) this.$emit('ok')
+        else throw new Error('failed to set cookie')
+      })
+      .catch((err) => {
+        alert(`da ist etwas schief gelaufen, details: ${(err as Error).message}`)
+        ;(this.$refs.confirmButton as HTMLButtonElement).classList.add('animate__shakeX')
         setTimeout(() => {
-          this.$refs.confirmButton.classList.remove("animate__shakeX");
-        }, 1000);
-      }
-    },
-  },
-};
+          ;(this.$refs.confirmButton as HTMLButtonElement).classList.remove('animate__shakeX')
+        }, 1000)
+      })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/variables.scss";
+@import '@/assets/variables.scss';
 
 .network-settings {
   position: absolute;

@@ -1,5 +1,5 @@
 <template>
-  <div class="slide" :id="`slide-${slideno + 1}`">
+  <div class="slide" :id="`slide-${slideno + 1}`" :name="slide.name || false">
     <ShowImage
       v-if="containsImage"
       :url="slide.url"
@@ -67,7 +67,7 @@ export default class Slide extends Vue {
     if (this.slide.mime.indexOf("image") !== -1) this.containsImage = true;
     else if (this.slide.mime.indexOf("video") !== -1) this.containsVideo = true;
     else if (this.slide.mime === "text/html") this.containsIframe = true;
-    else if (this.slide.mime === "text/plain" || this.slide.text)
+    if (this.slide.mime === "text/plain" || this.slide.text)
       this.containsText = true;
   }
 

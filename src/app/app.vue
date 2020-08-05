@@ -2,7 +2,6 @@
 <div>
   <transition :name="transition.name" :mode="transition.mode">
     <router-view
-      v-model="wrapperId"
       @setTransition="transition = $event"
       :prioritizedId="visualStack[visualStack.length - 1] ? visualStack[visualStack.length - 1].id : undefined"
     />
@@ -29,7 +28,6 @@ export interface Transition {
   components: {},
 })
 export default class app extends Vue {
-  wrapperId = "wrapper";
   transition: Transition = {
     name: "ozone-setup-screen",
     mode: "",
@@ -45,24 +43,6 @@ export default class app extends Vue {
     });
   }
 
-  // showPrioritizedSlideshow() {
-  //   if (
-  //     this.visualStack.length == 0 ||
-  //     this.$route.hash.indexOf("/viewer") === -1
-  //   ) {
-  //     if (this.visualStack.length == 0)
-  //       this.$router.push("/viewer/emptyslideshow");
-  //     return { changed: false, newId: null };
-  //   }
-  //   const prioritizedId = this.visualStack[this.visualStack.length - 1].id;
-  //   if (!location.hash.includes(`/viewer/${prioritizedId}`)) {
-  //     this.transition = { name: "", mode: "" };
-  //     this.$router.push(`/viewer/${prioritizedId}/0`);
-  //     return { changed: true, newId: prioritizedId };
-  //   } else {
-  //     return { changed: false, newId: prioritizedId };
-  //   }
-  // }
   addToVisualStack(id: string, lastModified: number) {
     console.log(id);
     console.log(lastModified);
@@ -85,6 +65,7 @@ export default class app extends Vue {
     console.log(this.visualStack);
     return true;
   }
+
   removeFromVisualStack(id: string) {
     const len = this.visualStack.length;
     this.visualStack = this.visualStack.filter((vse) => vse.id !== id);
