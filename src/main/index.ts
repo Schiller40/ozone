@@ -32,7 +32,7 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   const path = require('path')
-  const os = require('os')
+  if (os.platform() == 'win32')
   BrowserWindow.addDevToolsExtension(
     path.join(
       os.homedir(),

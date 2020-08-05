@@ -22,24 +22,15 @@
       "packagerConfig": {},
       "makers": [
         {
-          "name": "@electron-forge/maker-squirrel",
+          "name": "@electron-forge/maker-snap",
           "config": {
-            "name": "app"
+            "features": {
+              "audio": true,
+              "mpris": "com.example.mpris",
+              "webgl": true
+            },
+            "summary": "Pretty Awesome"
           }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ],
       "plugins": [
