@@ -1,4 +1,4 @@
-import '@/assets/master.css';
+import '@/assets/master.scss';
 import '../../docs/animations.scss';
 import Vue from 'vue';
 import App from '@/app.vue';

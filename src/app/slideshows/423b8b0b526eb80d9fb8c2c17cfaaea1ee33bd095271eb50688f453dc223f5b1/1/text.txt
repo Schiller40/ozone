@@ -1,1 +1,0 @@
-Textdatei einbetten funktioniert (sogar mit Ümlauten und Sonderzeichen). Zum Glück ist dieser Text sogar gedreht und mit Verdana.

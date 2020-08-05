@@ -10,17 +10,12 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "paths": {
-      "~/*": [
-        "./src/app/*"
-      ],
-      "@/*": [
-        "./src/app/*"
-      ],
+      "~/*": ["./src/app/*"],
+      "@/*": ["./src/app/*"],
       "*": ["node_modules/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
