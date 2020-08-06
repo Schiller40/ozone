@@ -3,8 +3,18 @@
     <h1>Netzwerk</h1>
     <p>Bitte richten Sie eine Netzwerkverbindung ein, um Ozone nutzen zu können.</p>
     <br />
-    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">{{ cancelButtonText }}</button>
-    <button type="button" name="button" ref="confirmButton" class="confirmButton" @click="confirmPressed">
+    <!-- <WiFiNetworksList /> -->
+    <br />
+    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+      {{ cancelButtonText }}
+    </button>
+    <button
+      type="button"
+      name="button"
+      ref="confirmButton"
+      class="confirmButton"
+      @click="confirmPressed"
+    >
       {{ confirmButtonText }}
     </button>
   </div>
@@ -12,10 +22,14 @@
 
 <script lang="ts">
 import { Vue, Prop, Component } from "vue-property-decorator";
+import WiFiNetworksList from "./LANSettingsPage/WiFiNetworksList.vue";
 const { ipcRenderer } = window;
 
 @Component({
   name: "lanSettings",
+  components: {
+    WiFiNetworksList,
+  },
 })
 export default class LANSettings extends Vue {
   @Prop({ default: "Abbrechen" })
@@ -45,6 +59,7 @@ export default class LANSettings extends Vue {
   border-radius: 1.5rem;
   padding: 2.5rem;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
 h1 {

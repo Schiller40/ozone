@@ -95,7 +95,7 @@
     "formidable": "^1.2.2",
     "fs-extra": "^9.0.0",
     "graphql-request": "^2.0.0",
-    "node-wifi": "^2.0.12",
+    "node-wifi": "^2.0.13",
     "parse-duration": "^0.3.0",
     "superzone": "^1.0.0",
     "systeminformation": "^4.25.1",

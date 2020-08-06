@@ -12,6 +12,7 @@ import Redis from 'ioredis'
 import parse from 'parse-duration'
 
 const redis = new Redis()
+const redis2 = new Redis()
 redis.subscribe('slideshows', (err, res) => {
   if (err) console.log(err)
   else console.log(res)
@@ -92,37 +93,46 @@ ipcMain.on('getLocalIP', (event) => {
 ipcMain.on('isNetworkConnected', (event) => {
   event.returnValue = getLocalIP() ? true : false
 })
-// ipcMain.handle('getWiFiNetworks', async () => {
-//   return wifi.scan()
-// })
-// ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
-//   return wifi.connect({ ssid: ssid, password: password })
-// })
-// ipcMain.handle('getCurrentWiFiConnections', async () => {
-//   return wifi.getCurrentConnections()
-// })
-// ipcMain.handle('getNetworkInterfaceDefault', async () => {
-//   return si.networkInterfaceDefault()
-// })
-// ipcMain.handle('getNetworkInterfaces', async () => {
-//   return si.networkInterfaces()
-// })
-ipcMain.handle('setOzoneNetwork', async (_event, newNetwork) => {
-  if (!newNetwork || !newNetwork.name || !newNetwork.password)
-    throw new Error('empty network, name or password')
-  redis
-    .set('network', JSON.stringify(newNetwork))
-    .then((res) => {
-      if (res === 'OK') {
-        return
-      } else {
-        throw new Error('error while setting network in redis')
-      }
-    })
-    .catch((err) => {
-      throw err
-    })
+ipcMain.handle('getWiFiNetworks', async () => {
+  return wifi.scan()
 })
+ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
+  return wifi.connect({ ssid: ssid, password: password })
+})
+ipcMain.handle('getCurrentWiFiConnections', async () => {
+  return wifi.getCurrentConnections()
+})
+ipcMain.handle('setDeviceDetails', async () => {})
+ipcMain.handle(
+  'setOzoneNetwork',
+  async (_event, newNetwork: { name: string; password: string }) => {
+    if (!newNetwork || !newNetwork.name || !newNetwork.password)
+      return 'Bitte Netzwerknamen und Passwort eingeben'
+    if (newNetwork.password.length < 8) return 'Passwort zu kurz. Mindestens 8 Zeichen notwendig'
+    if (
+      newNetwork.password.toUpperCase().match(/.*S.*U.*P.*P.*E.*N.*K.*A.*S.*P.*E.*R.*/) ||
+      newNetwork.password.toUpperCase().match(/.*S.*C.*H.*N.*U.*R.*Z.*W.*U.*M.*P.*E.*/)
+    )
+      return 'Unsere Standardpasswörter waren noch nie sicher'
+    if (
+      !newNetwork.password.match(/.*[A-Z].*/) ||
+      !newNetwork.password.match(/.*[a-z].*/) ||
+      !newNetwork.password.match(/.*\d.*/) ||
+      !newNetwork.password.match(/.*[^A-Za-z\d].*/)
+    )
+      return 'Passwort muss mindestens je eine/n Groß-, Kleinbuchstaben, Ziffer, Sonderzeichen enthalten'
+    try {
+      const res = await redis2.set('network', JSON.stringify(newNetwork))
+      if (res === 'OK') {
+        return 'ok'
+      } else {
+        return 'error while setting network in redis'
+      }
+    } catch (err) {
+      throw err
+    }
+  }
+)
 debug('ipc handlers initialized')
 
 app.on('ready', createWindow)

@@ -21,9 +21,11 @@
         id="passwordInput"
         ref="passwordInput"
         placeholder="Passwort"
+        maxlength="128"
       />
+      <p class="errorText">{{errorText || '&nbsp;'}}</p>
     </div>
-    <br /><br />
+    <br>
     <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
       {{ cancelButtonText }}
     </button>
@@ -40,65 +42,67 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator'
-import { ipcRenderer } from 'electron'
+import { Vue, Prop, Component } from "vue-property-decorator";
+const { ipcRenderer } = window;
 
 @Component({
-  name: 'OzoneNetworkSettings'
+  name: "OzoneNetworkSettings",
 })
 export default class OzoneNetworkSettings extends Vue {
-  @Prop({ default: 'Abbrechen' })
-  cancelButtonText: string
+  @Prop({ default: "Abbrechen" })
+  cancelButtonText: string;
 
-  @Prop({ default: 'Anwenden' })
-  confirmButtonText: string
+  @Prop({ default: "Anwenden" })
+  confirmButtonText: string;
 
-  async confirmPressed() {
-    if (this.checkToken()) {
-      this.$emit('ok')
-    } else {
-      ;(this.$refs.confirmButton as HTMLButtonElement).classList.add('animate__shakeX')
+  errorText: string = "";
 
-      setTimeout(() => {
-        ;(this.$refs.confirmButton as HTMLButtonElement).classList.remove('animate__shakeX')
-      }, 1000)
-    }
+  confirmPressed() {
+    this.checkToken()
+      .then((result: string) => {
+        if (result === "ok") {
+          this.$emit("ok");
+          return;
+        }
+        this.errorText = result;
+        throw "";
+      })
+      .catch((err: Error) => {
+        (this.$refs.confirmButton as HTMLButtonElement).classList.add(
+          "animate__shakeX"
+        );
+
+        setTimeout(() => {
+          (this.$refs.confirmButton as HTMLButtonElement).classList.remove(
+            "animate__shakeX"
+          );
+        }, 1000);
+      });
   }
 
   async checkToken() {
     const network = {
       name: (this.$refs.networkNameInput as HTMLInputElement).value,
-      password: (this.$refs.passwordInput as HTMLInputElement).value
-    }
-    ipcRenderer
-      .invoke('setOzoneNetwork', network)
-      .then(() => {
-        return fetch('http://127.0.0.1:5230/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify(network)
-        })
-      })
-      .then((response) => {
-        if (response.status === 200) this.$emit('ok')
-        else throw new Error('failed to set cookie')
-      })
-      .catch((err) => {
-        alert(`da ist etwas schief gelaufen, details: ${(err as Error).message}`)
-        ;(this.$refs.confirmButton as HTMLButtonElement).classList.add('animate__shakeX')
-        setTimeout(() => {
-          ;(this.$refs.confirmButton as HTMLButtonElement).classList.remove('animate__shakeX')
-        }, 1000)
-      })
+      password: (this.$refs.passwordInput as HTMLInputElement).value,
+    };
+    const result = await ipcRenderer.invoke("setOzoneNetwork", network);
+    if (result !== "ok") return result;
+    const response = await fetch("http://127.0.0.1:5230/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(network),
+    });
+    if (response.status === 200) return "ok";
+    throw new Error("failed to set cookie");
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/variables.scss';
+@import "@/assets/variables.scss";
 
 .network-settings {
   position: absolute;
@@ -111,6 +115,7 @@ export default class OzoneNetworkSettings extends Vue {
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
 h1 {
@@ -162,5 +167,10 @@ h1 {
 .animate__shakeX {
   animation-name: shakeX;
   animation-duration: 1s;
+}
+
+.errorText {
+  color: red;
+  font-weight: bold;
 }
 </style>

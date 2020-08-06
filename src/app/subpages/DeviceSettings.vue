@@ -95,6 +95,7 @@ export default class DeviceSettings extends Vue {
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
 h1 {

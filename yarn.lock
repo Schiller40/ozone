@@ -4852,7 +4852,7 @@ node-loader@^0.6.0:
   resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-0.6.0.tgz#c797ef51095ed5859902b157f6384f6361e05ae8"
   integrity sha1-x5fvUQle1YWZArFX9jhPY2HgWug=
 
-node-wifi@^2.0.12:
+node-wifi@^2.0.13:
   version "2.0.13"
   resolved "https://registry.yarnpkg.com/node-wifi/-/node-wifi-2.0.13.tgz#44fe231be54f1e8210208e0665917aac6fcca76d"
   integrity sha512-xgLCPVp4twcV2XsdtKF0PaLD8vhQjhnzmT3OVoX/+SqMqNSIDy4JRzvD9Khjld1BKkuch8z3CU7SXAGUvaogdQ==
