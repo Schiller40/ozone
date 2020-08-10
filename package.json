@@ -96,7 +96,7 @@
     "fs-extra": "^9.0.0",
     "graphql-request": "^2.0.0",
     "node-wifi": "^2.0.13",
-    "parse-duration": "^0.3.0",
+    "parse-duration": "^0.4.4",
     "superzone": "^1.0.0",
     "systeminformation": "^4.25.1",
     "typedi": "^0.8.0",
