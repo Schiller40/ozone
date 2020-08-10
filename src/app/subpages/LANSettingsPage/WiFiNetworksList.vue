@@ -6,9 +6,9 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import WiFiNetwork from './WiFiNetwork.vue'
+// import WiFiNetwork from "./WiFiNetwork.vue";
 
-interface Network {
+export interface Network {
   ssid: string
   quality: number
   security: string
@@ -22,7 +22,7 @@ interface Network {
 })
 export default class WiFiNetworksList extends Vue {
   scanTimeout: number
-  networks: Network[]
+  networks: Network[] = []
 
   mounted() {
     const { ipcRenderer } = window
