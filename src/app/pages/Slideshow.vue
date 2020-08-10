@@ -1,12 +1,6 @@
 <template>
   <div class="wrapper" :id="`wrapper-${slideno}`">
     <transition :name="transition.name" :mode="transition.mode">
-      <!-- <router-view
-        :slide="slideshow.slides[slideno]"
-        @finished="nextSlide()"
-        v-if="slideshow"
-        :key="$route.params.slideno"
-      /> -->
       <Slide
         :slide="slideshow.slides[slideno]"
         @finished="nextSlide()"
@@ -67,7 +61,7 @@ export default class Slideshow extends Vue {
   async mounted() {
     console.log("timeout mounted");
     const query =
-      "query getSlideshow ($id:String!){slideshow(id:$id) {slides {url, mime, repeat, text, duration, transition {name, mode}}, repeat}}";
+      "query getSlideshow ($id:String!){slideshow(id:$id) {slides {url, mime, repeat, text, duration, transition {name, mode}, name}, repeat}}";
     const variables = {
       id: this.id,
     };
@@ -141,7 +135,6 @@ export default class Slideshow extends Vue {
       this.transition.mode =
         this.slideshow.slides[lastSlideNo].transition?.mode || "";
     }
-    // this.$router.push(`/viewer/${this.slideshowid}/${lastSlideNo}`);
     this.slideno = lastSlideNo;
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(

@@ -28,7 +28,7 @@ export default class ShowText extends Vue {
         ? ""
         : `http://127.0.0.1:5230/transfer/${this.id}/${this.no}/`;
     address += this.text;
-    fetch(address).then(async (response) => {
+    fetch(address, { credentials: "include" }).then(async (response) => {
       this.parsedText = await response.text();
     });
   }

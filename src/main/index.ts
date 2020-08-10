@@ -7,12 +7,12 @@ const fsP = fs.promises
 import wifi from 'node-wifi'
 import si from 'systeminformation'
 import os from 'os'
-import { Container } from 'typedi'
 import { debuglog } from 'util'
 import Redis from 'ioredis'
 import parse from 'parse-duration'
 
 const redis = new Redis()
+const redis2 = new Redis()
 redis.subscribe('slideshows', (err, res) => {
   if (err) console.log(err)
   else console.log(res)
@@ -33,12 +33,12 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   const path = require('path')
   if (os.platform() == 'win32')
-  BrowserWindow.addDevToolsExtension(
-    path.join(
-      os.homedir(),
-      'AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\5.3.3_0'
+    BrowserWindow.addDevToolsExtension(
+      path.join(
+        os.homedir(),
+        'AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\5.3.3_0'
+      )
     )
-  )
 
   const screens = screen.getAllDisplays()
 
@@ -102,12 +102,39 @@ ipcMain.handle('connectWiFi', async (_event, ssid, password) => {
 ipcMain.handle('getCurrentWiFiConnections', async () => {
   return wifi.getCurrentConnections()
 })
-ipcMain.handle('getNetworkInterfaceDefault', async () => {
-  return si.networkInterfaceDefault()
-})
-ipcMain.handle('getNetworkInterfaces', async () => {
-  return si.networkInterfaces()
-})
+ipcMain.handle('setDeviceDetails', async () => {})
+ipcMain.handle(
+  'setOzoneNetwork',
+  async (_event, newNetwork: { name: string; password: string }) => {
+    if (!newNetwork || !newNetwork.name || !newNetwork.password)
+      return 'Bitte Netzwerknamen und Passwort eingeben'
+    if (newNetwork.password.length < 8) return 'Passwort zu kurz. Mindestens 8 Zeichen notwendig'
+    if (
+      newNetwork.password.toUpperCase().match(/.*S.*U.*P.*P.*E.*N.*K.*A.*S.*P.*E.*R.*/) ||
+      newNetwork.password.toUpperCase().match(/.*S.*C.*H.*N.*U.*R.*Z.*W.*U.*M.*P.*E.*/)
+    )
+      return "<code style='font-family:monospace'>Checking for vulnerabilities...<br>Found 3 vulnerabilities<br>Vulnerability 1: Connected account 'schiller40.coworkingspace@gmail.com' uses a similar password.<br>Vulnerability 2: Connected account 'repaircafe.wolfsburg@gmx.de' uses a similar password.<br> Vulnerability 3: WiFi-Network 'Markthalle' uses a similar password.<br>Reporting 3 vulnerabilities to hackinggermancompanies.in... Done!<br>Clearing command line so traces are gone<br>root@SCHILLER-DESKTOP:~# clear<br>&nbsp;__&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______&nbsp;_____&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;_____&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;_____&nbsp;_______&nbsp;<br>&nbsp;\\&nbsp;\\&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;/_&nbsp;&nbsp;&nbsp;_|&nbsp;&nbsp;__&nbsp;\\|&nbsp;|&nbsp;&nbsp;|&nbsp;|/&nbsp;____|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/\\&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;____|&nbsp;&nbsp;__&nbsp;\\__&nbsp;&nbsp;&nbsp;__|<br>&nbsp;&nbsp;\\&nbsp;\\&nbsp;&nbsp;/&nbsp;/&nbsp;&nbsp;|&nbsp;|&nbsp;|&nbsp;|__)&nbsp;|&nbsp;|&nbsp;&nbsp;|&nbsp;|&nbsp;(___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;\\&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;|__&nbsp;&nbsp;|&nbsp;|__)&nbsp;|&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;\\&nbsp;\\/&nbsp;/&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;|&nbsp;&nbsp;_&nbsp;&nbsp;/|&nbsp;|&nbsp;&nbsp;|&nbsp;|\\___&nbsp;\\&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;/\\&nbsp;\\&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;__|&nbsp;|&nbsp;&nbsp;_&nbsp;&nbsp;/&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;\\&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;_|&nbsp;|_|&nbsp;|&nbsp;\\&nbsp;\\|&nbsp;|__|&nbsp;|____)&nbsp;|&nbsp;&nbsp;/&nbsp;____&nbsp;\\|&nbsp;|____|&nbsp;|____|&nbsp;|&nbsp;\\&nbsp;\\&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\\/&nbsp;&nbsp;&nbsp;|_____|_|&nbsp;&nbsp;\\_\\\\____/|_____/&nbsp;&nbsp;/_/&nbsp;&nbsp;&nbsp;&nbsp;\\_\\______|______|_|&nbsp;&nbsp;\\_\\&nbsp;|_|</code><br><br>An unknown error occured inside ozone. Try using a unique password."
+    if (newNetwork.password.toUpperCase().match(/.*P.*A.*S.*S.*W.*O.*R.*[DT].*/))
+      return 'Selten ein so erbärmliches Passwort gesehen...'
+    if (
+      !newNetwork.password.match(/.*[A-Z].*/) ||
+      !newNetwork.password.match(/.*[a-z].*/) ||
+      !newNetwork.password.match(/.*\d.*/) ||
+      !newNetwork.password.match(/.*[^A-Za-z\d].*/)
+    )
+      return 'Passwort muss mindestens je eine/n Groß-, Kleinbuchstaben, Ziffer, Sonderzeichen enthalten'
+    try {
+      const res = await redis2.set('network', JSON.stringify(newNetwork))
+      if (res === 'OK') {
+        return 'ok'
+      } else {
+        return 'error while setting network in redis'
+      }
+    } catch (err) {
+      throw err
+    }
+  }
+)
 debug('ipc handlers initialized')
 
 app.on('ready', createWindow)

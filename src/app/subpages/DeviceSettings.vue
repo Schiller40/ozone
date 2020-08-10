@@ -2,55 +2,63 @@
   <div class="device-settings">
     <h1>Geräteeinstellungen</h1>
     <p>
-      Bitte geben Sie hier Informationen zu diesem Gerät ein. Die Infos sind nur zur späteren Orientierung und können
-      jederzeit geändert werden.
+      Bitte geben Sie hier Informationen zu diesem Gerät ein. Die Infos sind nur zur späteren
+      Orientierung und können jederzeit geändert werden.
     </p>
-    <div class="gridTwo">
-      <input
-        type="text"
-        class="ozoneTextInput"
-        required
-        id="deviceNameInput"
-        ref="deviceNameInput"
-        placeholder="Gerätename"
-      />
-      <input
-        type="text"
-        class="ozoneTextInput"
-        required
-        id="deviceLocationInput"
-        ref="deviceLocationInput"
-        placeholder="Ort des Geräts"
-      />
-    </div>
-    <br /><br />
-    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">{{ cancelButtonText }}</button>
-    <button type="button" name="button" ref="confirmButton" class="confirmButton" @click="confirmPressed">
-      {{ confirmButtonText }}
-    </button>
+    <form>
+      <div class="gridTwo">
+        <input
+          type="text"
+          class="ozoneTextInput"
+          required
+          id="deviceNameInput"
+          ref="deviceNameInput"
+          placeholder="Gerätename"
+        />
+        <input
+          type="text"
+          class="ozoneTextInput"
+          required
+          id="deviceLocationInput"
+          ref="deviceLocationInput"
+          placeholder="Ort des Geräts"
+        />
+      </div>
+      <br /><br />
+      <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+        {{ cancelButtonText }}
+      </button>
+      <button
+        type="submit"
+        name="button"
+        ref="confirmButton"
+        class="confirmButton"
+        @click="confirmPressed"
+      >
+        {{ confirmButtonText }}
+      </button>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component({
-  name: "deviceSettings",
+  name: 'deviceSettings'
 })
 export default class DeviceSettings extends Vue {
-  @Prop({ default: "Abbrechen" })
-  cancelButtonText: string;
-  @Prop({ default: "Anwenden" })
-  confirmButtonText: string;
+  @Prop({ default: 'Abbrechen' })
+  cancelButtonText: string
+  @Prop({ default: 'Anwenden' })
+  confirmButtonText: string
 
   mounted() {
-    (this.$refs
-      .deviceLocationInput as HTMLInputElement).value = window.localStorage.getItem(
-      "deviceLocation"
-    );
-    (this.$refs
-      .deviceNameInput as HTMLInputElement).value = window.localStorage.getItem(
-      "deviceName"
-    );
+    ;(this.$refs.deviceLocationInput as HTMLInputElement).value = window.localStorage.getItem(
+      'deviceLocation'
+    )
+    ;(this.$refs.deviceNameInput as HTMLInputElement).value = window.localStorage.getItem(
+      'deviceName'
+    )
   }
 
   confirmPressed() {
@@ -59,30 +67,26 @@ export default class DeviceSettings extends Vue {
       (this.$refs.deviceLocationInput as HTMLInputElement).value
     ) {
       window.localStorage.setItem(
-        "deviceName",
+        'deviceName',
         (this.$refs.deviceNameInput as HTMLInputElement).value
-      );
+      )
       window.localStorage.setItem(
-        "deviceLocation",
+        'deviceLocation',
         (this.$refs.deviceLocationInput as HTMLInputElement).value
-      );
-      this.$emit("ok");
+      )
+      this.$emit('ok')
     } else {
-      (this.$refs.confirmButton as HTMLElement).classList.add(
-        "animate__shakeX"
-      );
+      ;(this.$refs.confirmButton as HTMLElement).classList.add('animate__shakeX')
       setTimeout(() => {
-        (this.$refs.confirmButton as HTMLElement).classList.remove(
-          "animate__shakeX"
-        );
-      }, 1000);
+        ;(this.$refs.confirmButton as HTMLElement).classList.remove('animate__shakeX')
+      }, 1000)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/variables.scss";
+@import '@/assets/variables.scss';
 
 .device-settings {
   position: absolute;
@@ -95,6 +99,7 @@ export default class DeviceSettings extends Vue {
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
 h1 {
