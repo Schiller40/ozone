@@ -27,7 +27,7 @@ export interface SlideshowObject {
 export interface SlideObject {
   name: string;
   url?: string;
-  duration: string | number;
+  duration: "auto" | number;
   mime: string;
   transition?: Transition;
   repeat?: number;
@@ -41,12 +41,8 @@ export interface SlideObject {
   },
 })
 export default class Slideshow extends Vue {
-  // slideshowid: string = this.$route.params.slideshowid;
   slideshow: SlideshowObject = null;
 
-  // get slideno() {
-  //   return parseInt(this.$route.params.slideno);
-  // }
   timeout: number = null;
   slideno: number = 0;
 
@@ -70,10 +66,11 @@ export default class Slideshow extends Vue {
       .then((response) => {
         this.slideshow = response.slideshow;
         console.log(this.slideshow);
-        this.timeout = window.setTimeout(
-          this.nextSlide,
-          parse("" + this.slideshow.slides[this.slideno || 0].duration)
-        );
+        if ("" + this.slideshow.slides[this.slideno || 0].duration !== "auto")
+          this.timeout = window.setTimeout(
+            this.nextSlide,
+            parse("" + this.slideshow.slides[this.slideno || 0].duration)
+          );
       })
       .catch((e) => {
         console.log(e);
@@ -115,13 +112,13 @@ export default class Slideshow extends Vue {
         this.transition.mode =
           this.slideshow.slides[nextSlideNo].transition?.mode || "";
       }
-      // this.$router.push(`/viewer/${this.slideshowid}/${nextSlideNo}`);
       this.slideno = nextSlideNo;
       window.clearTimeout(this.timeout);
-      this.timeout = window.setTimeout(
-        this.nextSlide,
-        parse("" + this.slideshow.slides[nextSlideNo].duration)
-      );
+      if ("" + this.slideshow.slides[nextSlideNo].duration !== "auto")
+        this.timeout = window.setTimeout(
+          this.nextSlide,
+          parse("" + this.slideshow.slides[nextSlideNo].duration)
+        );
     }
   }
 
@@ -137,10 +134,11 @@ export default class Slideshow extends Vue {
     }
     this.slideno = lastSlideNo;
     window.clearTimeout(this.timeout);
-    this.timeout = window.setTimeout(
-      this.nextSlide,
-      parse("" + this.slideshow.slides[lastSlideNo].duration)
-    );
+    if ("" + this.slideshow.slides[lastSlideNo].duration !== "auto")
+      this.timeout = window.setTimeout(
+        this.nextSlide,
+        parse("" + this.slideshow.slides[lastSlideNo].duration)
+      );
   }
 
   applyStyle() {

@@ -1,18 +1,18 @@
 <template lang="html">
   <div class="lan-settings">
     <h1>Netzwerk</h1>
-    <p v-if="isConnected">
-      Sie sind mit einem Netzwerk verbunden. Drücken Sie weiter, wenn Sie kein WLAN-Netzwerk
-      wechseln/hinzufügen möchten.
+    <p v-if="currentConnection != null">
+      Sie sind mit <b>{{currentConnection}}</b> verbunden. Sie können "Weiter" drücken, wenn das so richtig ist.
     </p>
     <p v-else>Bitte richten Sie eine Netzwerkverbindung ein, um Ozone nutzen zu können.</p>
     <form class="gridThree">
       <input
         type="text"
         class="ozoneTextInput"
-        id="deviceNameInput"
-        ref="deviceNameInput"
+        id="wifiSSIDInput"
+        ref="wifiSSIDInput"
         placeholder="SSID"
+        @input="$refs.connectToWiFiButton.innerHTML = 'Verbinden'"
       />
       <input
         type="password"
@@ -20,8 +20,9 @@
         id="wifiPasswordInput"
         ref="wifiPasswordInput"
         placeholder="Netzwerkpasswort"
+        @input="$refs.connectToWiFiButton.innerHTML = 'Verbinden'"
       />
-      <button type="submit" class="ozoneButton green">Verbinden</button>
+      <button type="submit" class="ozoneButton green" @click="connectToWiFi" ref="connectToWiFiButton">Verbinden</button>
     </form>
     <br />
     <br />
@@ -35,49 +36,87 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator'
+import { Vue, Prop, Component } from "vue-property-decorator";
 // import WiFiNetworksList from './LANSettingsPage/WiFiNetworksList.vue'
-const { ipcRenderer } = window
+const { ipcRenderer } = window;
 
 @Component({
-  name: 'lanSettings',
+  name: "lanSettings",
   components: {
     // WiFiNetworksList
-  }
+  },
 })
 export default class LANSettings extends Vue {
-  @Prop({ default: 'Abbrechen' })
-  cancelButtonText: string
-  @Prop({ default: 'Anwenden' })
-  confirmButtonText: string
+  @Prop({ default: "Abbrechen" })
+  cancelButtonText: string;
+  @Prop({ default: "Anwenden" })
+  confirmButtonText: string;
 
-  connectedInterval: number
-  isConnected: boolean = false
+  connectedInterval: number;
+  currentConnection: string = null;
 
   mounted() {
-    this.connectedInterval = window.setInterval(() => {
-      this.isConnected = ipcRenderer.sendSync('isNetworkConnected')
-    }, 1000)
+    this.checkConnected();
+    this.connectedInterval = window.setInterval(this.checkConnected, 1000);
   }
   beforeDestroy() {
-    window.clearInterval(this.connectedInterval)
+    window.clearInterval(this.connectedInterval);
+  }
+
+  async checkConnected() {
+    const isConnected = ipcRenderer.sendSync("isNetworkConnected");
+    if (isConnected)
+      this.currentConnection =
+        (await ipcRenderer.invoke("getDefaultNetworkInterface")) === "LAN"
+          ? "LAN"
+          : (await ipcRenderer.invoke("getCurrentWiFiConnections"))[0].ssid;
+    else this.currentConnection = null;
+    return this.currentConnection;
+  }
+
+  connectToWiFi() {
+    ipcRenderer
+      .invoke("getCurrentWiFiConnections")
+      .then((networks) => console.log(networks))
+      .catch(() => {});
+    (this.$refs.connectToWiFiButton as HTMLButtonElement).innerHTML =
+      "Verbinden...";
+    ipcRenderer
+      .invoke(
+        "connectWiFi",
+        (this.$refs.wifiSSIDInput as HTMLInputElement).value,
+        (this.$refs.wifiPasswordInput as HTMLInputElement).value
+      )
+      .then((result) => {
+        (this.$refs.connectToWiFiButton as HTMLButtonElement).innerHTML =
+          "Verbinden";
+      })
+      .catch((err) => {
+        (this.$refs.connectToWiFiButton as HTMLButtonElement).innerHTML =
+          "Fehler";
+        console.log("error" + err);
+      });
   }
 
   confirmPressed() {
-    if (this.isConnected) {
-      this.$emit('ok')
+    if (this.checkConnected()) {
+      this.$emit("ok");
     } else {
-      ;(this.$refs.confirmButton as HTMLElement).classList.add('animate__shakeX')
+      (this.$refs.confirmButton as HTMLElement).classList.add(
+        "animate__shakeX"
+      );
       setTimeout(() => {
-        ;(this.$refs.confirmButton as HTMLElement).classList.remove('animate__shakeX')
-      }, 1000)
+        (this.$refs.confirmButton as HTMLElement).classList.remove(
+          "animate__shakeX"
+        );
+      }, 1000);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/variables.scss';
+@import "@/assets/variables.scss";
 
 .lan-settings {
   position: absolute;
@@ -90,7 +129,6 @@ export default class LANSettings extends Vue {
   border-radius: 1.5rem;
   padding: 2.5rem;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
 }
 
 h1 {

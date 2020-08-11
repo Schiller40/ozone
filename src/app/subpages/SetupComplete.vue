@@ -16,14 +16,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator'
+import { Vue, Prop, Component } from "vue-property-decorator";
 
 @Component
 export default class SetupComplete extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/variables.scss';
+@import "@/assets/variables.scss";
 
 .device-settings {
   position: absolute;
@@ -36,7 +36,6 @@ export default class SetupComplete extends Vue {}
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
 }
 
 h1 {

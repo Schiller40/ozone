@@ -42,23 +42,25 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop } from "vue-property-decorator";
 @Component({
-  name: 'deviceSettings'
+  name: "deviceSettings",
 })
 export default class DeviceSettings extends Vue {
-  @Prop({ default: 'Abbrechen' })
-  cancelButtonText: string
-  @Prop({ default: 'Anwenden' })
-  confirmButtonText: string
+  @Prop({ default: "Abbrechen" })
+  cancelButtonText: string;
+  @Prop({ default: "Anwenden" })
+  confirmButtonText: string;
 
   mounted() {
-    ;(this.$refs.deviceLocationInput as HTMLInputElement).value = window.localStorage.getItem(
-      'deviceLocation'
-    )
-    ;(this.$refs.deviceNameInput as HTMLInputElement).value = window.localStorage.getItem(
-      'deviceName'
-    )
+    (this.$refs
+      .deviceLocationInput as HTMLInputElement).value = window.localStorage.getItem(
+      "deviceLocation"
+    );
+    (this.$refs
+      .deviceNameInput as HTMLInputElement).value = window.localStorage.getItem(
+      "deviceName"
+    );
   }
 
   confirmPressed() {
@@ -67,26 +69,30 @@ export default class DeviceSettings extends Vue {
       (this.$refs.deviceLocationInput as HTMLInputElement).value
     ) {
       window.localStorage.setItem(
-        'deviceName',
+        "deviceName",
         (this.$refs.deviceNameInput as HTMLInputElement).value
-      )
+      );
       window.localStorage.setItem(
-        'deviceLocation',
+        "deviceLocation",
         (this.$refs.deviceLocationInput as HTMLInputElement).value
-      )
-      this.$emit('ok')
+      );
+      this.$emit("ok");
     } else {
-      ;(this.$refs.confirmButton as HTMLElement).classList.add('animate__shakeX')
+      (this.$refs.confirmButton as HTMLElement).classList.add(
+        "animate__shakeX"
+      );
       setTimeout(() => {
-        ;(this.$refs.confirmButton as HTMLElement).classList.remove('animate__shakeX')
-      }, 1000)
+        (this.$refs.confirmButton as HTMLElement).classList.remove(
+          "animate__shakeX"
+        );
+      }, 1000);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/variables.scss';
+@import "@/assets/variables.scss";
 
 .device-settings {
   position: absolute;
@@ -99,7 +105,6 @@ export default class DeviceSettings extends Vue {
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
 }
 
 h1 {
