@@ -10,10 +10,12 @@ import os from 'os'
 import { debuglog } from 'util'
 import Redis from 'ioredis'
 import parse from 'parse-duration'
+import cron from 'cron-parser'
 
+const redisSub = new Redis()
 const redis = new Redis()
-const redis2 = new Redis()
-redis.subscribe('slideshows', (err, res) => {
+const redisPub = new Redis()
+redisSub.subscribe('slideshows', (err, res) => {
   if (err) console.log(err)
   else console.log(res)
 })
@@ -58,27 +60,36 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  redis.on('message', (channel, message) => {
+  redisSub.on('message', (channel, message) => {
     console.log(`received ${message} on ${channel}`)
     const data: {
       id: string
       duration: string
       lastModified: string
+      cron: string
     } = JSON.parse(message)
-    addSlideshowToVisualStack(data.id, Date.parse(data.lastModified))
-    console.log(data)
-    console.log(Date.parse(data.lastModified))
-    setTimeout(() => {
-      removeSlideshowFromVisualStack(data.id)
-    }, parse(data.duration))
+    const calculatedDuration =
+      parse(data.duration) -
+      (Date.now() -
+        cron
+          .parseExpression(data.cron)
+          .prev()
+          .getTime())
+    console.log(calculatedDuration)
+    if (calculatedDuration > 0) {
+      addSlideshowToVisualStack(data.id, Date.parse(data.lastModified))
+      setTimeout(() => {
+        removeSlideshowFromVisualStack(data.id)
+      }, calculatedDuration)
+    }
   })
 
-  function addSlideshowToVisualStack(id: string, lastModified: number, play?: boolean) {
-    mainWindow.webContents.send('addToVisualStack', id, lastModified, play)
+  function addSlideshowToVisualStack(id: string, lastModified: number) {
+    mainWindow.webContents.send('addToVisualStack', id, lastModified)
   }
 
-  function removeSlideshowFromVisualStack(id: string, play?: boolean) {
-    mainWindow.webContents.send('removeFromVisualStack', id, play)
+  function removeSlideshowFromVisualStack(id: string) {
+    mainWindow.webContents.send('removeFromVisualStack', id)
   }
 }
 
@@ -91,6 +102,11 @@ function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+ipcMain.handle('createVisualStack', async () => {
+  redisPub
+    .publish('sendAllSlideshows', '')
+    .then((recipients) => console.log(`sent to ${recipients} recipients`))
+})
 ipcMain.on('getLocalIP', (event) => {
   event.returnValue = getLocalIP()
 })
@@ -131,7 +147,7 @@ ipcMain.handle(
     )
       return 'Passwort muss mindestens je eine/n Groß-, Kleinbuchstaben, Ziffer, Sonderzeichen enthalten'
     try {
-      const res = await redis2.set('network', JSON.stringify(newNetwork))
+      const res = await redis.set('network', JSON.stringify(newNetwork))
       if (res === 'OK') {
         return 'ok'
       } else {

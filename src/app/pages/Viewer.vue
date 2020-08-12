@@ -1,16 +1,10 @@
 <template lang="html">
   <div class="wrapper" :id="wrapperId">
-    <!-- <transition :name="transition.name" :mode="transition.mode"> -->
-      <!-- <router-view
-        v-model="wrapperId"
-        @setTransition="transition = $event"
-        @showCurrentSlideshow="$emit('showCurrentSlideshow')"
-        :key="$route.params.slideshowid || 'nA'"
-      /> -->
+    <transition :name="transition.name" :mode="transition.mode">
       <EmptySlideshow v-if="!prioritizedId" />
       <InvalidSlideshow v-else-if="prioritizedId.length != 21" />
       <Slideshow v-else :id="prioritizedId" :key="prioritizedId" @setTransition="transition = $event"/>
-    <!-- </transition> -->
+    </transition>
   </div>
 </template>
 
@@ -35,29 +29,9 @@ export default class Viewer extends Vue {
     name: "",
     mode: "",
   };
-  // id: string = this.$route.params.slideshowid;
 
   @Prop()
   prioritizedId: string;
-
-  mounted() {
-    // if (!this.id) {
-    //   this.$emit("showCurrentSlideshow");
-    // }
-    //@ts-ignore
-    document.addEventListener("keydown", this.listener);
-  }
-
-  beforeDestroy() {
-    //@ts-ignore
-    document.removeEventListener("keydown", this.listener);
-  }
-
-  listener(doc: Document, ev: KeyboardEvent) {
-    // if (ev.key === "h") {
-    //   this.$router.push("/");
-    // }
-  }
 }
 </script>
 

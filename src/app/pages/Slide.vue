@@ -55,9 +55,6 @@ export default class Slide extends Vue {
   @Prop()
   slideshowid: string;
 
-  // slideno: number = parseInt(this.$route.params.slideno);
-  // slideshowid: string = this.$route.params.slideshowid;
-
   containsImage = false;
   containsVideo = false;
   containsIframe = false;

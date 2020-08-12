@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div style="color: white;">
+    Aktuell soll keine Präsentation angezeigt werden
+  </div>
 </template>
 
 <script lang="ts">

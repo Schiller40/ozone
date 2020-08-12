@@ -34,7 +34,6 @@ export default new Router({
         },
         {
           path: 'lansettings',
-          // alias: '',
           name: 'LANSettings',
           component: LANSettings
         },
@@ -57,7 +56,6 @@ export default new Router({
     },
     {
       path: '/deventry',
-      // alias: '/',
       component: DevEntry
     }
   ]

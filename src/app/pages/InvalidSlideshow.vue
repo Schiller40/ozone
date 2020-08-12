@@ -1,9 +1,6 @@
 <template lang="html">
   <div class="">
     <p>Keine oder invalide Präsentations-ID und/oder Foliennummer angegeben!</p>
-    <!-- <router-link class="slideshowlink" :key="s" v-for="s in slideshows" :to="'/viewer/' + s" :s="s">{{
-      s
-    }}</router-link> -->
   </div>
 </template>
 

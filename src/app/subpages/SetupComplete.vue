@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="device-settings">
     <h1>Setup abgeschlossen!</h1>
-    <router-link to="/deventry">
+    <router-link to="/viewer">
       <button type="button" class="buttonCenter" name="finish">
         Setup schließen.
       </button>
