@@ -25,15 +25,15 @@
         />
       </div>
       <br /><br />
-      <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+      <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
         {{ cancelButtonText }}
       </button>
       <button
         type="submit"
         name="button"
         ref="confirmButton"
-        class="confirmButton"
-        @click="confirmPressed"
+        class="ozoneButton green"
+        @click="confirmPressed()"
       >
         {{ confirmButtonText }}
       </button>

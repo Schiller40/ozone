@@ -1,5 +1,11 @@
 <template>
-  <iframe class="iframe" :id="`iframe-${no + 1}`" :src="src"></iframe>
+  <iframe
+    class="iframe"
+    :id="`iframe-${no + 1}`"
+    :src="src"
+    allowfullscreen
+    allow="autoplay"
+  ></iframe>
 </template>
 
 <script lang="ts">

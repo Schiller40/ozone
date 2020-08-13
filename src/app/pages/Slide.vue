@@ -17,7 +17,7 @@
       :url="slide.url"
       :no="slideno"
       :repeat="slide.repeat || 0"
-      @playedAllIterations="playedAllIterations"
+      @playedalliterations="playedAllIterations()"
       :id="slideshowid"
     />
     <ShowText

@@ -12,9 +12,6 @@
 </template>
 
 <script lang="ts">
-// @showCurrentSlideshow="showPrioritizedSlideshow()"
-// :key="$route.params.slideshowId"
-
 import { Vue, Component, Prop } from "vue-property-decorator";
 const { ipcRenderer } = window;
 interface VisualStackElement {
@@ -44,6 +41,16 @@ export default class app extends Vue {
       this.removeFromVisualStack(id);
     });
     ipcRenderer.invoke("createVisualStack");
+    window.addEventListener("keydown", (event) => {
+      if (event.ctrlKey && event.key === "Delete") {
+        if (
+          this.$route.path.indexOf("setup") === -1 &&
+          this.$route.path !== "/"
+        ) {
+          this.$router.push("/setup/selector");
+        }
+      }
+    });
   }
 
   addToVisualStack(id: string, lastModified: number) {

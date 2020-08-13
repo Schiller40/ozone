@@ -32,9 +32,10 @@ body {
 }
 
 .ozoneButton {
-  padding: $default-padding;
+  padding: 0.5rem;
   border: none;
   border-radius: $default-padding;
+  margin: 1rem;
 }
 .ozoneButton.green {
   background-color: $green;
@@ -43,6 +44,10 @@ body {
 .ozoneButton.red {
   background-color: $red;
   color: $white;
+}
+
+.noMargin {
+  margin: 0px;
 }
 
 .ozone-setup-screen-enter {

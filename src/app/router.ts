@@ -9,6 +9,8 @@ import DeviceSettings from '@/subpages/DeviceSettings.vue'
 import OzoneNetworkSettings from '@/subpages/OzoneNetworkSettings.vue'
 import SetupComplete from '@/subpages/SetupComplete.vue'
 import SetupWelcome from '@/subpages/SetupWelcome.vue'
+import SetupSelector from '@/subpages/SetupSelector.vue'
+import SystemSettings from '@/subpages/SystemSettings.vue'
 
 Vue.use(Router)
 Vue.use(RouterPrefetch)
@@ -33,6 +35,16 @@ export default new Router({
           component: SetupWelcome
         },
         {
+          path: 'setupcomplete',
+          name: 'SetupComplete',
+          component: SetupComplete
+        },
+        {
+          path: 'selector',
+          name: 'SetupSelector',
+          component: SetupSelector
+        },
+        {
           path: 'lansettings',
           name: 'LANSettings',
           component: LANSettings
@@ -48,9 +60,9 @@ export default new Router({
           component: OzoneNetworkSettings
         },
         {
-          path: 'setupcomplete',
-          name: 'SetupComplete',
-          component: SetupComplete
+          path: 'systemsettings',
+          name: 'SystemSettings',
+          component: SystemSettings
         }
       ]
     },

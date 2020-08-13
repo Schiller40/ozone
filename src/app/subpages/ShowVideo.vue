@@ -33,7 +33,7 @@ export default class ShowVideo extends Vue {
       console.log("video ended");
       if (this.iterations !== this.repeat) vid.play();
       else {
-        this.$emit("playedAllIterations");
+        this.$emit("playedalliterations");
       }
     };
   }

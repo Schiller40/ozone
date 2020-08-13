@@ -26,15 +26,15 @@
     </div>
     <p class="errorText" ref="errorText"></p>
     <br />
-    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+    <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
       {{ cancelButtonText }}
     </button>
     <button
       type="button"
       name="button"
       ref="confirmButton"
-      class="confirmButton"
-      @click="confirmPressed"
+      class="ozoneButton green"
+      @click="confirmPressed()"
     >
       {{ confirmButtonText }}
     </button>
@@ -119,18 +119,6 @@ export default class OzoneNetworkSettings extends Vue {
 
 h1 {
   margin: 0px;
-}
-
-.confirmButton,
-.cancelButton {
-  padding: $default-padding;
-  background-color: $green;
-  color: $white;
-  border: none;
-  border-radius: $default-padding;
-}
-.cancelButton {
-  background-color: $red;
 }
 
 .gridTwo {

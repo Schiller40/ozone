@@ -2,10 +2,11 @@
   <div class="setup">
     <transition :name="transitionName">
       <router-view
-        @ok="ok()"
-        @cancel="cancel()"
-        confirmButtonText="Weiter"
-        cancelButtonText="Zurück"
+        @ok="ok"
+        @cancel="cancel"
+        :confirmButtonText="confirmButtonText"
+        :cancelButtonText="cancelButtonText"
+        @settransition="transitionName = $event"
       />
     </transition>
   </div>
@@ -17,7 +18,15 @@ export default {
   data() {
     return {
       transitionName: "ozone-setup-screen",
+      confirmButtonText: "Weiter",
+      cancelButtonText: "Zurück",
     };
+  },
+  mounted() {
+    if (this.$route.path.indexOf("/selector") !== -1) {
+      this.confirmButtonText = "Anwenden";
+      this.cancelButtonText = "Abbrechen";
+    }
   },
   methods: {
     ok() {
@@ -45,13 +54,6 @@ export default {
       console.log("cancel pressed");
       this.$router.go(-1);
     },
-    // newData(key, data){
-    //   switch(key){
-    //     case 'deviceSettings':
-    //       window.localStorage.setItem('', '')
-    //       break;
-    //   }
-    // }
   },
 };
 </script>

@@ -22,14 +22,14 @@
         placeholder="Netzwerkpasswort"
         @input="$refs.connectToWiFiButton.innerHTML = 'Verbinden'"
       />
-      <button type="submit" class="ozoneButton green" @click="connectToWiFi" ref="connectToWiFiButton">Verbinden</button>
+      <button type="submit" class="ozoneButton green noMargin" @click="connectToWiFi" ref="connectToWiFiButton">Verbinden</button>
     </form>
     <br />
     <br />
-    <button type="button" name="button" class="cancelButton" @click="$emit('cancel')">
+    <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
       {{ cancelButtonText }}
     </button>
-    <button ref="confirmButton" class="confirmButton" @click="confirmPressed">
+    <button ref="confirmButton" class="ozoneButton green" @click="confirmPressed">
       {{ confirmButtonText }}
     </button>
   </div>
