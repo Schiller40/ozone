@@ -11,6 +11,7 @@ import { debuglog } from 'util'
 import Redis from 'ioredis'
 import parse from 'parse-duration'
 import cron from 'cron-parser'
+import execa from 'execa'
 
 const redisSub = new Redis()
 const redis = new Redis()
@@ -106,6 +107,20 @@ ipcMain.handle('createVisualStack', async () => {
   redisPub
     .publish('sendAllSlideshows', '')
     .then((recipients) => console.log(`sent to ${recipients} recipients`))
+})
+ipcMain.handle('shutdown', async () => {
+  if (os.platform() === 'win32') {
+    execa('shutdown', ['-p'])
+  } else if (os.platform() === 'linux') {
+    execa('shutdown', ['now'])
+  }
+})
+ipcMain.handle('reboot', async () => {
+  if (os.platform() === 'win32') {
+    execa('shutdown', ['-r', '-t', '0'])
+  } else if (os.platform() === 'linux') {
+    execa('reboot')
+  }
 })
 ipcMain.on('getLocalIP', (event) => {
   event.returnValue = getLocalIP()

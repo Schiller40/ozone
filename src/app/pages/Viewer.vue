@@ -3,7 +3,7 @@
     <transition :name="transition.name" :mode="transition.mode">
       <EmptySlideshow v-if="!prioritizedId" />
       <InvalidSlideshow v-else-if="prioritizedId.length != 21" />
-      <Slideshow v-else :id="prioritizedId" :key="prioritizedId" @setTransition="transition = $event"/>
+      <Slideshow v-else :id="prioritizedId" :key="prioritizedId" @settransition="transition = $event"/>
     </transition>
   </div>
 </template>

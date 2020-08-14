@@ -27,7 +27,7 @@
     <p class="errorText" ref="errorText"></p>
     <br />
     <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
-      {{ cancelButtonText }}
+      {{ initialSetup ? 'Zurück' : 'Zurück zur Übersicht' }}
     </button>
     <button
       type="button"
@@ -36,7 +36,7 @@
       class="ozoneButton green"
       @click="confirmPressed()"
     >
-      {{ confirmButtonText }}
+      {{ initialSetup ? 'Weiter' : 'Anwenden' }}
     </button>
   </div>
 </template>
@@ -49,11 +49,8 @@ const { ipcRenderer } = window;
   name: "OzoneNetworkSettings",
 })
 export default class OzoneNetworkSettings extends Vue {
-  @Prop({ default: "Abbrechen" })
-  cancelButtonText: string;
-
-  @Prop({ default: "Anwenden" })
-  confirmButtonText: string;
+  @Prop()
+  initialSetup: boolean;
 
   errorText: string = "";
 

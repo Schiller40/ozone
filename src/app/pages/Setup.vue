@@ -4,8 +4,7 @@
       <router-view
         @ok="ok"
         @cancel="cancel"
-        :confirmButtonText="confirmButtonText"
-        :cancelButtonText="cancelButtonText"
+        :initialSetup="initialSetup"
         @settransition="transitionName = $event"
       />
     </transition>
@@ -18,36 +17,36 @@ export default {
   data() {
     return {
       transitionName: "ozone-setup-screen",
-      confirmButtonText: "Weiter",
-      cancelButtonText: "Zurück",
+      initialSetup: true,
     };
   },
   mounted() {
     if (this.$route.path.indexOf("/selector") !== -1) {
-      this.confirmButtonText = "Anwenden";
-      this.cancelButtonText = "Abbrechen";
+      this.initialSetup = false;
     }
   },
   methods: {
     ok() {
       this.transitionName = "ozone-setup-screen";
-      switch (this.$route.path) {
-        case "/setup/welcome":
-        case "/":
-        case "/setup":
-        case "/setup/":
-          this.$router.push("/setup/lansettings");
-          break;
-        case "/setup/lansettings":
-          this.$router.push("/setup/ozonenetworksettings");
-          break;
-        case "/setup/ozonenetworksettings":
-          this.$router.push("/setup/devicesettings");
-          break;
-        case "/setup/devicesettings":
-          this.$router.push("/setup/setupcomplete");
-          break;
-      }
+      if (this.initialSetup)
+        switch (this.$route.path) {
+          case "/setup/welcome":
+          case "/":
+          case "/setup":
+          case "/setup/":
+            this.$router.push("/setup/lansettings");
+            break;
+          case "/setup/lansettings":
+            this.$router.push("/setup/ozonenetworksettings");
+            break;
+          case "/setup/ozonenetworksettings":
+            this.$router.push("/setup/devicesettings");
+            break;
+          case "/setup/devicesettings":
+            this.$router.push("/setup/setupcomplete");
+            break;
+        }
+      else this.$router.go(-1);
     },
     cancel() {
       this.transitionName = "ozone-setup-screen-back";

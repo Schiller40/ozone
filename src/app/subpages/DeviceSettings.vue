@@ -26,7 +26,7 @@
       </div>
       <br /><br />
       <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
-        {{ cancelButtonText }}
+        {{ initialSetup ? 'Zurück' : 'Zurück zur Übersicht' }}
       </button>
       <button
         type="submit"
@@ -35,7 +35,7 @@
         class="ozoneButton green"
         @click="confirmPressed()"
       >
-        {{ confirmButtonText }}
+        {{ initialSetup ? 'Weiter' : 'Anwenden' }}
       </button>
     </form>
   </div>
@@ -47,10 +47,8 @@ import { Vue, Component, Prop } from "vue-property-decorator";
   name: "deviceSettings",
 })
 export default class DeviceSettings extends Vue {
-  @Prop({ default: "Abbrechen" })
-  cancelButtonText: string;
-  @Prop({ default: "Anwenden" })
-  confirmButtonText: string;
+  @Prop()
+  initialSetup: boolean;
 
   mounted() {
     (this.$refs

@@ -27,10 +27,10 @@
     <br />
     <br />
     <button type="button" name="button" class="ozoneButton red" @click="$emit('cancel')">
-      {{ cancelButtonText }}
+      {{ initialSetup ? 'Zurück' : 'Zurück zur Übersicht' }}
     </button>
-    <button ref="confirmButton" class="ozoneButton green" @click="confirmPressed">
-      {{ confirmButtonText }}
+    <button v-if="initialSetup" ref="confirmButton" class="ozoneButton green" @click="confirmPressed">
+      {{ 'Weiter' }}
     </button>
   </div>
 </template>
@@ -47,10 +47,8 @@ const { ipcRenderer } = window;
   },
 })
 export default class LANSettings extends Vue {
-  @Prop({ default: "Abbrechen" })
-  cancelButtonText: string;
-  @Prop({ default: "Anwenden" })
-  confirmButtonText: string;
+  @Prop()
+  initialSetup: boolean;
 
   connectedInterval: number;
   currentConnection: string = null;
