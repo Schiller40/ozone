@@ -1,0 +1,52 @@
+name: ozone-display
+version: 1.0.0
+summary: Pretty Awesome
+description: |
+  App description
+grade: devel
+confinement: devmode
+apps:
+  ozone-display:
+    plugs:
+      - desktop
+      - desktop-legacy
+      - gsettings
+      - home
+      - mount-observe
+      - network
+      - network-bind
+      - unity7
+      - x11
+      - pulseaudio
+      - opengl
+      - browser-sandbox
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
+    command: desktop-launch '$SNAP/ozone-display/ozone-display'
+    slots:
+      - ozone-display-mpris
+parts:
+  ozone-display:
+    source: /root/ozone/out
+    plugin: dump
+    stage-packages:
+      - libnotify4
+      - libnss3
+      - libpcre3
+      - libxss1
+      - libxtst6
+      - pulseaudio
+      - libgl1-mesa-glx
+      - libglu1-mesa
+    after: [desktop-gtk3]
+    organize:
+      ozone-display-linux-x64: ozone-display
+base: core18
+slots:
+  ozone-display-mpris:
+    interface: mpris
+    name: com.example.mpris
+plugs:
+  browser-sandbox:
+    allow-sandbox: true
+    interface: browser-support
