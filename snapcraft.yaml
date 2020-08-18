@@ -40,6 +40,7 @@ parts:
       - pulseaudio
       - libgl1-mesa-glx
       - libglu1-mesa
+      - libnss3
     after: [desktop-gtk3]
     organize:
       ozone-display-linux-x64: ozone-display
@@ -65,6 +66,7 @@ parts:
       - libgdk-pixbuf2.0-0
       - libglib2.0-bin
       - libgtk-3-bin
+      - libgtk2.0-dev
       - unity-gtk3-module
       - libappindicator3-1
       - locales-all
