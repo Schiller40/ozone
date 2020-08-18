@@ -5,6 +5,8 @@ description: |
   App description
 grade: devel
 confinement: devmode
+base: core20
+
 apps:
   ozone-display:
     plugs:
@@ -41,7 +43,6 @@ parts:
     after: [desktop-gtk3]
     organize:
       ozone-display-linux-x64: ozone-display
-base: core18
 slots:
   ozone-display-mpris:
     interface: mpris
