@@ -24,7 +24,7 @@ apps:
       - browser-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-    command: desktop-launch '$SNAP/ozone-display/ozone-display'
+    command: desktop-launch $SNAP/ozone-display/ozone-display
     slots:
       - ozone-display-mpris
 parts:
