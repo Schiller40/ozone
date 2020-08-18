@@ -29,7 +29,7 @@ apps:
       - ozone-display-mpris
 parts:
   ozone-display:
-    source: /root/ozone/out
+    source: out/
     plugin: dump
     stage-packages:
       - libnotify4
