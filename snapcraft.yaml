@@ -58,7 +58,9 @@ parts:
 
 apps:
   ozone-display:
-    command: bin/desktop-launch
+    command: $SNAP/usr/lib/ozone-display/ozone-display
+    command-chain:
+      - bin/desktop-launch
     environment:
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
