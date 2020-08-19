@@ -1,5 +1,5 @@
 dist: focal
-
+os: linux
 arch:
   - amd64
   - arm64
@@ -22,4 +22,3 @@ deploy:
   provider: snap
   snap: dist/ozone-display*.snap
   channel: edge
-  skip_cleanup: true
