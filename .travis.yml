@@ -1,0 +1,22 @@
+dist: focal
+
+language: node_js
+node_js:
+  - 14
+cache: yarn
+
+jobs:
+  include:
+    - stage: Test
+      script:
+        - yarn test
+    - stage: Build
+      script:
+        - yarn package
+        - yarn dist
+
+deploy:
+  provider: snap
+  snap: dist/ozone-display_*.snap
+  channel: edge
+  skip_cleanup: true
