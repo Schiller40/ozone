@@ -31,6 +31,13 @@ parts:
       - libx11-xcb1
       - libxtst6
       - libasound2
+      - libnotify4
+      - libatspi2.0-0
+      - kde-cli-tools
+      - kde-runtime
+      - trash-cli
+      - libglib2.0-bin
+      - gvfs-bin
 
   # Adapted from snapcraft-desktop-helpers https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml#L183
   desktop-gtk3:
