@@ -1,5 +1,6 @@
 name: ozone-display
 base: core20
+version: git
 summary: Summary
 description: |
   Description
