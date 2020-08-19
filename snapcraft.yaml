@@ -28,6 +28,9 @@ parts:
       - libnss3
       - libxss1
       - xdg-utils
+      - libx11-xcb1
+      - libxtst6
+      - libasound2
 
   # Adapted from snapcraft-desktop-helpers https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml#L183
   desktop-gtk3:
@@ -56,6 +59,8 @@ parts:
       - xdg-user-dirs
       - ibus-gtk3
       - libibus-1.0-5
+      - libgtk2.0-0
+      - libgtk2.0-0
 
 apps:
   ozone-display:
