@@ -67,7 +67,6 @@ parts:
       - ibus-gtk3
       - libibus-1.0-5
       - libgtk2.0-0
-      - libgtk2.0-0
 
 apps:
   ozone-display:
