@@ -13,9 +13,28 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
+apps:
+  ozone-display:
+    daemon: simple
+    restart-condition: always
+    command: bin/desktop-launch bin/xwayland-kiosk-launch $SNAP/usr/lib/ozone-display/ozone-display --no-sandbox
+    plugs:
+      - browser-support
+      - network
+      - network-bind
+      - opengl
+      - pulseaudio
+      - wayland
+      - network-observe
+      - process-control
+      - screen-inhibit-control
+
+environment:
+  XWAYLAND_FULLSCREEN_WINDOW_HINT: window_role="browser-window"
+
 parts:
   ozone-display:
-    after: [desktop-gtk3]
+    after: [desktop-gtk3, xwayland-kiosk-helper]
     plugin: dump
     source: ozone-display.deb
     source-type: deb
@@ -70,23 +89,13 @@ parts:
       - libibus-1.0-5
       - libgtk2.0-0
 
-apps:
-  ozone-display:
-    command: bin/desktop-launch $SNAP/usr/lib/ozone-display/ozone-display --no-sandbox
-    environment:
-      # Fallback to XWayland if running in a Wayland session.
-      DISABLE_WAYLAND: 1
-    plugs:
-      - browser-support
-      - camera
-      - home
-      - mount-observe
-      - network
-      - network-observe
-      - opengl
-      - process-control
-      - pulseaudio
-      - removable-media
-      - screen-inhibit-control
-      - system-observe
-      - unity7
+  xwayland-kiosk-helper:
+    plugin: cmake
+    source: https://github.com/MirServer/xwayland-kiosk-helper.git
+    build-packages:
+      - build-essential
+    stage-packages:
+      - xwayland
+      - i3
+      - libegl1-mesa
+      - libgl1-mesa-glx

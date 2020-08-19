@@ -16,6 +16,5 @@ plugins:
     - publishCmd: echo '::set-env name=CREATE_RELEASE::true'
   - - '@semantic-release/git'
     - assets:
-        - docs/**
         - package.json
         - yarn.lock
