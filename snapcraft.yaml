@@ -1,9 +1,11 @@
 name: ozone-display
 base: core18
 version: git
+
 summary: Summary
 description: |
   Description
+
 confinement: strict
 
 architectures:

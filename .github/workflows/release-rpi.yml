@@ -4,7 +4,10 @@ on: push
 
 jobs:
   publish:
-    runs-on: [self-hosted, linux, ARM]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [[self-hosted, linux, ARM], ubuntu-latest]
     steps:
       - name: Checkout Changes
         uses: actions/checkout@v2
@@ -31,16 +34,25 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          CI: true
+
       - name: Build Application
+        if: env.CREATE_RELEASE == 'true'
         run: |
           yarn make
           find out -type f -name '*.deb' -exec cp '{}' ozone-display.deb \;
 
       - name: Build Snap
+        if: env.CREATE_RELEASE == 'true'
         uses: snapcore/action-build@v1
         id: build
 
       - name: Upload Snap
+        if: env.CREATE_RELEASE == 'true'
         uses: snapcore/action-publish@v1
         with:
           store_login: ${{ secrets.SNAPCRAFT_LOGIN }}
