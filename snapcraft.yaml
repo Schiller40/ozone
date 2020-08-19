@@ -12,8 +12,8 @@ architectures:
   - build-on: amd64
 
 parts:
-  discord:
-    after: [dekstop-gtk3]
+  ozone-display:
+    after: [desktop-gtk3]
     plugin: dump
     source: ozone-display.deb
     source-type: deb
