@@ -72,9 +72,7 @@ parts:
 
 apps:
   ozone-display:
-    command: $SNAP/usr/lib/ozone-display/ozone-display --no-sandbox
-    command-chain:
-      - bin/desktop-launch
+    command: bin/desktop-launch $SNAP/usr/lib/ozone-display/ozone-display --no-sandbox
     environment:
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
