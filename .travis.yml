@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 os: linux
 arch:
   - amd64
@@ -15,15 +15,13 @@ cache:
     - $HOME/.npm/_prebuilds
 
 before_install:
-  - git clone --depth=1 https://github.com/raspberrypi/tools.git /tmp/tools
-  - export PATH=/tmp/tools/arm-bcm2708/arm-linux-gnueabihf/bin:$PATH
+  - sudo apt install dpkg fakeroot
 
 addons:
   snaps:
     - name: snapcraft
       channel: stable
       classic: true
-    - name: transfer
     - name: http
     - name: lxd
       channel: stable
@@ -35,7 +33,6 @@ script:
   - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - yarn make
-  # - sudo snapcraft --use-lxd
 
 after_success:
   - echo *.snap "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
