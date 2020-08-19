@@ -21,10 +21,9 @@ apps:
   ozone-display:
     daemon: simple
     restart-condition: always
-    command: /usr/lib/ozone-display/ozone-display --no-sandbox
+    command: $SNAP/usr/lib/ozone-display/ozone-display
     command-chain:
-      - $SNAP/usr/bin/setpriv --clear-groups --reuid snap_daemon \
-        --regid snap_daemon
+      - ./drop-privs.sh
       - bin/desktop-launch
       - bin/xwayland-kiosk-launch
     plugs:
@@ -42,6 +41,13 @@ environment:
   XWAYLAND_FULLSCREEN_WINDOW_HINT: window_role="browser-window"
 
 parts:
+  drop-privs:
+    plugin: dump
+    source: build
+    override-build: |
+      cp ./drop-privs.sh $SNAPCRAFT_PART_INSTALL/drop-privs.sh
+      chmod +x  $SNAPCRAFT_PART_INSTALL/drop-privs.sh
+  
   ozone-display:
     after: [desktop-gtk3, xwayland-kiosk-helper]
     plugin: dump

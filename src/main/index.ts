@@ -22,6 +22,7 @@ redisSub.subscribe('slideshows', (err, res) => {
 })
 
 app.allowRendererProcessReuse = false
+app.commandLine.appendSwitch('no-sandbox')
 
 const debug = debuglog('ozoneIndex')
 
