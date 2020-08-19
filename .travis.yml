@@ -1,16 +1,17 @@
 dist: focal
 
+arch:
+  - amd64
+  - arm64
+
+script:
+  - yarn package
+  - yarn dist
+
 language: node_js
 node_js:
   - 14
 cache: yarn
-
-jobs:
-  include:
-    - stage: Build
-      script:
-        - yarn package
-        - yarn dist
 
 deploy:
   provider: snap
