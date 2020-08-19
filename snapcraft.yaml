@@ -34,7 +34,7 @@ parts:
       - libnotify4
       - libatspi2.0-0
       - kde-cli-tools
-      # - kde-runtime
+      - kde-runtime
       - trash-cli
       - libglib2.0-bin
       - gvfs-bin
