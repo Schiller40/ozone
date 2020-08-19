@@ -51,6 +51,8 @@ jobs:
         uses: snapcore/action-build@v1
         id: build
 
+      - name: Install snapcraft review tools
+        run: sudo snap install review-tools
       - name: Upload Snap
         if: env.CREATE_RELEASE == 'true'
         uses: snapcore/action-publish@v1
