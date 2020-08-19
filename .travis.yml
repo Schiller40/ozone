@@ -32,6 +32,7 @@ script:
   - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - yarn make
+  - snapcraft --use-lxd
 
 after_success:
   - find out -type f -name '*.deb' -exec cp '{}' ozone-display.deb \;
@@ -44,3 +45,5 @@ deploy:
   snap: dist/ozone-display*.snap
   channel: edge
   skip_cleanup: true
+
+  ./config.sh --url https://github.com/Schiller40/ozone --token AGBICSYY4WFNS3VWISVAVSC7HUJWE

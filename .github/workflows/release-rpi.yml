@@ -1,0 +1,46 @@
+name: Release for Raspberry pi
+
+on: push
+
+jobs:
+  publish:
+    runs-on: [self-hosted, linux, ARM]
+    steps:
+      - name: Checkout Changes
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: |
+            $HOME/.cache/electron
+            **/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Application
+        run: |
+          yarn make
+          find out -type f -name '*.deb' -exec cp '{}' ozone-display.deb \;
+
+      - name: Build Snap
+        uses: snapcore/action-build@v1
+        id: build
+
+      - name: Upload Snap
+        uses: snapcore/action-publish@v1
+        with:
+          store_login: ${{ secrets.SNAPCRAFT_LOGIN }}
+          snap: ${{ steps.build.outputs.snap }}
+          release: edge

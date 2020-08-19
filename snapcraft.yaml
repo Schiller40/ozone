@@ -1,41 +1,22 @@
-name: discord
-base: core18
-adopt-info: discord
-summary: Free voice and text chat
+name: ozone-display
+base: core20
+summary: Summary
 description: |
-  All-in-one voice and text chat for gamers that's free, secure, and
-  works on both your desktop and phone. Stop paying for TeamSpeak
-  servers and hassling with Skype. Simplify your life.
-grade: stable
+  Description
 confinement: strict
 
 architectures:
+  - build-on: arm64
+  - build-on: armhf
   - build-on: amd64
 
 parts:
-  libappindicator:
-    plugin: nil
-    stage-packages:
-      - libappindicator3-1
-    prime:
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libdbusmenu*.so*
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libappindicator*.so*
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libindicator*.so*
-
   discord:
-    after: [libappindicator]
+    after: [dekstop-gtk3]
     plugin: dump
-    source: 'https://discordapp.com/api/download?platform=linux&format=deb'
+    source: ozone-display.deb
     source-type: deb
-    override-build: |
-      snapcraftctl build
-      DEB_API="https://discordapp.com/api/download?platform=linux&format=deb"
-      DEB_URL=$(curl -w "%{url_effective}\n" -I -L -s -S "${DEB_API}" -o /dev/null)
-      VERSION=$(echo "${DEB_URL}" | cut -d'/' -f6)
-      snapcraftctl set-version $(echo $VERSION)
-      rm $SNAPCRAFT_PART_INSTALL/usr/share/discord/chrome-sandbox
-      # Correct path to icon.
-      sed -i 's|Icon=discord|Icon=/usr/share/discord/discord\.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/discord/discord.desktop
+
     build-packages:
       - curl
       - sed
@@ -46,30 +27,39 @@ parts:
       - libnss3
       - libxss1
       - xdg-utils
-    prime:
-      - -usr/bin/xdg-open
-  cleanup:
-    after: [discord]
-    plugin: nil
-    build-snaps: [gnome-3-28-1804]
-    override-prime: |
-      set -eux
-      cd /snap/gnome-3-28-1804/current
-      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
+
+  # Adapted from snapcraft-desktop-helpers https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml#L183
+  desktop-gtk3:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    plugin: make
+    make-parameters: ['FLAVOR=gtk3']
+    build-packages:
+      - build-essential
+      - libgtk-3-dev
+    stage-packages:
+      - libxkbcommon0 # XKB_CONFIG_ROOT
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk-3-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk-3-bin
+      - unity-gtk3-module
+      - libappindicator3-1
+      - locales-all
+      - xdg-user-dirs
+      - ibus-gtk3
+      - libibus-1.0-5
+
 apps:
-  discord:
-    extensions: [gnome-3-28]
-    command: usr/share/discord/Discord --no-sandbox
-    autostart: discord.desktop
-    desktop: usr/share/applications/discord.desktop
+  ozone-display:
+    command: bin/desktop-launch
     environment:
-      # Correct the TMPDIR path for Chromium Framework/Electron to
-      # ensure libappindicator has readable resources
-      TMPDIR: $XDG_RUNTIME_DIR
-      # Coerce XDG_CURRENT_DESKTOP to Unity so that App Indicators
-      # are used and do not fall back to Notification Area applets
-      # or disappear completely.
-      XDG_CURRENT_DESKTOP: Unity
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
     plugs:
