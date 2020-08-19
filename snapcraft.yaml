@@ -40,6 +40,9 @@ apps:
 environment:
   XWAYLAND_FULLSCREEN_WINDOW_HINT: window_role="browser-window"
 
+system-usernames:
+  snap_daemon: shared
+
 parts:
   drop-privs:
     plugin: dump
@@ -75,6 +78,10 @@ parts:
       - libglib2.0-bin
       - gvfs-bin
       - setpriv
+      - libglu1-mesa
+      - freeglut3
+      - libgpm2
+      - libslang2
 
   # Adapted from snapcraft-desktop-helpers https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml#L183
   desktop-gtk3:
