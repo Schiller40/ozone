@@ -1,0 +1,42 @@
+{
+  "type": "model",
+  "series": "16",
+  "authority-id": "VUxbcaADCT5e468JEzeXJY9uwVfjaC67",
+  "brand-id": "VUxbcaADCT5e468JEzeXJY9uwVfjaC67",
+  "model": "ozone-20-pi-armhf",
+  "architecture": "armhf",
+  "timestamp": "2020-08-17T19:33:57+00:00",
+  "base": "core20",
+  "snaps": [
+    {
+      "name": "pi",
+      "type": "gadget",
+      "default-channel": "20/stable",
+      "id": "YbGa9O3dAXl88YLI6Y1bGG74pwBxZyKg"
+    },
+    {
+      "name": "pi-kernel",
+      "type": "kernel",
+      "default-channel": "20/stable",
+      "id": "jeIuP6tfFrvAdic8DMWqHmoaoukAPNbJ"
+    },
+    {
+      "name": "core20",
+      "type": "base",
+      "default-channel": "latest/stable",
+      "id": "DLqre5XGLbDqg9jPtiAhRRjDuPVa5X1q"
+    },
+    {
+      "name": "snapd",
+      "type": "snapd",
+      "default-channel": "latest/stable",
+      "id": "PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4"
+    },
+    {
+      "name": "ozone-control",
+      "type": "app",
+      "default-channel": "latest/candidate",
+      "id": "n2r1oxbosfxGdkuXbHUgNxRSLtjyUwm4"
+    }
+  ]
+}
