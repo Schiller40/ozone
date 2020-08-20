@@ -21,7 +21,7 @@ apps:
   ozone-display:
     daemon: simple
     restart-condition: always
-    command: ./drop-privs.sh bin/desktop-launch bin/xwayland-kiosk-launch $SNAP/ozone-display/ozone-display
+    command: ./launch.sh
     plugs:
       - browser-support
       - network
@@ -40,12 +40,12 @@ system-usernames:
   snap_daemon: shared
 
 parts:
-  drop-privs:
+  launcher:
     plugin: dump
     source: build
     override-build: |
-      cp ./drop-privs.sh $SNAPCRAFT_PART_INSTALL/drop-privs.sh
-      chmod +x  $SNAPCRAFT_PART_INSTALL/drop-privs.sh
+      cp ./launch.sh $SNAPCRAFT_PART_INSTALL/launcher.sh
+      chmod +x  $SNAPCRAFT_PART_INSTALL/launch.sh
     stage-packages:
       - setpriv
 
