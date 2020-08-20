@@ -46,6 +46,8 @@ parts:
     override-build: |
       cp ./drop-privs.sh $SNAPCRAFT_PART_INSTALL/drop-privs.sh
       chmod +x  $SNAPCRAFT_PART_INSTALL/drop-privs.sh
+    stage-packages:
+      - setpriv
 
   # Adapted from snapcraft-desktop-helpers https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml#L183
   desktop-gtk3:
