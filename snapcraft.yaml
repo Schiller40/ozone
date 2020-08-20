@@ -21,11 +21,7 @@ apps:
   ozone-display:
     daemon: simple
     restart-condition: always
-    command: $SNAP/usr/lib/ozone-display/ozone-display
-    command-chain:
-      - ./drop-privs.sh
-      - bin/desktop-launch
-      - bin/xwayland-kiosk-launch
+    command: ./drop-privs.sh bin/desktop-launch bin/xwayland-kiosk-launch $SNAP/usr/lib/ozone-display/ozone-display
     plugs:
       - browser-support
       - network
