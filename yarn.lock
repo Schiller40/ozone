@@ -789,10 +789,12 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/parse-duration@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@types/parse-duration/-/parse-duration-0.1.0.tgz#0e969872f22b141ae69ff92f3d71974bc3aca7dc"
-  integrity sha512-2AToD7y8+aeqo61KtSaI1kXD9EFFBIbVgiwQFHfGBUXaRhJ4kC20zCm20/SG6YHT8PMAcmbzMYwnI6rGWoWdug==
+"@types/parse-duration@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@types/parse-duration/-/parse-duration-0.3.0.tgz#90f00a423c44f30f6f6fdbfcc8ad7d5c2ddf266b"
+  integrity sha512-pt0Ok6EUEmS5yJIPlWknHHefwLnl+1lkk1MSzpBSkdRW09Wb6IpUz8vX1IjtHyHpgay7zaGRHcnSKmTzQtFvIQ==
+  dependencies:
+    parse-duration "*"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -7447,7 +7449,7 @@ parse-author@^2.0.0:
   dependencies:
     author-regex "^1.0.0"
 
-parse-duration@^0.4.4:
+parse-duration@*, parse-duration@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/parse-duration/-/parse-duration-0.4.4.tgz#11c0f51a689e97d06c57bd772f7fda7dc013243c"
   integrity sha512-KbAJuYGUhZkB9gotDiKLnZ7Z3VTacK3fgwmDdB6ZVDtJbMBT6MfLga0WJaYpPDu0mzqT0NgHtHDt5PY4l0nidg==

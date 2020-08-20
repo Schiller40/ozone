@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "@types/execa": "^2.0.0",
-    "@types/parse-duration": "^0.1.0",
+    "@types/parse-duration": "^0.3.0",
     "bull": "^3.16.0",
     "data-urls": "^2.0.0",
     "dot-prop": "^5.2.0",
