@@ -1,6 +1,9 @@
 name: Release for Raspberry pi
 
-on: push
+on: 
+  push:
+    branches: 
+      - master
 
 jobs:
   publish:
