@@ -90,7 +90,7 @@ parts:
       - libgl1-mesa-glx
 
   ozone-display:
-    after: [drop-privs, desktop-gtk3, xwayland-kiosk-helper]
+    after: [launcher, desktop-gtk3, xwayland-kiosk-helper]
     plugin: dump
     source: .
     source-type: local
