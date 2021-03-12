@@ -100,7 +100,7 @@
     "graphql-request": "^2.0.0",
     "node-wifi": "^2.0.13",
     "parse-duration": "^0.4.4",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "^17.4.2",
     "systeminformation": "^4.25.1",
     "typedi": "^0.8.0",
     "vue": "^2.6.11",
